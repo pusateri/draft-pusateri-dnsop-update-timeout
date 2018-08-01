@@ -159,13 +159,33 @@
        </list>
      </t>
    </section>
-   <section title="Record Definition">
+   <section title="Resource Record Composition">
+     <t>The TIMEOUT resource record must provide expiry times for a mixed variety of resource record types with the same owner name and class. Since there could exist multiple records of the same record type with the same owner name and class, the TIMEOUT resource record must be able to identify each of these records individually with only different RDATA. As an example, PTR records for service discovery provide a level of indirection to SRV and TXT records by instance name. The instance name is stored in the PTR RDATA and multiple PTR records with the same owner name but only differing RDATA often exist.</t>
+     <t>In order to distinguish each individual record with potentially different expiry times, the TIMEOUT resource record is made up multiple lists of hashes of the records for which they are applicable. Each list has an expiry time associated with it and each hash corresponds to a resource record for which that expiry time applies. Each resource record represented by a hash in the list uses the same expiry time associated with the list. There is also a hash algorithm index associated with each list. All hashes in the list MUST use the same hash algorithm.</t>
+     <section title="Expiry Time">
+       <t>The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire. Lease times must be converted to an absolute expiry time when received.</t>
+     </section>
+     <section title="Hash Algorithm Indicator Index">
+       <t>The Hash Algorithm Indicator Index is a single byte value that specifies an identifier for the hash algorithm used. The identifiers are declared in a registry maintained by IANA for the purpose of listing acceptable hash algorithms for this purpose. In addition to the algorithm, the registry will contain the output length in bits of the algorithm to be used. It is conceivable, though not likely, that the same algorithm could be used with different output lengths. In this case, each output length would require a different index in the registry. Additions to this registry will be approved with additional documentation under expert review. At the time that the registry is created by IANA, a group of expert reviewers will be established.</t>
+     </section>
+     <section title="Hash values">
+       <t>The hash of each resource record is calculated using the entire length of the resource record as input. The output value of the hash is always a fixed pre-defined length specified with the hash algorithm.</t>
+     </section>
+     <section title="Hash Requirements and Deafult Algorithm Selection">
+       <t>The cryptographic hash algorithm used SHOULD provide the following properties:
+         <list style="numbers">
+           <t>Well known algorithm with implementations easily available.</t>
+           <t>Trusted algorithm with resistance to collision attacks.</t>
+           <t>Minimize output length for efficient storage in the TIMEOUT resource record.</t>
+         </list>
+       </t>
+       <t>The initial algorithm selected to meet this criteria is SHAKE128. It is part of the SHA-3 <xref target="SHA3"/> family of cryptographic hash algorithms. The output length of the hash used is 128 bits or 16 bytes. SHAKE128 is implemented in the OpenSSL Library version 1.1.1 <xref target="OPENSSL"/>. In order to be in compliance with this specification, the SHAKE128 algorithm MUST be implemented. SHAKE128 is to be assigned an algorithm indicator index of 1 in the IANA registry.</t>
+     </section>
    </section>
-   <section title="Packet Format">
+   <section title="TIMEOUT RDATA Wire Format">
    </section>
-   <section title="Hash Requirements">
+   <section title="TIMEOUT RDATA Presentation Format">
    </section>
-
    <section anchor="IANA" title="IANA Considerations">
        <t>This document defines a new DNS Resource Record Type named TIMEOUT to be exchanged between authoritative master and slave DNS servers. It is assigned out of the DNS Parameters Resource Record (RR) Type registry. The value for the TIMEOUT resource record type is TBA.</t>
    </section>
@@ -199,7 +219,15 @@
      <!--?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
      &RFC2119;
      &RFC3597;
-     
+     <reference anchor="SHA3" target="https://www.nist.gov/publications/sha-3-standard-permutation-based-hash-and-extendable-output-functions">
+       <front>
+         <title>SHA-3 Standard - Permutation-Based Hash and Extendable-Output Functions FIPS PUB 202</title>
+         <author>
+           <organization>National Institute of Standards and Technology</organization>
+         </author>
+         <date month="August" year="2015" />
+       </front>
+     </reference>
    </references>
 
    <references title="Informative References">
@@ -207,7 +235,26 @@
 
      &RFC2136;
      &I-D.sekar-dns-ul;
-
+     <reference anchor="OPENSSL" target="https://www.openssl.org">
+       <front>
+         <title>OpenSSL: Cryptography and SSL/TLS Toolkit</title>
+         <author>
+           <organization>OpenSSL Software Foundation</organization>
+           <address>
+             <postal>
+               <street>20-22 Wenlock Road</street>
+               <city>London</city>
+               <code>N1 7GU</code>
+               <country>United Kingdom</country>
+             </postal>
+             <phone>+44 17 8550 8015</phone>
+             <email>info@opensslfoundation.org</email>
+             <uri>https://www.openssl.org</uri>
+           </address>
+         </author>
+         <date day="18" month="October" year="2017"/>
+       </front>
+     </reference>
    </references>
  </back>
 </rfc>
