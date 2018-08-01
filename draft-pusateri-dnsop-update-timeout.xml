@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!-- This template is for creating an Internet Draft using xml2rfc,
+    which is available here: http://xml.resource.org. -->
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+<!-- One method to get references from the online citation libraries.
+    There has to be one entity for each item to be referenced. 
+    An alternate method (rfc include) is described in the references. -->
+
+<!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY RFC2136 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2136.xml">
+<!ENTITY RFC3597 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3597.xml">
+<!ENTITY I-D.sekar-dns-ul SYSTEM  "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.sekar-dns-ul.xml">
+]>
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+<!-- used by XSLT processors -->
+<!-- For a complete list and description of processing instructions (PIs), 
+    please see http://xml.resource.org/authoring/README.html. -->
+<!-- Below are generally applicable Processing Instructions (PIs) that most I-Ds might want to use.
+    (Here they are set differently than their defaults in xml2rfc v1.32) -->
+<?rfc strict="yes" ?>
+<!-- give errors regarding ID-nits and DTD validation -->
+<!-- control the table of contents (ToC) -->
+<?rfc toc="yes"?>
+<!-- generate a ToC -->
+<?rfc tocdepth="4"?>
+<!-- the number of levels of subsections in ToC. default: 3 -->
+<!-- control references -->
+<?rfc symrefs="yes"?>
+<!-- use symbolic references tags, i.e, [RFC2119] instead of [1] -->
+<?rfc sortrefs="yes" ?>
+<!-- sort the reference entries alphabetically -->
+<!-- control vertical white space 
+    (using these PIs as follows is recommended by the RFC Editor) -->
+<?rfc compact="yes" ?>
+<!-- do not start each main section on a new page -->
+<?rfc subcompact="no" ?>
+<!-- keep one blank line between list items -->
+<!-- end of list of popular I-D processing instructions -->
+<rfc category="std" docName="draft-pusateri-dnsop-update-timeout-00" ipr="trust200902">
+ <!-- category values: std, bcp, info, exp, and historic
+    ipr values: trust200902, noModificationTrust200902, noDerivativesTrust200902,
+       or pre5378Trust200902
+    you can add the attributes updates="NNNN" and obsoletes="NNNN" 
+    they will automatically be output with "(if approved)" -->
+
+ <!-- ***** FRONT MATTER ***** -->
+
+ <front>
+   <!-- The abbreviated title is used in the page header - it is only necessary if the 
+        full title is longer than 39 characters -->
+
+   <title abbrev="Abbreviated Title">DNS TIMEOUT Resource Record</title>
+
+   <!-- add 'role="editor"' below for the editors if appropriate -->
+
+   <!-- Another author who claims to be an editor -->
+
+   <author fullname="Tom Pusateri" initials="T.J." surname="Pusateri">
+     <organization>Unaffiliated</organization>
+
+     <address>
+       <postal>
+         <street></street>
+         <city>Raleigh</city>
+         <region>NC</region>
+         <code></code>
+         <country>USA</country>
+       </postal>
+
+       <email>pusateri@bangj.com</email>
+
+       <!-- uri and facsimile elements may also be added -->
+     </address>
+   </author>
+   <author fullname="Tim Wattenberg" initials="T." surname="Wattenberg">
+     <organization>Unaffiliated</organization>
+
+     <address>
+       <postal>
+         <street></street>
+         <city>Cologne</city>
+         <country>Germany</country>
+       </postal>
+
+       <email>mail@timwattenberg.de</email>
+
+       <!-- uri and facsimile elements may also be added -->
+     </address>
+   </author>
+
+   <date year="2018"/>
+
+   <!-- If the month and year are both specified and are the current ones, xml2rfc will fill 
+        in the current day for you. If only the current year is specified, xml2rfc will fill 
+	 in the current day and month for you. If the year is not the current one, it is 
+	 necessary to specify at least a month (xml2rfc assumes day="1" if not specified for the 
+	 purpose of calculating the expiry date).  With drafts it is normally sufficient to 
+	 specify just the year. -->
+
+   <!-- Meta-data Declarations -->
+
+   <area>DNSOP</area>
+
+   <workgroup>Internet Engineering Task Force</workgroup>
+
+   <!-- WG name at the upperleft corner of the doc,
+        IETF is fine for individual submissions.  
+	 If this element is not present, the default is "Network Working Group",
+        which is used by the RFC Editor as a nod to the history of the IETF. -->
+
+   <keyword>dns update timeout</keyword>
+
+   <!-- Keywords will be incorporated into HTML output
+        files in a meta tag but they have no effect on text or nroff
+        output. If you submit your draft to the RFC Editor, the
+        keywords will be used for the search engine. -->
+
+   <abstract>
+	   <t>This specification defines a new DNS TIMEOUT resource record that associates a lifetime with one or more zone resource records with the same owner name and class. It is intended to be used to transfer resource record lifetime state between a zone's primary and secondary servers and to store lifetime state during server software restarts.</t>
+   </abstract>
+ </front>
+
+ <middle>
+   <section title="Introduction">
+	   <t>DNS Update <xref target="RFC2136"/> provides a mechanism to dynamically add/remove DNS resource records to/from a zone. When a resource record is dynamically added, it remains in the zone until it is removed manually or via a subsequent DNS Update. A zone administrator may want to enforce a default lifetime for dynamic updates (such as the DHCP lease lifetime) or the DNS Update may contain a lifetime using an EDNS(0) Update Lease option <xref target="I-D.sekar-dns-ul"/>. This lease lifetime is not communicated to secondary servers and will not endure through server software restarts. This specification defines a new DNS TIMEOUT resource record that associates a lifetime with one or more resource records with the same owner name and class.</t>
+
+     <section title="Requirements Language">
+       <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+       "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+       document are to be interpreted as described in <xref
+       target="RFC2119">RFC 2119</xref>.</t>
+     </section>
+   </section>
+
+   <section title="Timeout Resource Record Properties" anchor="properties">
+     <t>TIMEOUT resource records have different properties than normal DNS resource records.
+       <list style="numbers">
+         <t>TIMEOUT resource records are only defined for CLASS IN.</t>
+         <t>TIMEOUT resource records are only for administrative use and they cannot be directly queried via the normal DNS request/response query mechanism. Valid requests for TIMEOUT resource record types MUST return responses with an NOERROR RCODE and an ANSWER COUNT of zero.</t>
+         <t>TIMEOUT resource records are not automatically sent in AXFR, IXFR zone transfer requests. Both primary and secondary servers should be configured on a per zone basis to transfer TIMEOUT resource records to ensure they are supported.</t>
+         <t>TIMEOUT resource records are not considered for DNSSEC/NSEC/NSEC3/NSEC5 record construction.</t>
+         <t>TIMEOUT resource records cannot be directly added, modified, or deleted through DNS Update.</t>
+         <t>A TIMEOUT resource record MUST be removed when the last resource record it covers has been removed. This may be due to the record expiring (reaching the expiry time) or due to a subsequent DNS Update or administrative action.</t>
+       </list>
+     </t>
+   </section>
+   <section title="Secondary Server Behavior">
+     <t>A secondary or slave server may or may not understand TIMEOUT resource records. The primary or master server should not be configured to send TIMEOUT resource records if the secondary or slave server does not understand them. However, if TIMEOUT resource records are mistakenly transferred to a server that does not understand them, they are treated like any other resource record that the server may not understand <xref target="RFC3597"/>.</t>
+     <t>A secondary server that does understand the TIMEOUT resource records it receives in a transfer MUST abide by the properties of the resource record type defined in <xref target="properties"/>.</t>
+     <t>A secondary server will independently expire the records in a zone it maintains covered by the TIMEOUT resource record as well as expire the TIMEOUT resource record itself when the last record it covers has expired in the same manner that a primary server would.</t>
+     <t>If a TIMEOUT resource record is removed from a subsequent zone transfer, the secondary server MUST also remove it from its zone database regardless of the expiry time.</t>
+   </section>
+   <section title="Sources of TIMEOUT Expiry Time">
+     <t>The expire time may come from many different sources. A few are listed here however, this list is not considered complete.
+       <list style="numbers">
+         <t>Via DHCP Dynamic Lease Lifetime communicated out of band.</t>
+         <t>Via EDNS(0) Update Lease option <xref target="I-D.sekar-dns-ul"/> communicated in DNS Update.</t>
+         <t>Via an administrative default server value such as one day (86400 seconds).</t>
+       </list>
+     </t>
+   </section>
+   <section title="Record Definition">
+   </section>
+   <section title="Packet Format">
+   </section>
+   <section title="Hash Requirements">
+   </section>
+
+   <section anchor="IANA" title="IANA Considerations">
+       <t>This document defines a new DNS Resource Record Type named TIMEOUT to be exchanged between authoritative master and slave DNS servers. It is assigned out of the DNS Parameters Resource Record (RR) Type registry. The value for the TIMEOUT resource record type is TBA.</t>
+   </section>
+
+   <section anchor="Security" title="Security Considerations">
+     <t>Secondary servers that have received TIMEOUT resource records in a transfer but do not understand the record type will serve requests for them like any other resource record type. This is a configuration error and can reveal the time that other DNS resource records will be present.</t>
+   </section>
+
+   <section anchor="Acknowledgements" title="Acknowledgements">
+     <t>This idea was motivated through conversations with Mark Andrews.</t>
+   </section>
+ </middle>
+
+ <!--  *****BACK MATTER ***** -->
+
+ <back>
+   <!-- References split into informative and normative -->
+
+   <!-- There are 2 ways to insert reference entries from the citation libraries:
+    1. define an ENTITY at the top, and use "ampersand character"RFC2629; here (as shown)
+    2. simply use a PI "less than character"?rfc include="reference.RFC.2119.xml"?> here
+       (for I-Ds: include="reference.I-D.narten-iana-considerations-rfc2434bis.xml")
+
+    Both are cited textually in the same manner: by using xref elements.
+    If you use the PI option, xml2rfc will, by default, try to find included files in the same
+    directory as the including file. You can also define the XML_LIBRARY environment variable
+    with a value containing a set of directories to search.  These can be either in the local
+    filing system or remote ones accessed by http (http://domain/dir/... ).-->
+
+   <references title="Normative References">
+     <!--?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
+     &RFC2119;
+     &RFC3597;
+     
+   </references>
+
+   <references title="Informative References">
+     <!-- Here we use entities that we defined at the beginning. -->
+
+     &RFC2136;
+     &I-D.sekar-dns-ul;
+
+   </references>
+ </back>
+</rfc>
