@@ -165,8 +165,8 @@
      <section title="Expiry Time">
        <t>The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire. Lease times must be converted to an absolute expiry time when received.</t>
      </section>
-     <section title="Hash Algorithm Indicator Index">
-       <t>The Hash Algorithm Indicator Index is a single byte value that specifies an identifier for the hash algorithm used. The identifiers are declared in a registry maintained by IANA for the purpose of listing acceptable hash algorithms for this purpose. In addition to the algorithm, the registry will contain the output length in bits of the algorithm to be used. It is conceivable, though not likely, that the same algorithm could be used with different output lengths. In this case, each output length would require a different index in the registry. Additions to this registry will be approved with additional documentation under expert review. At the time that the registry is created by IANA, a group of expert reviewers will be established.</t>
+     <section title="Hash Algorithm Index">
+       <t>The Hash Algorithm Index is a 16-bit value that specifies an identifier for the hash algorithm used. The identifiers are declared in a registry maintained by IANA for the purpose of listing acceptable hash algorithms for this purpose. In addition to the algorithm and the index, the registry will contain the output length in bits of the algorithm to be used. It is conceivable, though not likely, that the same algorithm could be used with different output lengths. In this case, each output length would require a different index in the registry. Additions to this registry will be approved with additional documentation under expert review. At the time that the registry is created by IANA, a group of expert reviewers will be established.</t>
      </section>
      <section title="Hash values">
        <t>The hash of each resource record is calculated using the entire length of the resource record as input. The output value of the hash is always a fixed pre-defined length specified with the hash algorithm.</t>
@@ -179,7 +179,7 @@
            <t>Minimize output length for efficient storage in the TIMEOUT resource record.</t>
          </list>
        </t>
-       <t>The initial algorithm selected to meet this criteria is SHAKE128. It is part of the SHA-3 <xref target="SHA3"/> family of cryptographic hash algorithms. The output length of the hash used is 128 bits or 16 bytes. SHAKE128 is implemented in the OpenSSL Library version 1.1.1 <xref target="OPENSSL"/>. In order to be in compliance with this specification, the SHAKE128 algorithm MUST be implemented. SHAKE128 is to be assigned an algorithm indicator index of 1 in the IANA registry.</t>
+       <t>The initial algorithm selected to meet this criteria is SHAKE128. It is part of the SHA-3 <xref target="SHA3"/> family of cryptographic hash algorithms. The output length of the hash used is 128 bits or 16 bytes. SHAKE128 is implemented in the OpenSSL Library version 1.1.1 <xref target="OPENSSL"/>. In order to be in compliance with this specification, the SHAKE128 algorithm MUST be implemented. SHAKE128 is to be assigned an algorithm index of 1 in the IANA registry.</t>
      </section>
    </section>
    <section title="TIMEOUT RR RDATA Wire Format">
@@ -189,7 +189,7 @@
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|    Hash Indicator Index A     |       Hash Count A (n)        |
+|    Hash Algorithm Index A     |       Hash Count A (n)        |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |                      Expiry Time A (64-bit)                   |
 |                                                               |
@@ -204,7 +204,7 @@
 .                                                               .
 .                                                               .
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|    Hash Indicator Index B     |       Hash Count B (m)        |
+|    Hash Algorithm Index B     |       Hash Count B (m)        |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |                      Expiry Time B (64-bit)                   |
 |                                                               |
@@ -227,6 +227,7 @@
    </section>
    <section anchor="IANA" title="IANA Considerations">
        <t>This document defines a new DNS Resource Record Type named TIMEOUT to be exchanged between authoritative master and slave DNS servers. It is assigned out of the DNS Parameters Resource Record (RR) Type registry. The value for the TIMEOUT resource record type is TBA.</t>
+       <t>This document establishes a new registry of DNS Timeout Resource Record Cryptographic Hash Algorithms. The registry shall include the name of the algorithm, the length of the output function in bits, and an index to be used in the RDATA section of the TIMEOUT resource record.</t>
    </section>
 
    <section anchor="Security" title="Security Considerations">

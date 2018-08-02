@@ -381,7 +381,7 @@
 <link href="#rfc.section.4" rel="Chapter" title="4 Sources of TIMEOUT Expiry Time">
 <link href="#rfc.section.5" rel="Chapter" title="5 Resource Record Composition">
 <link href="#rfc.section.5.1" rel="Chapter" title="5.1 Expiry Time">
-<link href="#rfc.section.5.2" rel="Chapter" title="5.2 Hash Algorithm Indicator Index">
+<link href="#rfc.section.5.2" rel="Chapter" title="5.2 Hash Algorithm Index">
 <link href="#rfc.section.5.3" rel="Chapter" title="5.3 Hash values">
 <link href="#rfc.section.5.4" rel="Chapter" title="5.4 Hash Requirements and Deafult Algorithm Selection">
 <link href="#rfc.section.6" rel="Chapter" title="6 TIMEOUT RR RDATA Wire Format">
@@ -400,7 +400,7 @@
 
   <meta name="dct.creator" content="Pusateri, T. and T. Wattenberg" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-pusateri-dnsop-update-timeout-00" />
-  <meta name="dct.issued" scheme="ISO8601" content="2018-01" />
+  <meta name="dct.issued" scheme="ISO8601" content="2018-02" />
   <meta name="dct.abstract" content="This specification defines a new DNS TIMEOUT resource record that associates a lifetime with one or more zone resource records with the same owner name and class. It is intended to be used to transfer resource record lifetime state between a zone's primary and secondary servers and to store lifetime state during server software restarts." />
   <meta name="description" content="This specification defines a new DNS TIMEOUT resource record that associates a lifetime with one or more zone resource records with the same owner name and class. It is intended to be used to transfer resource record lifetime state between a zone's primary and secondary servers and to store lifetime state during server software restarts." />
 
@@ -424,8 +424,8 @@
 <td class="right">Unaffiliated</td>
 </tr>
 <tr>
-<td class="left">Expires: February 2, 2019</td>
-<td class="right">August 1, 2018</td>
+<td class="left">Expires: February 3, 2019</td>
+<td class="right">August 2, 2018</td>
 </tr>
 
     	
@@ -441,7 +441,7 @@
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on February 2, 2019.</p>
+<p>This Internet-Draft will expire on February 3, 2019.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2018 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -465,7 +465,7 @@
 </li>
 <ul><li>5.1.   <a href="#rfc.section.5.1">Expiry Time</a>
 </li>
-<li>5.2.   <a href="#rfc.section.5.2">Hash Algorithm Indicator Index</a>
+<li>5.2.   <a href="#rfc.section.5.2">Hash Algorithm Index</a>
 </li>
 <li>5.3.   <a href="#rfc.section.5.3">Hash values</a>
 </li>
@@ -539,8 +539,8 @@
 <a href="#rfc.section.5.1">5.1.</a> Expiry Time</h1>
 <p id="rfc.section.5.1.p.1">The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire. Lease times must be converted to an absolute expiry time when received.</p>
 <h1 id="rfc.section.5.2">
-<a href="#rfc.section.5.2">5.2.</a> Hash Algorithm Indicator Index</h1>
-<p id="rfc.section.5.2.p.1">The Hash Algorithm Indicator Index is a single byte value that specifies an identifier for the hash algorithm used. The identifiers are declared in a registry maintained by IANA for the purpose of listing acceptable hash algorithms for this purpose. In addition to the algorithm, the registry will contain the output length in bits of the algorithm to be used. It is conceivable, though not likely, that the same algorithm could be used with different output lengths. In this case, each output length would require a different index in the registry. Additions to this registry will be approved with additional documentation under expert review. At the time that the registry is created by IANA, a group of expert reviewers will be established.</p>
+<a href="#rfc.section.5.2">5.2.</a> Hash Algorithm Index</h1>
+<p id="rfc.section.5.2.p.1">The Hash Algorithm Index is a 16-bit value that specifies an identifier for the hash algorithm used. The identifiers are declared in a registry maintained by IANA for the purpose of listing acceptable hash algorithms for this purpose. In addition to the algorithm and the index, the registry will contain the output length in bits of the algorithm to be used. It is conceivable, though not likely, that the same algorithm could be used with different output lengths. In this case, each output length would require a different index in the registry. Additions to this registry will be approved with additional documentation under expert review. At the time that the registry is created by IANA, a group of expert reviewers will be established.</p>
 <h1 id="rfc.section.5.3">
 <a href="#rfc.section.5.3">5.3.</a> Hash values</h1>
 <p id="rfc.section.5.3.p.1">The hash of each resource record is calculated using the entire length of the resource record as input. The output value of the hash is always a fixed pre-defined length specified with the hash algorithm.</p>
@@ -555,7 +555,7 @@
 </ol>
 
 <p> </p>
-<p id="rfc.section.5.4.p.2">The initial algorithm selected to meet this criteria is SHAKE128. It is part of the SHA-3 <a href="#SHA3" class="xref">[SHA3]</a> family of cryptographic hash algorithms. The output length of the hash used is 128 bits or 16 bytes. SHAKE128 is implemented in the OpenSSL Library version 1.1.1 <a href="#OPENSSL" class="xref">[OPENSSL]</a>. In order to be in compliance with this specification, the SHAKE128 algorithm MUST be implemented. SHAKE128 is to be assigned an algorithm indicator index of 1 in the IANA registry.</p>
+<p id="rfc.section.5.4.p.2">The initial algorithm selected to meet this criteria is SHAKE128. It is part of the SHA-3 <a href="#SHA3" class="xref">[SHA3]</a> family of cryptographic hash algorithms. The output length of the hash used is 128 bits or 16 bytes. SHAKE128 is implemented in the OpenSSL Library version 1.1.1 <a href="#OPENSSL" class="xref">[OPENSSL]</a>. In order to be in compliance with this specification, the SHAKE128 algorithm MUST be implemented. SHAKE128 is to be assigned an algorithm index of 1 in the IANA registry.</p>
 <h1 id="rfc.section.6">
 <a href="#rfc.section.6">6.</a> TIMEOUT RR RDATA Wire Format</h1>
 <div id="rfc.figure.1"></div>
@@ -565,7 +565,7 @@
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|    Hash Indicator Index A     |       Hash Count A (n)        |
+|    Hash Algorithm Index A     |       Hash Count A (n)        |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |                      Expiry Time A (64-bit)                   |
 |                                                               |
@@ -580,7 +580,7 @@
 .                                                               .
 .                                                               .
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|    Hash Indicator Index B     |       Hash Count B (m)        |
+|    Hash Algorithm Index B     |       Hash Count B (m)        |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |                      Expiry Time B (64-bit)                   |
 |                                                               |
@@ -604,6 +604,7 @@
 <a href="#rfc.section.8">8.</a> <a href="#IANA" id="IANA">IANA Considerations</a>
 </h1>
 <p id="rfc.section.8.p.1">This document defines a new DNS Resource Record Type named TIMEOUT to be exchanged between authoritative master and slave DNS servers. It is assigned out of the DNS Parameters Resource Record (RR) Type registry. The value for the TIMEOUT resource record type is TBA.</p>
+<p id="rfc.section.8.p.2">This document establishes a new registry of DNS Timeout Resource Record Cryptographic Hash Algorithms. The registry shall include the name of the algorithm, the length of the output function in bits, and an index to be used in the RDATA section of the TIMEOUT resource record.</p>
 <h1 id="rfc.section.9">
 <a href="#rfc.section.9">9.</a> <a href="#Security" id="Security">Security Considerations</a>
 </h1>

@@ -5,7 +5,7 @@
 Internet Engineering Task Force                              T. Pusateri
 Internet-Draft                                             T. Wattenberg
 Intended status: Standards Track                            Unaffiliated
-Expires: February 2, 2019                                 August 1, 2018
+Expires: February 3, 2019                                 August 2, 2018
 
 
                       DNS TIMEOUT Resource Record
@@ -34,7 +34,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on February 2, 2019.
+   This Internet-Draft will expire on February 3, 2019.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Pusateri & Wattenberg   Expires February 2, 2019                [Page 1]
+Pusateri & Wattenberg   Expires February 3, 2019                [Page 1]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
@@ -67,7 +67,7 @@ Table of Contents
    4.  Sources of TIMEOUT Expiry Time  . . . . . . . . . . . . . . .   4
    5.  Resource Record Composition . . . . . . . . . . . . . . . . .   4
      5.1.  Expiry Time . . . . . . . . . . . . . . . . . . . . . . .   4
-     5.2.  Hash Algorithm Indicator Index  . . . . . . . . . . . . .   4
+     5.2.  Hash Algorithm Index  . . . . . . . . . . . . . . . . . .   4
      5.3.  Hash values . . . . . . . . . . . . . . . . . . . . . . .   5
      5.4.  Hash Requirements and Deafult Algorithm Selection . . . .   5
    6.  TIMEOUT RR RDATA Wire Format  . . . . . . . . . . . . . . . .   5
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Pusateri & Wattenberg   Expires February 2, 2019                [Page 2]
+Pusateri & Wattenberg   Expires February 3, 2019                [Page 2]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
@@ -165,7 +165,7 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
 
 
 
-Pusateri & Wattenberg   Expires February 2, 2019                [Page 3]
+Pusateri & Wattenberg   Expires February 3, 2019                [Page 3]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
@@ -213,27 +213,27 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    is an absolute time at which the record will expire.  Lease times
    must be converted to an absolute expiry time when received.
 
-5.2.  Hash Algorithm Indicator Index
+5.2.  Hash Algorithm Index
 
-   The Hash Algorithm Indicator Index is a single byte value that
-   specifies an identifier for the hash algorithm used.  The identifiers
-   are declared in a registry maintained by IANA for the purpose of
+   The Hash Algorithm Index is a 16-bit value that specifies an
+   identifier for the hash algorithm used.  The identifiers are declared
+   in a registry maintained by IANA for the purpose of listing
 
 
 
-Pusateri & Wattenberg   Expires February 2, 2019                [Page 4]
+Pusateri & Wattenberg   Expires February 3, 2019                [Page 4]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
 
-   listing acceptable hash algorithms for this purpose.  In addition to
-   the algorithm, the registry will contain the output length in bits of
-   the algorithm to be used.  It is conceivable, though not likely, that
-   the same algorithm could be used with different output lengths.  In
-   this case, each output length would require a different index in the
-   registry.  Additions to this registry will be approved with
-   additional documentation under expert review.  At the time that the
-   registry is created by IANA, a group of expert reviewers will be
+   acceptable hash algorithms for this purpose.  In addition to the
+   algorithm and the index, the registry will contain the output length
+   in bits of the algorithm to be used.  It is conceivable, though not
+   likely, that the same algorithm could be used with different output
+   lengths.  In this case, each output length would require a different
+   index in the registry.  Additions to this registry will be approved
+   with additional documentation under expert review.  At the time that
+   the registry is created by IANA, a group of expert reviewers will be
    established.
 
 5.3.  Hash values
@@ -261,7 +261,7 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    is implemented in the OpenSSL Library version 1.1.1 [OPENSSL].  In
    order to be in compliance with this specification, the SHAKE128
    algorithm MUST be implemented.  SHAKE128 is to be assigned an
-   algorithm indicator index of 1 in the IANA registry.
+   algorithm index of 1 in the IANA registry.
 
 6.  TIMEOUT RR RDATA Wire Format
 
@@ -277,7 +277,7 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
 
 
 
-Pusateri & Wattenberg   Expires February 2, 2019                [Page 5]
+Pusateri & Wattenberg   Expires February 3, 2019                [Page 5]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
@@ -285,7 +285,7 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
       0                   1                   2                   3
       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |    Hash Indicator Index A     |       Hash Count A (n)        |
+     |    Hash Algorithm Index A     |       Hash Count A (n)        |
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
      |                      Expiry Time A (64-bit)                   |
      |                                                               |
@@ -300,7 +300,7 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
      .                                                               .
      .                                                               .
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |    Hash Indicator Index B     |       Hash Count B (m)        |
+     |    Hash Algorithm Index B     |       Hash Count B (m)        |
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
      |                      Expiry Time B (64-bit)                   |
      |                                                               |
@@ -328,15 +328,19 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    is assigned out of the DNS Parameters Resource Record (RR) Type
    registry.  The value for the TIMEOUT resource record type is TBA.
 
+   This document establishes a new registry of DNS Timeout Resource
+   Record Cryptographic Hash Algorithms.  The registry shall include the
 
 
 
-
-
-Pusateri & Wattenberg   Expires February 2, 2019                [Page 6]
+Pusateri & Wattenberg   Expires February 3, 2019                [Page 6]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
+
+   name of the algorithm, the length of the output function in bits, and
+   an index to be used in the RDATA section of the TIMEOUT resource
+   record.
 
 9.  Security Considerations
 
@@ -385,11 +389,7 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
 
 
 
-
-
-
-
-Pusateri & Wattenberg   Expires February 2, 2019                [Page 7]
+Pusateri & Wattenberg   Expires February 3, 2019                [Page 7]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
@@ -445,4 +445,4 @@ Authors' Addresses
 
 
 
-Pusateri & Wattenberg   Expires February 2, 2019                [Page 8]
+Pusateri & Wattenberg   Expires February 3, 2019                [Page 8]
