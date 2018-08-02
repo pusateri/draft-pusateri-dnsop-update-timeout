@@ -384,8 +384,8 @@
 <link href="#rfc.section.5.2" rel="Chapter" title="5.2 Hash Algorithm Indicator Index">
 <link href="#rfc.section.5.3" rel="Chapter" title="5.3 Hash values">
 <link href="#rfc.section.5.4" rel="Chapter" title="5.4 Hash Requirements and Deafult Algorithm Selection">
-<link href="#rfc.section.6" rel="Chapter" title="6 TIMEOUT RDATA Wire Format">
-<link href="#rfc.section.7" rel="Chapter" title="7 TIMEOUT RDATA Presentation Format">
+<link href="#rfc.section.6" rel="Chapter" title="6 TIMEOUT RR RDATA Wire Format">
+<link href="#rfc.section.7" rel="Chapter" title="7 TIMEOUT RR RDATA Presentation Format">
 <link href="#rfc.section.8" rel="Chapter" title="8 IANA Considerations">
 <link href="#rfc.section.9" rel="Chapter" title="9 Security Considerations">
 <link href="#rfc.section.10" rel="Chapter" title="10 Acknowledgements">
@@ -471,9 +471,9 @@
 </li>
 <li>5.4.   <a href="#rfc.section.5.4">Hash Requirements and Deafult Algorithm Selection</a>
 </li>
-</ul><li>6.   <a href="#rfc.section.6">TIMEOUT RDATA Wire Format</a>
+</ul><li>6.   <a href="#rfc.section.6">TIMEOUT RR RDATA Wire Format</a>
 </li>
-<li>7.   <a href="#rfc.section.7">TIMEOUT RDATA Presentation Format</a>
+<li>7.   <a href="#rfc.section.7">TIMEOUT RR RDATA Presentation Format</a>
 </li>
 <li>8.   <a href="#rfc.section.8">IANA Considerations</a>
 </li>
@@ -557,9 +557,49 @@
 <p> </p>
 <p id="rfc.section.5.4.p.2">The initial algorithm selected to meet this criteria is SHAKE128. It is part of the SHA-3 <a href="#SHA3" class="xref">[SHA3]</a> family of cryptographic hash algorithms. The output length of the hash used is 128 bits or 16 bytes. SHAKE128 is implemented in the OpenSSL Library version 1.1.1 <a href="#OPENSSL" class="xref">[OPENSSL]</a>. In order to be in compliance with this specification, the SHAKE128 algorithm MUST be implemented. SHAKE128 is to be assigned an algorithm indicator index of 1 in the IANA registry.</p>
 <h1 id="rfc.section.6">
-<a href="#rfc.section.6">6.</a> TIMEOUT RDATA Wire Format</h1>
+<a href="#rfc.section.6">6.</a> TIMEOUT RR RDATA Wire Format</h1>
+<div id="rfc.figure.1"></div>
+<div id="rr_art"></div>
+<pre>
+        
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|    Hash Indicator Index A     |       Hash Count A (n)        |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                      Expiry Time A (64-bit)                   |
+|                                                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+.                                                               .
+.                            Hash A-1                           .
+.                                                               .
+.                                                               .
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+.                                                               .
+.                            Hash A-n                           .
+.                                                               .
+.                                                               .
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|    Hash Indicator Index B     |       Hash Count B (m)        |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                      Expiry Time B (64-bit)                   |
+|                                                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+.                                                               .
+.                            Hash B-1                           .
+.                                                               .
+.                                                               .
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+.                                                               .
+.                            Hash B-m                           .
+.                                                               .
+.                                                               .
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+        
+        </pre>
+<p class="figure">Figure 1: RDATA Wire Format</p>
 <h1 id="rfc.section.7">
-<a href="#rfc.section.7">7.</a> TIMEOUT RDATA Presentation Format</h1>
+<a href="#rfc.section.7">7.</a> TIMEOUT RR RDATA Presentation Format</h1>
 <h1 id="rfc.section.8">
 <a href="#rfc.section.8">8.</a> <a href="#IANA" id="IANA">IANA Considerations</a>
 </h1>

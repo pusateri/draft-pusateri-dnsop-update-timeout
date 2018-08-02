@@ -55,7 +55,7 @@ Copyright Notice
 
 Pusateri & Wattenberg   Expires February 2, 2019                [Page 1]
 
-Internet-Draft              Abbreviated Title                August 2018
+Internet-Draft           TIMEOUT Resource Record             August 2018
 
 
 Table of Contents
@@ -70,15 +70,15 @@ Table of Contents
      5.2.  Hash Algorithm Indicator Index  . . . . . . . . . . . . .   4
      5.3.  Hash values . . . . . . . . . . . . . . . . . . . . . . .   5
      5.4.  Hash Requirements and Deafult Algorithm Selection . . . .   5
-   6.  TIMEOUT RDATA Wire Format . . . . . . . . . . . . . . . . . .   5
-   7.  TIMEOUT RDATA Presentation Format . . . . . . . . . . . . . .   5
-   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   5
-   9.  Security Considerations . . . . . . . . . . . . . . . . . . .   6
-   10. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   6
-   11. References  . . . . . . . . . . . . . . . . . . . . . . . . .   6
-     11.1.  Normative References . . . . . . . . . . . . . . . . . .   6
-     11.2.  Informative References . . . . . . . . . . . . . . . . .   6
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   7
+   6.  TIMEOUT RR RDATA Wire Format  . . . . . . . . . . . . . . . .   5
+   7.  TIMEOUT RR RDATA Presentation Format  . . . . . . . . . . . .   6
+   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   6
+   9.  Security Considerations . . . . . . . . . . . . . . . . . . .   7
+   10. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   7
+   11. References  . . . . . . . . . . . . . . . . . . . . . . . . .   7
+     11.1.  Normative References . . . . . . . . . . . . . . . . . .   7
+     11.2.  Informative References . . . . . . . . . . . . . . . . .   7
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   8
 
 1.  Introduction
 
@@ -111,7 +111,7 @@ Table of Contents
 
 Pusateri & Wattenberg   Expires February 2, 2019                [Page 2]
 
-Internet-Draft              Abbreviated Title                August 2018
+Internet-Draft           TIMEOUT Resource Record             August 2018
 
 
    2.  TIMEOUT resource records are only for administrative use and they
@@ -167,7 +167,7 @@ Internet-Draft              Abbreviated Title                August 2018
 
 Pusateri & Wattenberg   Expires February 2, 2019                [Page 3]
 
-Internet-Draft              Abbreviated Title                August 2018
+Internet-Draft           TIMEOUT Resource Record             August 2018
 
 
 4.  Sources of TIMEOUT Expiry Time
@@ -223,7 +223,7 @@ Internet-Draft              Abbreviated Title                August 2018
 
 Pusateri & Wattenberg   Expires February 2, 2019                [Page 4]
 
-Internet-Draft              Abbreviated Title                August 2018
+Internet-Draft           TIMEOUT Resource Record             August 2018
 
 
    listing acceptable hash algorithms for this purpose.  In addition to
@@ -263,9 +263,63 @@ Internet-Draft              Abbreviated Title                August 2018
    algorithm MUST be implemented.  SHAKE128 is to be assigned an
    algorithm indicator index of 1 in the IANA registry.
 
-6.  TIMEOUT RDATA Wire Format
+6.  TIMEOUT RR RDATA Wire Format
 
-7.  TIMEOUT RDATA Presentation Format
+
+
+
+
+
+
+
+
+
+
+
+
+Pusateri & Wattenberg   Expires February 2, 2019                [Page 5]
+
+Internet-Draft           TIMEOUT Resource Record             August 2018
+
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     |    Hash Indicator Index A     |       Hash Count A (n)        |
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     |                      Expiry Time A (64-bit)                   |
+     |                                                               |
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     .                                                               .
+     .                            Hash A-1                           .
+     .                                                               .
+     .                                                               .
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     .                                                               .
+     .                            Hash A-n                           .
+     .                                                               .
+     .                                                               .
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     |    Hash Indicator Index B     |       Hash Count B (m)        |
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     |                      Expiry Time B (64-bit)                   |
+     |                                                               |
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     .                                                               .
+     .                            Hash B-1                           .
+     .                                                               .
+     .                                                               .
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     .                                                               .
+     .                            Hash B-m                           .
+     .                                                               .
+     .                                                               .
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+
+                        Figure 1: RDATA Wire Format
+
+7.  TIMEOUT RR RDATA Presentation Format
 
 8.  IANA Considerations
 
@@ -277,9 +331,11 @@ Internet-Draft              Abbreviated Title                August 2018
 
 
 
-Pusateri & Wattenberg   Expires February 2, 2019                [Page 5]
+
+
+Pusateri & Wattenberg   Expires February 2, 2019                [Page 6]
 
-Internet-Draft              Abbreviated Title                August 2018
+Internet-Draft           TIMEOUT Resource Record             August 2018
 
 
 9.  Security Considerations
@@ -333,9 +389,9 @@ Internet-Draft              Abbreviated Title                August 2018
 
 
 
-Pusateri & Wattenberg   Expires February 2, 2019                [Page 6]
+Pusateri & Wattenberg   Expires February 2, 2019                [Page 7]
 
-Internet-Draft              Abbreviated Title                August 2018
+Internet-Draft           TIMEOUT Resource Record             August 2018
 
 
 Authors' Addresses
@@ -389,4 +445,4 @@ Authors' Addresses
 
 
 
-Pusateri & Wattenberg   Expires February 2, 2019                [Page 7]
+Pusateri & Wattenberg   Expires February 2, 2019                [Page 8]
