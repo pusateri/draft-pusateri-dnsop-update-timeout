@@ -181,6 +181,7 @@
            <t>Minimize output length for efficient storage in the TIMEOUT resource record.</t>
          </list>
        </t>
+       <t>While computational complexity is always a consideration when selecting algorithms, the frequency of this calculation is intended to be low volume and, therefore, this property is of reduced importance.</t>
        <t>The initial algorithm selected to meet this criteria is SHAKE128. It is part of the SHA-3 <xref target="SHA3"/> family of cryptographic hash algorithms. The output length of the hash used is 128 bits or 16 bytes. SHAKE128 is implemented in the OpenSSL Library version 1.1.1 <xref target="OPENSSL"/>. In order to be in compliance with this specification, the SHAKE128 algorithm MUST be implemented. SHAKE128 is to be assigned an algorithm index of 1 in the IANA registry.</t>
      </section>
    </section>
