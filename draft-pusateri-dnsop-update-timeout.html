@@ -376,7 +376,7 @@
   <link href="#rfc.toc" rel="Contents">
 <link href="#rfc.section.1" rel="Chapter" title="1 Introduction">
 <link href="#rfc.section.1.1" rel="Chapter" title="1.1 Requirements Language">
-<link href="#rfc.section.2" rel="Chapter" title="2 Timeout Resource Record Properties">
+<link href="#rfc.section.2" rel="Chapter" title="2 TIMEOUT Resource Record Properties">
 <link href="#rfc.section.3" rel="Chapter" title="3 Secondary Server Behavior">
 <link href="#rfc.section.4" rel="Chapter" title="4 Sources of TIMEOUT Expiry Time">
 <link href="#rfc.section.5" rel="Chapter" title="5 Resource Record Composition">
@@ -389,7 +389,7 @@
 <link href="#rfc.section.7" rel="Chapter" title="7 TIMEOUT RR RDATA Presentation Format">
 <link href="#rfc.section.8" rel="Chapter" title="8 IANA Considerations">
 <link href="#rfc.section.9" rel="Chapter" title="9 Security Considerations">
-<link href="#rfc.section.10" rel="Chapter" title="10 Acknowledgements">
+<link href="#rfc.section.10" rel="Chapter" title="10 Acknowledgments">
 <link href="#rfc.references" rel="Chapter" title="11 References">
 <link href="#rfc.references.1" rel="Chapter" title="11.1 Normative References">
 <link href="#rfc.references.2" rel="Chapter" title="11.2 Informative References">
@@ -456,7 +456,7 @@
 </li>
 <ul><li>1.1.   <a href="#rfc.section.1.1">Requirements Language</a>
 </li>
-</ul><li>2.   <a href="#rfc.section.2">Timeout Resource Record Properties</a>
+</ul><li>2.   <a href="#rfc.section.2">TIMEOUT Resource Record Properties</a>
 </li>
 <li>3.   <a href="#rfc.section.3">Secondary Server Behavior</a>
 </li>
@@ -482,7 +482,7 @@
 </li>
 <li>9.   <a href="#rfc.section.9">Security Considerations</a>
 </li>
-<li>10.   <a href="#rfc.section.10">Acknowledgements</a>
+<li>10.   <a href="#rfc.section.10">Acknowledgments</a>
 </li>
 <li>11.   <a href="#rfc.references">References</a>
 </li>
@@ -503,7 +503,7 @@
 <a href="#rfc.section.1.1">1.1.</a> Requirements Language</h1>
 <p id="rfc.section.1.1.p.1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <a href="#RFC2119" class="xref">RFC 2119</a>.</p>
 <h1 id="rfc.section.2">
-<a href="#rfc.section.2">2.</a> <a href="#properties" id="properties">Timeout Resource Record Properties</a>
+<a href="#rfc.section.2">2.</a> <a href="#properties" id="properties">TIMEOUT Resource Record Properties</a>
 </h1>
 <p id="rfc.section.2.p.1">TIMEOUT resource records have different properties than normal DNS resource records.  </p>
 
@@ -607,21 +607,36 @@
         
         </pre>
 <p class="figure">Figure 1: RDATA Wire Format</p>
-<p><a href="#rr_art" class="xref">Figure 1</a> represents an arbitrary number of combinations of Hash Algorithm Index, Hash Count, Expiry Time, and cryptographic hashes. The figure entries with "A" in the name represent one instance while the figure entries with "B" in the name represent a second instance. There can be an arbitrary number of instances summed up by the RDLEN field in the resource record header.</p>
+<p><a href="#rr_art" class="xref">Figure 1</a> represents an arbitrary number of combinations of Hash Algorithm Index, Hash Count, Expiry Time, and cryptographic hashes. The figure entries with "A" in the name represent one instance while the figure entries with "B" in the name represent a second instance. There can be an arbitrary number of instances whose byte counts are accumulated by the RDLEN field in the resource record header.</p>
 <p id="rfc.section.6.p.3">The letter "n" represents the number of cryptographic hashes present in the first instance where there exists 1..n hashes in the list. The letter "m" represents the number of cryptographic hashes present in the second instance where there exists 1..m hashes in the second list.</p>
 <h1 id="rfc.section.7">
 <a href="#rfc.section.7">7.</a> TIMEOUT RR RDATA Presentation Format</h1>
+<p></p>
+
+<dl>
+<dt>Hash Algorithm index:</dt>
+<dd style="margin-left: 6">unsigned decimal integer</dd>
+<dt>Hash Count:</dt>
+<dd style="margin-left: 6">unsigned decimal integer</dd>
+<dt>Expiry Time:</dt>
+<dd style="margin-left: 6">Internet Date/Time Format from <a href="#RFC3339" class="xref">[RFC3339]</a> Section 5.6 profile of ISO 8601</dd>
+<dt>Hash:</dt>
+<dd style="margin-left: 6">Base64 encoding (whitespace allowed), Section 4 of <a href="#RFC4648" class="xref">[RFC4648]</a>
+</dd>
+</dl>
+
+<p> </p>
 <h1 id="rfc.section.8">
 <a href="#rfc.section.8">8.</a> <a href="#IANA" id="IANA">IANA Considerations</a>
 </h1>
 <p id="rfc.section.8.p.1">This document defines a new DNS Resource Record Type named TIMEOUT to be exchanged between authoritative master and slave DNS servers. It is assigned out of the DNS Parameters Resource Record (RR) Type registry. The value for the TIMEOUT resource record type is TBA.</p>
-<p id="rfc.section.8.p.2">This document establishes a new registry of DNS Timeout Resource Record Cryptographic Hash Algorithms. The registry shall include the name of the algorithm, the length of the output function in bits, and an index to be used in the RDATA section of the TIMEOUT resource record.</p>
+<p id="rfc.section.8.p.2">This document establishes a new registry of DNS TIMEOUT Resource Record Cryptographic Hash Algorithms. The registry shall include the name of the algorithm, the length of the output function in bits, and an index to be used in the RDATA section of the TIMEOUT resource record.</p>
 <h1 id="rfc.section.9">
 <a href="#rfc.section.9">9.</a> <a href="#Security" id="Security">Security Considerations</a>
 </h1>
 <p id="rfc.section.9.p.1">Secondary servers that have received TIMEOUT resource records in a transfer but do not understand the record type will serve requests for them like any other resource record type. This is a configuration error and can reveal the time that other DNS resource records will be present.</p>
 <h1 id="rfc.section.10">
-<a href="#rfc.section.10">10.</a> <a href="#Acknowledgements" id="Acknowledgements">Acknowledgements</a>
+<a href="#rfc.section.10">10.</a> <a href="#Acknowledgments" id="Acknowledgments">Acknowledgments</a>
 </h1>
 <p id="rfc.section.10.p.1">This idea was motivated through conversations with Mark Andrews.</p>
 <h1 id="rfc.references">
@@ -640,9 +655,19 @@
 <a>Bradner, S.</a>, "<a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, DOI 10.17487/RFC2119, March 1997.</td>
 </tr>
 <tr>
+<td class="reference"><b id="RFC3339">[RFC3339]</b></td>
+<td class="top">
+<a>Klyne, G.</a> and <a>C. Newman</a>, "<a href="https://tools.ietf.org/html/rfc3339">Date and Time on the Internet: Timestamps</a>", RFC 3339, DOI 10.17487/RFC3339, July 2002.</td>
+</tr>
+<tr>
 <td class="reference"><b id="RFC3597">[RFC3597]</b></td>
 <td class="top">
 <a>Gustafsson, A.</a>, "<a href="https://tools.ietf.org/html/rfc3597">Handling of Unknown DNS Resource Record (RR) Types</a>", RFC 3597, DOI 10.17487/RFC3597, September 2003.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC4648">[RFC4648]</b></td>
+<td class="top">
+<a>Josefsson, S.</a>, "<a href="https://tools.ietf.org/html/rfc4648">The Base16, Base32, and Base64 Data Encodings</a>", RFC 4648, DOI 10.17487/RFC4648, October 2006.</td>
 </tr>
 <tr>
 <td class="reference"><b id="SHA3">[SHA3]</b></td>

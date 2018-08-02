@@ -62,7 +62,7 @@ Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
      1.1.  Requirements Language . . . . . . . . . . . . . . . . . .   2
-   2.  Timeout Resource Record Properties  . . . . . . . . . . . . .   3
+   2.  TIMEOUT Resource Record Properties  . . . . . . . . . . . . .   3
    3.  Secondary Server Behavior . . . . . . . . . . . . . . . . . .   3
    4.  Sources of TIMEOUT Expiry Time  . . . . . . . . . . . . . . .   4
    5.  Resource Record Composition . . . . . . . . . . . . . . . . .   4
@@ -75,7 +75,7 @@ Table of Contents
    7.  TIMEOUT RR RDATA Presentation Format  . . . . . . . . . . . .   8
    8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   8
    9.  Security Considerations . . . . . . . . . . . . . . . . . . .   8
-   10. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   8
+   10.   . . . . . . . . . . . . . . . . . . . . . .   8
    11. References  . . . . . . . . . . . . . . . . . . . . . . . . .   8
      11.1.  Normative References . . . . . . . . . . . . . . . . . .   8
      11.2.  Informative References . . . . . . . . . . . . . . . . .   9
@@ -114,7 +114,7 @@ Pusateri & Wattenberg   Expires February 3, 2019                [Page 2]
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
 
-2.  Timeout Resource Record Properties
+2.  TIMEOUT Resource Record Properties
 
    TIMEOUT resource records have different properties than normal DNS
    resource records.
@@ -379,8 +379,8 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    Algorithm Index, Hash Count, Expiry Time, and cryptographic hashes.
    The figure entries with "A" in the name represent one instance while
    the figure entries with "B" in the name represent a second instance.
-   There can be an arbitrary number of instances summed up by the RDLEN
-   field in the resource record header.
+   There can be an arbitrary number of instances whose byte counts are
+   accumulated by the RDLEN field in the resource record header.
 
    The letter "n" represents the number of cryptographic hashes present
    in the first instance where there exists 1..n hashes in the list.
@@ -399,6 +399,15 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
 
 7.  TIMEOUT RR RDATA Presentation Format
 
+   Hash Algorithm index:  unsigned decimal integer
+
+   Hash Count:  unsigned decimal integer
+
+   Expiry Time:  Internet Date/Time Format from [RFC3339] Section 5.6
+         profile of ISO 8601
+
+   Hash: Base64 encoding (whitespace allowed), Section 4 of [RFC4648]
+
 8.  IANA Considerations
 
    This document defines a new DNS Resource Record Type named TIMEOUT to
@@ -406,7 +415,7 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    is assigned out of the DNS Parameters Resource Record (RR) Type
    registry.  The value for the TIMEOUT resource record type is TBA.
 
-   This document establishes a new registry of DNS Timeout Resource
+   This document establishes a new registry of DNS TIMEOUT Resource
    Record Cryptographic Hash Algorithms.  The registry shall include the
    name of the algorithm, the length of the output function in bits, and
    an index to be used in the RDATA section of the TIMEOUT resource
@@ -420,7 +429,7 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    configuration error and can reveal the time that other DNS resource
    records will be present.
 
-10.  Acknowledgements
+10.  Acknowledgments
 
    This idea was motivated through conversations with Mark Andrews.
 
@@ -432,15 +441,6 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
               specification", STD 13, RFC 1035, DOI 10.17487/RFC1035,
               November 1987, <https://www.rfc-editor.org/info/rfc1035>.
 
-   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
-              Requirement Levels", BCP 14, RFC 2119,
-              DOI 10.17487/RFC2119, March 1997,
-              <https://www.rfc-editor.org/info/rfc2119>.
-
-   [RFC3597]  Gustafsson, A., "Handling of Unknown DNS Resource Record
-              (RR) Types", RFC 3597, DOI 10.17487/RFC3597, September
-              2003, <https://www.rfc-editor.org/info/rfc3597>.
-
 
 
 
@@ -449,6 +449,23 @@ Pusateri & Wattenberg   Expires February 3, 2019                [Page 8]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+   [RFC3339]  Klyne, G. and C. Newman, "Date and Time on the Internet:
+              Timestamps", RFC 3339, DOI 10.17487/RFC3339, July 2002,
+              <https://www.rfc-editor.org/info/rfc3339>.
+
+   [RFC3597]  Gustafsson, A., "Handling of Unknown DNS Resource Record
+              (RR) Types", RFC 3597, DOI 10.17487/RFC3597, September
+              2003, <https://www.rfc-editor.org/info/rfc3597>.
+
+   [RFC4648]  Josefsson, S., "The Base16, Base32, and Base64 Data
+              Encodings", RFC 4648, DOI 10.17487/RFC4648, October 2006,
+              <https://www.rfc-editor.org/info/rfc4648>.
 
    [SHA3]     National Institute of Standards and Technology, "SHA-3
               Standard - Permutation-Based Hash and Extendable-Output
@@ -480,6 +497,15 @@ Authors' Addresses
    Email: pusateri@bangj.com
 
 
+
+
+
+
+Pusateri & Wattenberg   Expires February 3, 2019                [Page 9]
+
+Internet-Draft           TIMEOUT Resource Record             August 2018
+
+
    Tim Wattenberg
    Unaffiliated
    Cologne
@@ -501,4 +527,34 @@ Authors' Addresses
 
 
 
-Pusateri & Wattenberg   Expires February 3, 2019                [Page 9]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Pusateri & Wattenberg   Expires February 3, 2019               [Page 10]

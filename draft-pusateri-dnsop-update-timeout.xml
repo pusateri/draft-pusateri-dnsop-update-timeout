@@ -9,7 +9,9 @@
 <!ENTITY RFC1035 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.1035.xml">
 <!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
 <!ENTITY RFC2136 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2136.xml">
+<!ENTITY RFC3339 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339.xml">
 <!ENTITY RFC3597 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3597.xml">
+<!ENTITY RFC4648 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4648.xml">
 <!ENTITY I-D.sekar-dns-ul SYSTEM  "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.sekar-dns-ul.xml">
 ]>
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
@@ -133,7 +135,7 @@
      </section>
    </section>
 
-   <section title="Timeout Resource Record Properties" anchor="properties">
+   <section title="TIMEOUT Resource Record Properties" anchor="properties">
      <t>TIMEOUT resource records have different properties than normal DNS resource records.
        <list style="numbers">
          <t>TIMEOUT resource records are only defined for CLASS IN.</t>
@@ -229,21 +231,29 @@
         ]]>
         </artwork>
       </figure>
-      <t><xref target="rr_art"/> represents an arbitrary number of combinations of Hash Algorithm Index, Hash Count, Expiry Time, and cryptographic hashes. The figure entries with "A" in the name represent one instance while the figure entries with "B" in the name represent a second instance. There can be an arbitrary number of instances summed up by the RDLEN field in the resource record header.</t>
+      <t><xref target="rr_art"/> represents an arbitrary number of combinations of Hash Algorithm Index, Hash Count, Expiry Time, and cryptographic hashes. The figure entries with "A" in the name represent one instance while the figure entries with "B" in the name represent a second instance. There can be an arbitrary number of instances whose byte counts are accumulated by the RDLEN field in the resource record header.</t>
       <t>The letter "n" represents the number of cryptographic hashes present in the first instance where there exists 1..n hashes in the list. The letter "m" represents the number of cryptographic hashes present in the second instance where there exists 1..m hashes in the second list.</t>
    </section>
    <section title="TIMEOUT RR RDATA Presentation Format">
+     <t>
+       <list style="hanging" hangIndent="6">
+         <t hangText="Hash Algorithm index:">unsigned decimal integer</t>
+         <t hangText="Hash Count:">unsigned decimal integer</t>
+         <t hangText="Expiry Time:">Internet Date/Time Format from <xref target="RFC3339"/> Section 5.6 profile of ISO 8601</t>
+         <t hangText="Hash:">Base64 encoding (whitespace allowed), Section 4 of <xref target="RFC4648"/></t>
+       </list>
+          </t>
    </section>
    <section anchor="IANA" title="IANA Considerations">
        <t>This document defines a new DNS Resource Record Type named TIMEOUT to be exchanged between authoritative master and slave DNS servers. It is assigned out of the DNS Parameters Resource Record (RR) Type registry. The value for the TIMEOUT resource record type is TBA.</t>
-       <t>This document establishes a new registry of DNS Timeout Resource Record Cryptographic Hash Algorithms. The registry shall include the name of the algorithm, the length of the output function in bits, and an index to be used in the RDATA section of the TIMEOUT resource record.</t>
+       <t>This document establishes a new registry of DNS TIMEOUT Resource Record Cryptographic Hash Algorithms. The registry shall include the name of the algorithm, the length of the output function in bits, and an index to be used in the RDATA section of the TIMEOUT resource record.</t>
    </section>
 
    <section anchor="Security" title="Security Considerations">
      <t>Secondary servers that have received TIMEOUT resource records in a transfer but do not understand the record type will serve requests for them like any other resource record type. This is a configuration error and can reveal the time that other DNS resource records will be present.</t>
    </section>
 
-   <section anchor="Acknowledgements" title="Acknowledgements">
+   <section anchor="Acknowledgments" title="Acknowledgments">
      <t>This idea was motivated through conversations with Mark Andrews.</t>
    </section>
  </middle>
@@ -268,7 +278,9 @@
      <!--?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
      &RFC1035;
      &RFC2119;
+     &RFC3339;
      &RFC3597;
+     &RFC4648;
      <reference anchor="SHA3" target="https://www.nist.gov/publications/sha-3-standard-permutation-based-hash-and-extendable-output-functions">
        <front>
          <title>SHA-3 Standard - Permutation-Based Hash and Extendable-Output Functions FIPS PUB 202</title>
