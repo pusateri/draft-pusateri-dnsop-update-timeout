@@ -6,6 +6,7 @@
     There has to be one entity for each item to be referenced. 
     An alternate method (rfc include) is described in the references. -->
 
+<!ENTITY RFC1035 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.1035.xml">
 <!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
 <!ENTITY RFC2136 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2136.xml">
 <!ENTITY RFC3597 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3597.xml">
@@ -184,6 +185,7 @@
      </section>
    </section>
    <section title="TIMEOUT RR RDATA Wire Format">
+     <t>The TIMEOUT resource record follows the same pattern as other DNS resource records as defined in Section 3.2.1 of <xref target="RFC1035"/>. The RDATA section of the resource record is illustrated in <xref target="rr_art"/>:</t>
      <figure align="center" anchor="rr_art" title="RDATA Wire Format">
         <artwork align="center">
         <![CDATA[
@@ -223,6 +225,8 @@
         ]]>
         </artwork>
       </figure>
+      <t><xref target="rr_art"/> represents an arbitrary number of combinations of Hash Algorithm Index, Hash Count, Expiry Time, and cryptographic hashes. The figure entries with "A" in the name represent one instance while the figure entries with "B" in the name represent a second instance. There can be an arbitrary number of instances summed up by the RDLEN field in the resource record header.</t>
+      <t>The letter "n" represents the number of cryptographic hashes present in the first instance where there exists 1..n hashes in the list. The letter "m" represents the number of cryptographic hashes present in the second instance where there exists 1..m hashes in the second list.</t>
    </section>
    <section title="TIMEOUT RR RDATA Presentation Format">
    </section>
@@ -258,6 +262,7 @@
 
    <references title="Normative References">
      <!--?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
+     &RFC1035;
      &RFC2119;
      &RFC3597;
      <reference anchor="SHA3" target="https://www.nist.gov/publications/sha-3-standard-permutation-based-hash-and-extendable-output-functions">
