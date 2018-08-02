@@ -383,7 +383,8 @@
 <link href="#rfc.section.5.1" rel="Chapter" title="5.1 Expiry Time">
 <link href="#rfc.section.5.2" rel="Chapter" title="5.2 Hash Algorithm Index">
 <link href="#rfc.section.5.3" rel="Chapter" title="5.3 Hash values">
-<link href="#rfc.section.5.4" rel="Chapter" title="5.4 Hash Requirements and Deafult Algorithm Selection">
+<link href="#rfc.section.5.4" rel="Chapter" title="5.4 Hash Requirements">
+<link href="#rfc.section.5.4.1" rel="Chapter" title="5.4.1 REQUIRED Cryptographic Hash Algorithm">
 <link href="#rfc.section.6" rel="Chapter" title="6 TIMEOUT RR RDATA Wire Format">
 <link href="#rfc.section.7" rel="Chapter" title="7 TIMEOUT RR RDATA Presentation Format">
 <link href="#rfc.section.8" rel="Chapter" title="8 IANA Considerations">
@@ -469,9 +470,11 @@
 </li>
 <li>5.3.   <a href="#rfc.section.5.3">Hash values</a>
 </li>
-<li>5.4.   <a href="#rfc.section.5.4">Hash Requirements and Deafult Algorithm Selection</a>
+<li>5.4.   <a href="#rfc.section.5.4">Hash Requirements</a>
 </li>
-</ul><li>6.   <a href="#rfc.section.6">TIMEOUT RR RDATA Wire Format</a>
+<ul><li>5.4.1.   <a href="#rfc.section.5.4.1">REQUIRED Cryptographic Hash Algorithm</a>
+</li>
+</ul></ul><li>6.   <a href="#rfc.section.6">TIMEOUT RR RDATA Wire Format</a>
 </li>
 <li>7.   <a href="#rfc.section.7">TIMEOUT RR RDATA Presentation Format</a>
 </li>
@@ -546,7 +549,7 @@
 <a href="#rfc.section.5.3">5.3.</a> Hash values</h1>
 <p id="rfc.section.5.3.p.1">The hash of each resource record is calculated using the entire length of the resource record as input. The output value of the hash is always a fixed pre-defined length specified with the hash algorithm.</p>
 <h1 id="rfc.section.5.4">
-<a href="#rfc.section.5.4">5.4.</a> Hash Requirements and Deafult Algorithm Selection</h1>
+<a href="#rfc.section.5.4">5.4.</a> Hash Requirements</h1>
 <p id="rfc.section.5.4.p.1">The cryptographic hash algorithm used SHOULD provide the following properties: </p>
 
 <ol>
@@ -557,7 +560,10 @@
 
 <p> </p>
 <p id="rfc.section.5.4.p.2">While computational complexity is always a consideration when selecting algorithms, the frequency of this calculation is intended to be low volume and, therefore, this property is of reduced importance.</p>
-<p id="rfc.section.5.4.p.3">The initial algorithm selected to meet this criteria is SHAKE128. It is part of the SHA-3 <a href="#SHA3" class="xref">[SHA3]</a> family of cryptographic hash algorithms. The output length of the hash used is 128 bits or 16 bytes. SHAKE128 is implemented in the OpenSSL Library version 1.1.1 <a href="#OPENSSL" class="xref">[OPENSSL]</a>. In order to be in compliance with this specification, the SHAKE128 algorithm MUST be implemented. SHAKE128 is to be assigned an algorithm index of 1 in the IANA registry.</p>
+<h1 id="rfc.section.5.4.1">
+<a href="#rfc.section.5.4.1">5.4.1.</a> REQUIRED Cryptographic Hash Algorithm</h1>
+<p id="rfc.section.5.4.1.p.1">The initial algorithm selected to meet this criteria is SHAKE128. It is part of the SHA-3 <a href="#SHA3" class="xref">[SHA3]</a> family of cryptographic hash algorithms. The output length of the hash used is 128 bits or 16 bytes. SHAKE128 is implemented in the OpenSSL Library version 1.1.1 <a href="#OPENSSL" class="xref">[OPENSSL]</a>. In order to be in compliance with this specification, the SHAKE128 algorithm MUST be implemented. SHAKE128 is to be assigned an algorithm index of 1 in the IANA registry.</p>
+<p id="rfc.section.5.4.1.p.2">Additional algorithms may be defined in the future that can be used in place of SHAKE128. Coordination between the primary and secondary servers is required out of band to ensure both sides of a transfer have implemented the particular algorithm.</p>
 <h1 id="rfc.section.6">
 <a href="#rfc.section.6">6.</a> TIMEOUT RR RDATA Wire Format</h1>
 <p id="rfc.section.6.p.1">The TIMEOUT resource record follows the same pattern as other DNS resource records as defined in Section 3.2.1 of <a href="#RFC1035" class="xref">[RFC1035]</a>. The RDATA section of the resource record is illustrated in <a href="#rr_art" class="xref">Figure 1</a>:</p>
