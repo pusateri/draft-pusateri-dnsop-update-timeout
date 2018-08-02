@@ -13,11 +13,12 @@ Expires: February 3, 2019                                 August 2, 2018
 
 Abstract
 
-   This specification defines a new DNS TIMEOUT resource record that
-   associates a lifetime with one or more zone resource records with the
-   same owner name and class.  It is intended to be used to transfer
-   resource record lifetime state between a zone's primary and secondary
-   servers and to store lifetime state during server software restarts.
+   This specification defines a new DNS TIMEOUT resource record (RR)
+   that associates a lifetime with one or more zone resource records
+   with the same owner name and class.  It is intended to be used to
+   transfer resource record lifetime state between a zone's primary and
+   secondary servers and to store lifetime state during server software
+   restarts.
 
 Status of This Memo
 
@@ -48,8 +49,7 @@ Copyright Notice
    carefully, as they describe your rights and restrictions with respect
    to this document.  Code Components extracted from this document must
    include Simplified BSD License text as described in Section 4.e of
-   the Trust Legal Provisions and are provided without warranty as
-   described in the Simplified BSD License.
+
 
 
 
@@ -57,6 +57,9 @@ Pusateri & Wattenberg   Expires February 3, 2019                [Page 1]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
+
+   the Trust Legal Provisions and are provided without warranty as
+   described in the Simplified BSD License.
 
 Table of Contents
 
@@ -75,11 +78,11 @@ Table of Contents
    7.  TIMEOUT RR RDATA Presentation Format  . . . . . . . . . . . .   8
    8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   8
    9.  Security Considerations . . . . . . . . . . . . . . . . . . .   8
-   10.   . . . . . . . . . . . . . . . . . . . . . .   8
+   10. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .   8
    11. References  . . . . . . . . . . . . . . . . . . . . . . . . .   8
      11.1.  Normative References . . . . . . . . . . . . . . . . . .   8
      11.2.  Informative References . . . . . . . . . . . . . . . . .   9
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   9
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  10
 
 1.  Introduction
 
@@ -94,17 +97,14 @@ Table of Contents
    through server software restarts.  This specification defines a new
    DNS TIMEOUT resource record that associates a lifetime with one or
    more resource records with the same owner name and class that can be
-   transferred to secondary servers through normal AXFR, IXFR transfer
-   mechanisms.
+   transferred to secondary servers through normal AXFR [RFC5936], IXFR
+   [RFC1995] transfer mechanisms.
 
 1.1.  Requirements Language
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
    document are to be interpreted as described in RFC 2119 [RFC2119].
-
-
-
 
 
 
@@ -482,19 +482,19 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    [OPENSSL]  OpenSSL Software Foundation, "OpenSSL: Cryptography and
               SSL/TLS Toolkit", October 2017, <https://www.openssl.org>.
 
+   [RFC1995]  Ohta, M., "Incremental Zone Transfer in DNS", RFC 1995,
+              DOI 10.17487/RFC1995, August 1996,
+              <https://www.rfc-editor.org/info/rfc1995>.
+
    [RFC2136]  Vixie, P., Ed., Thomson, S., Rekhter, Y., and J. Bound,
               "Dynamic Updates in the Domain Name System (DNS UPDATE)",
               RFC 2136, DOI 10.17487/RFC2136, April 1997,
               <https://www.rfc-editor.org/info/rfc2136>.
 
-Authors' Addresses
+   [RFC5936]  Lewis, E. and A. Hoenes, Ed., "DNS Zone Transfer Protocol
+              (AXFR)", RFC 5936, DOI 10.17487/RFC5936, June 2010,
+              <https://www.rfc-editor.org/info/rfc5936>.
 
-   Tom Pusateri
-   Unaffiliated
-   Raleigh, NC
-   USA
-
-   Email: pusateri@bangj.com
 
 
 
@@ -506,22 +506,22 @@ Pusateri & Wattenberg   Expires February 3, 2019                [Page 9]
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
 
+Authors' Addresses
+
+   Tom Pusateri
+   Unaffiliated
+   Raleigh, NC
+   USA
+
+   Email: pusateri@bangj.com
+
+
    Tim Wattenberg
    Unaffiliated
    Cologne
    Germany
 
    Email: mail@timwattenberg.de
-
-
-
-
-
-
-
-
-
-
 
 
 
