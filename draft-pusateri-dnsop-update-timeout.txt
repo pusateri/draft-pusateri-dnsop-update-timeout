@@ -62,22 +62,22 @@ Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
      1.1.  Requirements Language . . . . . . . . . . . . . . . . . .   2
-   2.  Timeout Resource Record Properties  . . . . . . . . . . . . .   2
+   2.  Timeout Resource Record Properties  . . . . . . . . . . . . .   3
    3.  Secondary Server Behavior . . . . . . . . . . . . . . . . . .   3
    4.  Sources of TIMEOUT Expiry Time  . . . . . . . . . . . . . . .   4
    5.  Resource Record Composition . . . . . . . . . . . . . . . . .   4
-     5.1.  Expiry Time . . . . . . . . . . . . . . . . . . . . . . .   4
-     5.2.  Hash Algorithm Index  . . . . . . . . . . . . . . . . . .   4
+     5.1.  Expiry Time . . . . . . . . . . . . . . . . . . . . . . .   5
+     5.2.  Hash Algorithm Index  . . . . . . . . . . . . . . . . . .   5
      5.3.  Hash values . . . . . . . . . . . . . . . . . . . . . . .   5
      5.4.  Hash Requirements and Deafult Algorithm Selection . . . .   5
-   6.  TIMEOUT RR RDATA Wire Format  . . . . . . . . . . . . . . . .   5
-   7.  TIMEOUT RR RDATA Presentation Format  . . . . . . . . . . . .   6
-   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   6
+   6.  TIMEOUT RR RDATA Wire Format  . . . . . . . . . . . . . . . .   6
+   7.  TIMEOUT RR RDATA Presentation Format  . . . . . . . . . . . .   7
+   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   7
    9.  Security Considerations . . . . . . . . . . . . . . . . . . .   7
    10. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   7
    11. References  . . . . . . . . . . . . . . . . . . . . . . . . .   7
      11.1.  Normative References . . . . . . . . . . . . . . . . . .   7
-     11.2.  Informative References . . . . . . . . . . . . . . . . .   7
+     11.2.  Informative References . . . . . . . . . . . . . . . . .   8
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   8
 
 1.  Introduction
@@ -92,7 +92,9 @@ Table of Contents
    lifetime is not communicated to secondary servers and will not endure
    through server software restarts.  This specification defines a new
    DNS TIMEOUT resource record that associates a lifetime with one or
-   more resource records with the same owner name and class.
+   more resource records with the same owner name and class that can be
+   transferred to secondary servers through normal AXFR, IXFR transfer
+   mechanisms.
 
 1.1.  Requirements Language
 
@@ -100,12 +102,10 @@ Table of Contents
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
    document are to be interpreted as described in RFC 2119 [RFC2119].
 
-2.  Timeout Resource Record Properties
 
-   TIMEOUT resource records have different properties than normal DNS
-   resource records.
 
-   1.  TIMEOUT resource records are only defined for CLASS IN.
+
+
 
 
 
@@ -113,6 +113,13 @@ Pusateri & Wattenberg   Expires February 3, 2019                [Page 2]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
+
+2.  Timeout Resource Record Properties
+
+   TIMEOUT resource records have different properties than normal DNS
+   resource records.
+
+   1.  TIMEOUT resource records are only defined for CLASS IN.
 
    2.  TIMEOUT resource records are only for administrative use and they
        cannot be directly queried via the normal DNS request/response
@@ -155,13 +162,6 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    the TIMEOUT resource record itself when the last record it covers has
    expired in the same manner that a primary server would.
 
-   If a TIMEOUT resource record is removed from a subsequent zone
-   transfer, the secondary server MUST also remove it from its zone
-   database regardless of the expiry time.
-
-
-
-
 
 
 
@@ -169,6 +169,10 @@ Pusateri & Wattenberg   Expires February 3, 2019                [Page 3]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
+
+   If a TIMEOUT resource record is removed from a subsequent zone
+   transfer, the secondary server MUST also remove it from its zone
+   database regardless of the expiry time.
 
 4.  Sources of TIMEOUT Expiry Time
 
@@ -206,6 +210,27 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    algorithm index associated with each list.  All hashes in the list
    MUST use the same hash algorithm.
 
+   Since each TIMEOUT resource record is actually a collection of state
+   from different sources over different time periods, there is a
+   potential for default algorithm changes to occur on a single server
+   or due to unavailability of an UPDATE server for a period of time to
+   merge records between failover servers with different default
+   algorithms.  Therefore, the ability to have different hash algorithms
+   in the same TIMEOUT resource record is accounted for.  While this
+   won't be a common scenario, it could occur during failure and restart
+
+
+
+Pusateri & Wattenberg   Expires February 3, 2019                [Page 4]
+
+Internet-Draft           TIMEOUT Resource Record             August 2018
+
+
+   scenarios.  All hashes for the same expiry time MUST use the same
+   hash algorithm.  This is not likely to cause any problems with
+   merging since the same server will be using the same default hash
+   algorithm at a particular second resolution in time.
+
 5.1.  Expiry Time
 
    The expiry time is a 64-bit number expressed as the number of seconds
@@ -218,14 +243,6 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    The Hash Algorithm Index is a 16-bit value that specifies an
    identifier for the hash algorithm used.  The identifiers are declared
    in a registry maintained by IANA for the purpose of listing
-
-
-
-Pusateri & Wattenberg   Expires February 3, 2019                [Page 4]
-
-Internet-Draft           TIMEOUT Resource Record             August 2018
-
-
    acceptable hash algorithms for this purpose.  In addition to the
    algorithm and the index, the registry will contain the output length
    in bits of the algorithm to be used.  It is conceivable, though not
@@ -257,6 +274,14 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
 
    The initial algorithm selected to meet this criteria is SHAKE128.  It
    is part of the SHA-3 [SHA3] family of cryptographic hash algorithms.
+
+
+
+Pusateri & Wattenberg   Expires February 3, 2019                [Page 5]
+
+Internet-Draft           TIMEOUT Resource Record             August 2018
+
+
    The output length of the hash used is 128 bits or 16 bytes.  SHAKE128
    is implemented in the OpenSSL Library version 1.1.1 [OPENSSL].  In
    order to be in compliance with this specification, the SHAKE128
@@ -264,22 +289,6 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    algorithm index of 1 in the IANA registry.
 
 6.  TIMEOUT RR RDATA Wire Format
-
-
-
-
-
-
-
-
-
-
-
-
-
-Pusateri & Wattenberg   Expires February 3, 2019                [Page 5]
-
-Internet-Draft           TIMEOUT Resource Record             August 2018
 
 
       0                   1                   2                   3
@@ -319,6 +328,16 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
 
                         Figure 1: RDATA Wire Format
 
+
+
+
+
+
+Pusateri & Wattenberg   Expires February 3, 2019                [Page 6]
+
+Internet-Draft           TIMEOUT Resource Record             August 2018
+
+
 7.  TIMEOUT RR RDATA Presentation Format
 
 8.  IANA Considerations
@@ -330,14 +349,6 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
 
    This document establishes a new registry of DNS Timeout Resource
    Record Cryptographic Hash Algorithms.  The registry shall include the
-
-
-
-Pusateri & Wattenberg   Expires February 3, 2019                [Page 6]
-
-Internet-Draft           TIMEOUT Resource Record             August 2018
-
-
    name of the algorithm, the length of the output function in bits, and
    an index to be used in the RDATA section of the TIMEOUT resource
    record.
@@ -373,6 +384,16 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
               <https://www.nist.gov/publications/sha-3-standard-
               permutation-based-hash-and-extendable-output-functions>.
 
+
+
+
+
+
+Pusateri & Wattenberg   Expires February 3, 2019                [Page 7]
+
+Internet-Draft           TIMEOUT Resource Record             August 2018
+
+
 11.2.  Informative References
 
    [I-D.sekar-dns-ul]
@@ -386,13 +407,6 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
               "Dynamic Updates in the Domain Name System (DNS UPDATE)",
               RFC 2136, DOI 10.17487/RFC2136, April 1997,
               <https://www.rfc-editor.org/info/rfc2136>.
-
-
-
-Pusateri & Wattenberg   Expires February 3, 2019                [Page 7]
-
-Internet-Draft           TIMEOUT Resource Record             August 2018
-
 
 Authors' Addresses
 
@@ -410,20 +424,6 @@ Authors' Addresses
    Germany
 
    Email: mail@timwattenberg.de
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
