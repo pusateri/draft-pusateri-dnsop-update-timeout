@@ -150,7 +150,7 @@
      </t>
    </section>
    <section title="Secondary Server Behavior">
-     <t>A secondary or slave server may or may not understand TIMEOUT resource records. The primary or master server should not be configured to send TIMEOUT resource records if the secondary or slave server does not understand them. However, if TIMEOUT resource records are mistakenly transferred to a server that does not understand them, they are treated like any other resource record that the server may not understand <xref target="RFC3597"/>.</t>
+     <t>A secondary server may or may not understand TIMEOUT resource records. The primary server should not be configured to send TIMEOUT resource records if the secondary server does not understand them. However, if TIMEOUT resource records are mistakenly transferred to a server that does not understand them, they are treated like any other resource record that the server may not understand <xref target="RFC3597"/>.</t>
      <t>A secondary server that does understand the TIMEOUT resource records it receives in a transfer MUST abide by the properties of the resource record type defined in <xref target="properties"/>.</t>
      <t>A secondary server will independently expire the records in a zone it maintains covered by the TIMEOUT resource record as well as expire the TIMEOUT resource record itself when the last record it covers has expired in the same manner that a primary server would.</t>
      <t>If a TIMEOUT resource record is removed from a subsequent zone transfer, the secondary server MUST also remove it from its zone database regardless of the expiry time.</t>
@@ -253,8 +253,23 @@
           </t>
    </section>
    <section anchor="IANA" title="IANA Considerations">
-       <t>This document defines a new DNS Resource Record Type named TIMEOUT to be exchanged between authoritative master and slave DNS servers. It is assigned out of the DNS Parameters Resource Record (RR) Type registry. The value for the TIMEOUT resource record type is TBA.</t>
+       <t>This document defines a new DNS Resource Record Type named TIMEOUT to be exchanged between authoritative primary and secondary DNS servers. It is assigned out of the DNS Parameters Resource Record (RR) Type registry. The value for the TIMEOUT resource record type is TBA.</t>
        <t>This document establishes a new registry of DNS TIMEOUT Resource Record Cryptographic Hash Algorithms. The registry shall include the name of the algorithm, the length of the output function in bits, and an index to be used in the RDATA section of the TIMEOUT resource record.</t>
+       <texttable anchor="table_ex" title="IETF Meetings in 2005">
+           <ttcol align='center'>IETF #</ttcol>
+           <ttcol align='center'>City</ttcol>
+           <ttcol align='center'># of Attendees</ttcol>
+           <c>62</c>
+           <c>Minneapolis</c>
+           <c>1133</c>
+           <c>63</c>
+           <c>Paris</c>
+           <c>1450</c>
+           <c>64</c>
+           <c>Vancouver</c>
+           <c>1240</c>
+           <postamble>Data from http://www.ietf.org/meetings/past.meetings.html</postamble>
+       </texttable>
    </section>
 
    <section anchor="Security" title="Security Considerations">

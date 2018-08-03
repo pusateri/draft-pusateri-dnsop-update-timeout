@@ -79,9 +79,9 @@ Table of Contents
    8.  TIMEOUT RR RDATA Presentation Format  . . . . . . . . . . . .   8
    9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   8
    10. Security Considerations . . . . . . . . . . . . . . . . . . .   8
-   11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .   8
-   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .   8
-     12.1.  Normative References . . . . . . . . . . . . . . . . . .   8
+   11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .   9
+   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .   9
+     12.1.  Normative References . . . . . . . . . . . . . . . . . .   9
      12.2.  Informative References . . . . . . . . . . . . . . . . .   9
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  10
 
@@ -145,13 +145,12 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
 
 3.  Secondary Server Behavior
 
-   A secondary or slave server may or may not understand TIMEOUT
-   resource records.  The primary or master server should not be
-   configured to send TIMEOUT resource records if the secondary or slave
-   server does not understand them.  However, if TIMEOUT resource
-   records are mistakenly transferred to a server that does not
-   understand them, they are treated like any other resource record that
-   the server may not understand [RFC3597].
+   A secondary server may or may not understand TIMEOUT resource
+   records.  The primary server should not be configured to send TIMEOUT
+   resource records if the secondary server does not understand them.
+   However, if TIMEOUT resource records are mistakenly transferred to a
+   server that does not understand them, they are treated like any other
+   resource record that the server may not understand [RFC3597].
 
    A secondary server that does understand the TIMEOUT resource records
    it receives in a transfer MUST abide by the properties of the
@@ -161,6 +160,7 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    maintains covered by the TIMEOUT resource record as well as expire
    the TIMEOUT resource record itself when the last record it covers has
    expired in the same manner that a primary server would.
+
 
 
 
@@ -411,8 +411,8 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
 9.  IANA Considerations
 
    This document defines a new DNS Resource Record Type named TIMEOUT to
-   be exchanged between authoritative master and slave DNS servers.  It
-   is assigned out of the DNS Parameters Resource Record (RR) Type
+   be exchanged between authoritative primary and secondary DNS servers.
+   It is assigned out of the DNS Parameters Resource Record (RR) Type
    registry.  The value for the TIMEOUT resource record type is TBA.
 
    This document establishes a new registry of DNS TIMEOUT Resource
@@ -421,6 +421,18 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    an index to be used in the RDATA section of the TIMEOUT resource
    record.
 
+                 +--------+-------------+----------------+
+                 | IETF # |     City    | # of Attendees |
+                 +--------+-------------+----------------+
+                 |   62   | Minneapolis |      1133      |
+                 |   63   |    Paris    |      1450      |
+                 |   64   |  Vancouver  |      1240      |
+                 +--------+-------------+----------------+
+
+         Data from http://www.ietf.org/meetings/past.meetings.html
+
+                      Table 1: IETF Meetings in 2005
+
 10.  Security Considerations
 
    Secondary servers that have received TIMEOUT resource records in a
@@ -428,6 +440,15 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    for them like any other resource record type.  This is a
    configuration error and can reveal the time that other DNS resource
    records will be present.
+
+
+
+
+
+Pusateri & Wattenberg   Expires February 4, 2019                [Page 8]
+
+Internet-Draft           TIMEOUT Resource Record             August 2018
+
 
 11.  Acknowledgments
 
@@ -440,15 +461,6 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    [RFC1035]  Mockapetris, P., "Domain names - implementation and
               specification", STD 13, RFC 1035, DOI 10.17487/RFC1035,
               November 1987, <https://www.rfc-editor.org/info/rfc1035>.
-
-
-
-
-
-Pusateri & Wattenberg   Expires February 4, 2019                [Page 8]
-
-Internet-Draft           TIMEOUT Resource Record             August 2018
-
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -486,6 +498,14 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
               DOI 10.17487/RFC1995, August 1996,
               <https://www.rfc-editor.org/info/rfc1995>.
 
+
+
+
+Pusateri & Wattenberg   Expires February 4, 2019                [Page 9]
+
+Internet-Draft           TIMEOUT Resource Record             August 2018
+
+
    [RFC2136]  Vixie, P., Ed., Thomson, S., Rekhter, Y., and J. Bound,
               "Dynamic Updates in the Domain Name System (DNS UPDATE)",
               RFC 2136, DOI 10.17487/RFC2136, April 1997,
@@ -494,17 +514,6 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    [RFC5936]  Lewis, E. and A. Hoenes, Ed., "DNS Zone Transfer Protocol
               (AXFR)", RFC 5936, DOI 10.17487/RFC5936, June 2010,
               <https://www.rfc-editor.org/info/rfc5936>.
-
-
-
-
-
-
-
-Pusateri & Wattenberg   Expires February 4, 2019                [Page 9]
-
-Internet-Draft           TIMEOUT Resource Record             August 2018
-
 
 Authors' Addresses
 
@@ -522,15 +531,6 @@ Authors' Addresses
    Germany
 
    Email: mail@timwattenberg.de
-
-
-
-
-
-
-
-
-
 
 
 

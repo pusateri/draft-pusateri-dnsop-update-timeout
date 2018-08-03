@@ -522,7 +522,7 @@
 <p> </p>
 <h1 id="rfc.section.3">
 <a href="#rfc.section.3">3.</a> Secondary Server Behavior</h1>
-<p id="rfc.section.3.p.1">A secondary or slave server may or may not understand TIMEOUT resource records. The primary or master server should not be configured to send TIMEOUT resource records if the secondary or slave server does not understand them. However, if TIMEOUT resource records are mistakenly transferred to a server that does not understand them, they are treated like any other resource record that the server may not understand <a href="#RFC3597" class="xref">[RFC3597]</a>.</p>
+<p id="rfc.section.3.p.1">A secondary server may or may not understand TIMEOUT resource records. The primary server should not be configured to send TIMEOUT resource records if the secondary server does not understand them. However, if TIMEOUT resource records are mistakenly transferred to a server that does not understand them, they are treated like any other resource record that the server may not understand <a href="#RFC3597" class="xref">[RFC3597]</a>.</p>
 <p id="rfc.section.3.p.2">A secondary server that does understand the TIMEOUT resource records it receives in a transfer MUST abide by the properties of the resource record type defined in <a href="#properties" class="xref">Section 2</a>.</p>
 <p id="rfc.section.3.p.3">A secondary server will independently expire the records in a zone it maintains covered by the TIMEOUT resource record as well as expire the TIMEOUT resource record itself when the last record it covers has expired in the same manner that a primary server would.</p>
 <p id="rfc.section.3.p.4">If a TIMEOUT resource record is removed from a subsequent zone transfer, the secondary server MUST also remove it from its zone database regardless of the expiry time.</p>
@@ -638,8 +638,36 @@
 <h1 id="rfc.section.9">
 <a href="#rfc.section.9">9.</a> <a href="#IANA" id="IANA">IANA Considerations</a>
 </h1>
-<p id="rfc.section.9.p.1">This document defines a new DNS Resource Record Type named TIMEOUT to be exchanged between authoritative master and slave DNS servers. It is assigned out of the DNS Parameters Resource Record (RR) Type registry. The value for the TIMEOUT resource record type is TBA.</p>
+<p id="rfc.section.9.p.1">This document defines a new DNS Resource Record Type named TIMEOUT to be exchanged between authoritative primary and secondary DNS servers. It is assigned out of the DNS Parameters Resource Record (RR) Type registry. The value for the TIMEOUT resource record type is TBA.</p>
 <p id="rfc.section.9.p.2">This document establishes a new registry of DNS TIMEOUT Resource Record Cryptographic Hash Algorithms. The registry shall include the name of the algorithm, the length of the output function in bits, and an index to be used in the RDATA section of the TIMEOUT resource record.</p>
+<div id="rfc.table.1"></div>
+<div id="table_ex"></div>
+<table cellpadding="3" cellspacing="0" class="tt full center">
+<caption>IETF Meetings in 2005</caption>
+<thead><tr>
+<th class="center">IETF #</th>
+<th class="center">City</th>
+<th class="center"># of Attendees</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="center">62</td>
+<td class="center">Minneapolis</td>
+<td class="center">1133</td>
+</tr>
+<tr>
+<td class="center">63</td>
+<td class="center">Paris</td>
+<td class="center">1450</td>
+</tr>
+<tr>
+<td class="center">64</td>
+<td class="center">Vancouver</td>
+<td class="center">1240</td>
+</tr>
+</tbody>
+</table>
+<p>Data from http://www.ietf.org/meetings/past.meetings.html</p>
 <h1 id="rfc.section.10">
 <a href="#rfc.section.10">10.</a> <a href="#Security" id="Security">Security Considerations</a>
 </h1>
