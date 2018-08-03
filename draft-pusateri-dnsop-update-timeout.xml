@@ -168,11 +168,28 @@
      <t>The TIMEOUT resource record must provide expiry times for a mixed variety of resource record types with the same owner name and class. Since there could exist multiple records of the same record type with the same owner name and class, the TIMEOUT resource record must be able to identify each of these records individually with only different RDATA. As an example, PTR records for service discovery provide a level of indirection to SRV and TXT records by instance name. The instance name is stored in the PTR RDATA and multiple PTR records with the same owner name but only differing RDATA often exist.</t>
      <t>In order to distinguish each individual record with potentially different expiry times, the TIMEOUT resource record is made up multiple lists of hashes of the records for which they are applicable. Each list has an expiry time associated with it and each hash corresponds to a resource record for which that expiry time applies. Each resource record represented by a hash in the list uses the same expiry time associated with the list. There is also a hash algorithm index associated with each list. All hashes in the list MUST use the same hash algorithm.</t>
      <t>Since each TIMEOUT resource record is actually a collection of state from different sources over different time periods, there is a potential for default algorithm changes to occur on a single server or due to unavailability of an UPDATE server for a period of time to merge records between failover servers with different default algorithms. Therefore, the ability to have different hash algorithms in the same TIMEOUT resource record is accounted for. While this won't be a common scenario, it could occur during failure and restart scenarios. All hashes for the same expiry time MUST use the same hash algorithm. This is not likely to cause any problems with merging since the same server will be using the same default hash algorithm at a particular second resolution in time.</t>
-     <section title="Expiry Time">
-       <t>The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire. Lease times must be converted to an absolute expiry time when received.</t>
+     <section title="TIMEOUT instances">
+      <t>A TIMEOUT RR holds one or more TIMEOUT instances. Each instances consists of:
+        <list style="numbers">
+          <t>A Hash Algorithm Index</t>
+          <t>A Hash Count</t>
+          <t>An Expiry Time</t>
+          <t>Zero or more hash values</t>
+        </list>
+        Details regarding these fiels are covered in the following sections.
+       </t>
      </section>
      <section title="Hash Algorithm Index">
        <t>The Hash Algorithm Index is a 16-bit value that specifies an identifier for the hash algorithm used. The identifiers are declared in a registry maintained by IANA for the purpose of listing acceptable hash algorithms for this purpose. In addition to the algorithm and the index, the registry will contain the output length in bits of the algorithm to be used. It is conceivable, though not likely, that the same algorithm could be used with different output lengths. In this case, each output length would require a different index in the registry. Additions to this registry will be approved with additional documentation under expert review. At the time that the registry is created by IANA, a group of expert reviewers will be established.</t>
+       <t>The Hash Algorithm identifier of 0 is considered unused and MUST NOT be used if any hash values are present in the instance.</t> 
+     </section>
+     <section title="Hash Count">
+       <t>The Hash Count is a 16-bit value that specifies the number of hash values for the instance.</t>
+       <t>If an instance with Hash Count of 0 is present in a TIMEOUT RR, no other instances should be present in the RR and the Expiry Time applies to all RRs under the owner.</t>
+       <t>The Hash Algorithm Index is ignored in this case but SHOULD be set to 0 on transmission. When receiving a TIMEOUT RR with a hash count of 0, the Hash Algorithm Index MUST be ignored.</t>
+     </section>
+     <section title="Expiry Time">
+       <t>The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire. Lease times must be converted to an absolute expiry time when received.</t>
      </section>
      <section title="Hash values">
        <t>The hash of each resource record is calculated using the entire length of the resource record as input. The output value of the hash is always a fixed pre-defined length specified with the hash algorithm.</t>
