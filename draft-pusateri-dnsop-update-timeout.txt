@@ -249,31 +249,31 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
 
    4.  Zero or more hash values
 
-   Details regarding these fiels are covered in the following sections.
+   Details regarding these fields are covered in the following sections.
 
 5.2.  Hash Algorithm Index
 
    The Hash Algorithm Index is a 16-bit value that specifies an
-   identifier for the hash algorithm used.  The identifiers are declared
-   in a registry maintained by IANA for the purpose of listing
-   acceptable hash algorithms for this purpose.  In addition to the
-   algorithm and the index, the registry will contain the output length
-   in bits of the algorithm to be used.  It is conceivable, though not
-   likely, that the same algorithm could be used with different output
-   lengths.  In this case, each output length would require a different
-   index in the registry.  Additions to this registry will be approved
-   with additional documentation under expert review.  At the time that
-   the registry is created by IANA, a group of expert reviewers will be
+   identifier for the hash algorithm used.  The indexes are declared in
+   a registry maintained by IANA for the purpose of listing acceptable
+   hash algorithms for this purpose.  In addition to the algorithm and
+   the index, the registry will contain the output length in bits of the
+   algorithm to be used.  It is conceivable, though not likely, that the
+   same algorithm could be used with different output lengths.  In this
+   case, each output length would require a different index in the
+   registry.  Additions to this registry will be approved with
+   additional documentation under expert review.  At the time that the
+   registry is created by IANA, a group of expert reviewers will be
    established.
 
-   The Hash Algorithm identifier of 0 is considered unused and MUST NOT
-   be used if any hash values are present in the instance.
+   The Hash Algorithm Index of 0 is defined as NOHASH and MUST NOT be
+   used if any hash values are present in the instance.
 
 5.3.  Hash Count
 
    The Hash Count is a 16-bit value that specifies the number of hash
-   values for the instance.
-
+   values for the instance.  All hashes within the instance MUST have
+   the same Hash Algorithm Index.
 
 
 
@@ -282,13 +282,11 @@ Pusateri & Wattenberg   Expires February 4, 2019                [Page 5]
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
 
-   If an instance with Hash Count of 0 is present in a TIMEOUT RR, no
-   other instances should be present in the RR and the Expiry Time
-   applies to all RRs under the owner.
-
-   The Hash Algorithm Index is ignored in this case but SHOULD be set to
-   0 on transmission.  When receiving a TIMEOUT RR with a hash count of
-   0, the Hash Algorithm Index MUST be ignored.
+   A Hash Count of 0 indicates that the Expiry Time applies to all
+   resource records with the same owner name and class.  There MUST only
+   be one instance of Hash Algorithm Index and Hash Count in this case.
+   When the Hash Count is 0, the Hash Algorithm Index is set to NOHASH
+   on transmission and ignored on reception.
 
 5.4.  Expiry Time
 
@@ -330,6 +328,8 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    order to be in compliance with this specification, the SHAKE128
    algorithm MUST be implemented.  SHAKE128 is to be assigned an
    algorithm index of 1 in the IANA registry.
+
+
 
 
 
@@ -488,8 +488,8 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
 11.2.  Informative References
 
    [I-D.sekar-dns-ul]
-              Cheshire, S. and T. Lemon, "Dynamic DNS Update Leases",
-              draft-sekar-dns-ul-02 (work in progress), August 2018.
+              Sekar, K., "Dynamic DNS Update Leases", draft-sekar-dns-
+              ul-01 (work in progress), August 2006.
 
    [OPENSSL]  OpenSSL Software Foundation, "OpenSSL: Cryptography and
               SSL/TLS Toolkit", October 2017, <https://www.openssl.org>.
