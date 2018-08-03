@@ -380,11 +380,13 @@
 <link href="#rfc.section.3" rel="Chapter" title="3 Secondary Server Behavior">
 <link href="#rfc.section.4" rel="Chapter" title="4 Sources of TIMEOUT Expiry Time">
 <link href="#rfc.section.5" rel="Chapter" title="5 Resource Record Composition">
-<link href="#rfc.section.5.1" rel="Chapter" title="5.1 Expiry Time">
+<link href="#rfc.section.5.1" rel="Chapter" title="5.1 TIMEOUT instances">
 <link href="#rfc.section.5.2" rel="Chapter" title="5.2 Hash Algorithm Index">
-<link href="#rfc.section.5.3" rel="Chapter" title="5.3 Hash values">
-<link href="#rfc.section.5.4" rel="Chapter" title="5.4 Hash Requirements">
-<link href="#rfc.section.5.4.1" rel="Chapter" title="5.4.1 REQUIRED Cryptographic Hash Algorithm">
+<link href="#rfc.section.5.3" rel="Chapter" title="5.3 Hash Count">
+<link href="#rfc.section.5.4" rel="Chapter" title="5.4 Expiry Time">
+<link href="#rfc.section.5.5" rel="Chapter" title="5.5 Hash values">
+<link href="#rfc.section.5.6" rel="Chapter" title="5.6 Hash Requirements">
+<link href="#rfc.section.5.6.1" rel="Chapter" title="5.6.1 REQUIRED Cryptographic Hash Algorithm">
 <link href="#rfc.section.6" rel="Chapter" title="6 TIMEOUT RR RDATA Wire Format">
 <link href="#rfc.section.7" rel="Chapter" title="7 TIMEOUT RR RDATA Presentation Format">
 <link href="#rfc.section.8" rel="Chapter" title="8 IANA Considerations">
@@ -396,12 +398,12 @@
 <link href="#rfc.authors" rel="Chapter">
 
 
-  <meta name="generator" content="xml2rfc version 2.9.6 - https://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 2.10.0 - https://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Pusateri, T. and T. Wattenberg" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-pusateri-dnsop-update-timeout-00" />
-  <meta name="dct.issued" scheme="ISO8601" content="2018-02" />
+  <meta name="dct.issued" scheme="ISO8601" content="2018-03" />
   <meta name="dct.abstract" content="This specification defines a new DNS TIMEOUT resource record (RR) that associates a lifetime with one or more zone resource records with the same owner name and class. It is intended to be used to transfer resource record lifetime state between a zone's primary and secondary servers and to store lifetime state during server software restarts." />
   <meta name="description" content="This specification defines a new DNS TIMEOUT resource record (RR) that associates a lifetime with one or more zone resource records with the same owner name and class. It is intended to be used to transfer resource record lifetime state between a zone's primary and secondary servers and to store lifetime state during server software restarts." />
 
@@ -425,8 +427,8 @@
 <td class="right">Unaffiliated</td>
 </tr>
 <tr>
-<td class="left">Expires: February 3, 2019</td>
-<td class="right">August 2, 2018</td>
+<td class="left">Expires: February 4, 2019</td>
+<td class="right">August 3, 2018</td>
 </tr>
 
     	
@@ -442,7 +444,7 @@
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on February 3, 2019.</p>
+<p>This Internet-Draft will expire on February 4, 2019.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2018 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -464,15 +466,19 @@
 </li>
 <li>5.   <a href="#rfc.section.5">Resource Record Composition</a>
 </li>
-<ul><li>5.1.   <a href="#rfc.section.5.1">Expiry Time</a>
+<ul><li>5.1.   <a href="#rfc.section.5.1">TIMEOUT instances</a>
 </li>
 <li>5.2.   <a href="#rfc.section.5.2">Hash Algorithm Index</a>
 </li>
-<li>5.3.   <a href="#rfc.section.5.3">Hash values</a>
+<li>5.3.   <a href="#rfc.section.5.3">Hash Count</a>
 </li>
-<li>5.4.   <a href="#rfc.section.5.4">Hash Requirements</a>
+<li>5.4.   <a href="#rfc.section.5.4">Expiry Time</a>
 </li>
-<ul><li>5.4.1.   <a href="#rfc.section.5.4.1">REQUIRED Cryptographic Hash Algorithm</a>
+<li>5.5.   <a href="#rfc.section.5.5">Hash values</a>
+</li>
+<li>5.6.   <a href="#rfc.section.5.6">Hash Requirements</a>
+</li>
+<ul><li>5.6.1.   <a href="#rfc.section.5.6.1">REQUIRED Cryptographic Hash Algorithm</a>
 </li>
 </ul></ul><li>6.   <a href="#rfc.section.6">TIMEOUT RR RDATA Wire Format</a>
 </li>
@@ -540,17 +546,35 @@
 <p id="rfc.section.5.p.2">In order to distinguish each individual record with potentially different expiry times, the TIMEOUT resource record is made up multiple lists of hashes of the records for which they are applicable. Each list has an expiry time associated with it and each hash corresponds to a resource record for which that expiry time applies. Each resource record represented by a hash in the list uses the same expiry time associated with the list. There is also a hash algorithm index associated with each list. All hashes in the list MUST use the same hash algorithm.</p>
 <p id="rfc.section.5.p.3">Since each TIMEOUT resource record is actually a collection of state from different sources over different time periods, there is a potential for default algorithm changes to occur on a single server or due to unavailability of an UPDATE server for a period of time to merge records between failover servers with different default algorithms. Therefore, the ability to have different hash algorithms in the same TIMEOUT resource record is accounted for. While this won't be a common scenario, it could occur during failure and restart scenarios. All hashes for the same expiry time MUST use the same hash algorithm. This is not likely to cause any problems with merging since the same server will be using the same default hash algorithm at a particular second resolution in time.</p>
 <h1 id="rfc.section.5.1">
-<a href="#rfc.section.5.1">5.1.</a> Expiry Time</h1>
-<p id="rfc.section.5.1.p.1">The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire. Lease times must be converted to an absolute expiry time when received.</p>
+<a href="#rfc.section.5.1">5.1.</a> TIMEOUT instances</h1>
+<p id="rfc.section.5.1.p.1">A TIMEOUT RR holds one or more TIMEOUT instances. Each instances consists of: </p>
+
+<ol>
+<li>A Hash Algorithm Index</li>
+<li>A Hash Count</li>
+<li>An Expiry Time</li>
+<li>Zero or more hash values</li>
+</ol>
+
+<p> Details regarding these fiels are covered in the following sections.  </p>
 <h1 id="rfc.section.5.2">
 <a href="#rfc.section.5.2">5.2.</a> Hash Algorithm Index</h1>
 <p id="rfc.section.5.2.p.1">The Hash Algorithm Index is a 16-bit value that specifies an identifier for the hash algorithm used. The identifiers are declared in a registry maintained by IANA for the purpose of listing acceptable hash algorithms for this purpose. In addition to the algorithm and the index, the registry will contain the output length in bits of the algorithm to be used. It is conceivable, though not likely, that the same algorithm could be used with different output lengths. In this case, each output length would require a different index in the registry. Additions to this registry will be approved with additional documentation under expert review. At the time that the registry is created by IANA, a group of expert reviewers will be established.</p>
+<p id="rfc.section.5.2.p.2">The Hash Algorithm identifier of 0 is considered unused and MUST NOT be used if any hash values are present in the instance.</p>
 <h1 id="rfc.section.5.3">
-<a href="#rfc.section.5.3">5.3.</a> Hash values</h1>
-<p id="rfc.section.5.3.p.1">The hash of each resource record is calculated using the entire length of the resource record as input. The output value of the hash is always a fixed pre-defined length specified with the hash algorithm.</p>
+<a href="#rfc.section.5.3">5.3.</a> Hash Count</h1>
+<p id="rfc.section.5.3.p.1">The Hash Count is a 16-bit value that specifies the number of hash values for the instance.</p>
+<p id="rfc.section.5.3.p.2">If an instance with Hash Count of 0 is present in a TIMEOUT RR, no other instances should be present in the RR and the Expiry Time applies to all RRs under the owner.</p>
+<p id="rfc.section.5.3.p.3">The Hash Algorithm Index is ignored in this case but SHOULD be set to 0 on transmission. When receiving a TIMEOUT RR with a hash count of 0, the Hash Algorithm Index MUST be ignored.</p>
 <h1 id="rfc.section.5.4">
-<a href="#rfc.section.5.4">5.4.</a> Hash Requirements</h1>
-<p id="rfc.section.5.4.p.1">The cryptographic hash algorithm used SHOULD provide the following properties: </p>
+<a href="#rfc.section.5.4">5.4.</a> Expiry Time</h1>
+<p id="rfc.section.5.4.p.1">The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire. Lease times must be converted to an absolute expiry time when received.</p>
+<h1 id="rfc.section.5.5">
+<a href="#rfc.section.5.5">5.5.</a> Hash values</h1>
+<p id="rfc.section.5.5.p.1">The hash of each resource record is calculated using the entire length of the resource record as input. The output value of the hash is always a fixed pre-defined length specified with the hash algorithm.</p>
+<h1 id="rfc.section.5.6">
+<a href="#rfc.section.5.6">5.6.</a> Hash Requirements</h1>
+<p id="rfc.section.5.6.p.1">The cryptographic hash algorithm used SHOULD provide the following properties: </p>
 
 <ol>
 <li>Well known algorithm with implementations easily available.</li>
@@ -559,11 +583,11 @@
 </ol>
 
 <p> </p>
-<p id="rfc.section.5.4.p.2">While computational complexity is always a consideration when selecting algorithms, the frequency of this calculation is intended to be low volume and, therefore, this property is of reduced importance.</p>
-<h1 id="rfc.section.5.4.1">
-<a href="#rfc.section.5.4.1">5.4.1.</a> REQUIRED Cryptographic Hash Algorithm</h1>
-<p id="rfc.section.5.4.1.p.1">The initial algorithm selected to meet this criteria is SHAKE128. It is part of the SHA-3 <a href="#SHA3" class="xref">[SHA3]</a> family of cryptographic hash algorithms. The output length of the hash used is 128 bits or 16 bytes. SHAKE128 is implemented in the OpenSSL Library version 1.1.1 <a href="#OPENSSL" class="xref">[OPENSSL]</a>. In order to be in compliance with this specification, the SHAKE128 algorithm MUST be implemented. SHAKE128 is to be assigned an algorithm index of 1 in the IANA registry.</p>
-<p id="rfc.section.5.4.1.p.2">Additional algorithms may be defined in the future that can be used in place of SHAKE128. Coordination between the primary and secondary servers is required out of band to ensure both sides of a transfer have implemented the particular algorithm.</p>
+<p id="rfc.section.5.6.p.2">While computational complexity is always a consideration when selecting algorithms, the frequency of this calculation is intended to be low volume and, therefore, this property is of reduced importance.</p>
+<h1 id="rfc.section.5.6.1">
+<a href="#rfc.section.5.6.1">5.6.1.</a> REQUIRED Cryptographic Hash Algorithm</h1>
+<p id="rfc.section.5.6.1.p.1">The initial algorithm selected to meet this criteria is SHAKE128. It is part of the SHA-3 <a href="#SHA3" class="xref">[SHA3]</a> family of cryptographic hash algorithms. The output length of the hash used is 128 bits or 16 bytes. SHAKE128 is implemented in the OpenSSL Library version 1.1.1 <a href="#OPENSSL" class="xref">[OPENSSL]</a>. In order to be in compliance with this specification, the SHAKE128 algorithm MUST be implemented. SHAKE128 is to be assigned an algorithm index of 1 in the IANA registry.</p>
+<p id="rfc.section.5.6.1.p.2">Additional algorithms may be defined in the future that can be used in place of SHAKE128. Coordination between the primary and secondary servers is required out of band to ensure both sides of a transfer have implemented the particular algorithm.</p>
 <h1 id="rfc.section.6">
 <a href="#rfc.section.6">6.</a> TIMEOUT RR RDATA Wire Format</h1>
 <p id="rfc.section.6.p.1">The TIMEOUT resource record follows the same pattern as other DNS resource records as defined in Section 3.2.1 of <a href="#RFC1035" class="xref">[RFC1035]</a>. The RDATA section of the resource record is illustrated in <a href="#rr_art" class="xref">Figure 1</a>:</p>
@@ -681,7 +705,7 @@
 <tr>
 <td class="reference"><b id="I-D.sekar-dns-ul">[I-D.sekar-dns-ul]</b></td>
 <td class="top">
-<a>Sekar, K.</a>, "<a href="https://tools.ietf.org/html/draft-sekar-dns-ul-01">Dynamic DNS Update Leases</a>", Internet-Draft draft-sekar-dns-ul-01, August 2006.</td>
+<a>Cheshire, S.</a> and <a>T. Lemon</a>, "<a href="https://tools.ietf.org/html/draft-sekar-dns-ul-02">Dynamic DNS Update Leases</a>", Internet-Draft draft-sekar-dns-ul-02, August 2018.</td>
 </tr>
 <tr>
 <td class="reference"><b id="OPENSSL">[OPENSSL]</b></td>
