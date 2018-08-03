@@ -383,9 +383,9 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    instances whose byte counts are accumulated by the RDLEN field in the
    resource record header.
 
-   The letter "n" represents the number of cryptographic hashes present
-   in the first instance where there exists 1..n hashes in the list.
-   The letter "m" represents the number of cryptographic hashes present
+   The letter "n" represents the Hash Count in the first instance where
+   there exists 1..n cryptographic hashes in the list.  The letter "m"
+
 
 
 
@@ -394,8 +394,8 @@ Pusateri & Wattenberg   Expires February 4, 2019                [Page 7]
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
 
-   in the second instance where there exists 1..m hashes in the second
-   list.
+   represents the Hash Count in the second instance where there exists
+   1..m cryptographic hashes in the second list.
 
 7.  TIMEOUT RR RDATA Presentation Format
 

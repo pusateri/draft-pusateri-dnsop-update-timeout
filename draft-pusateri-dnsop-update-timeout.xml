@@ -240,7 +240,7 @@
         </artwork>
       </figure>
       <t><xref target="rr_art"/> represents an arbitrary number of combinations of Hash Algorithm Index, Hash Count, Expiry Time, and list of cryptographic hashes. The figure entries containing "A" in the name represent one instance while the figure entries containing "B" in the name represent a second instance. There can be an arbitrary number of instances whose byte counts are accumulated by the RDLEN field in the resource record header.</t>
-      <t>The letter "n" represents the number of cryptographic hashes present in the first instance where there exists 1..n hashes in the list. The letter "m" represents the number of cryptographic hashes present in the second instance where there exists 1..m hashes in the second list.</t>
+      <t>The letter "n" represents the Hash Count in the first instance where there exists 1..n cryptographic hashes in the list. The letter "m" represents the Hash Count in the second instance where there exists 1..m cryptographic hashes in the second list.</t>
    </section>
    <section title="TIMEOUT RR RDATA Presentation Format">
      <t>
