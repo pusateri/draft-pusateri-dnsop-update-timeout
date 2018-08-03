@@ -264,7 +264,9 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    established.
 
    The Hash Algorithm Index of 0 is defined as NOHASH and MUST NOT be
-   used if any hash values are present in the instance.
+   used if any hash values are present in the instance.  The index value
+   of 0 is to be included in the IANA registry of Hash Algorithm Index
+   values.
 
 5.3.  Expiry Time
 
@@ -272,8 +274,6 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    since the UNIX epoch (00:00:00 UTC on January 1, 1970).  This value
    is an absolute time at which the record will expire.  Lease times
    must be converted to an absolute expiry time when received.
-
-
 
 
 
@@ -421,17 +421,14 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    an index to be used in the RDATA section of the TIMEOUT resource
    record.
 
-                 +--------+-------------+----------------+
-                 | IETF # |     City    | # of Attendees |
-                 +--------+-------------+----------------+
-                 |   62   | Minneapolis |      1133      |
-                 |   63   |    Paris    |      1450      |
-                 |   64   |  Vancouver  |      1240      |
-                 +--------+-------------+----------------+
+      +-------+----------+-----------+---------------+-------------+
+      | Index | Name     | Algorithm | Length (bits) | Definition  |
+      +-------+----------+-----------+---------------+-------------+
+      |   0   | NOHASH   |           |       0       | Section 5.2 |
+      |   1   | SHAKE128 | SHAKE128  |      128      | Section 6.1 |
+      +-------+----------+-----------+---------------+-------------+
 
-         Data from http://www.ietf.org/meetings/past.meetings.html
-
-                      Table 1: IETF Meetings in 2005
+              Table 1: TIMEOUT RR Hash Algorithm Index Values
 
 10.  Security Considerations
 
@@ -440,6 +437,9 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    for them like any other resource record type.  This is a
    configuration error and can reveal the time that other DNS resource
    records will be present.
+
+
+
 
 
 

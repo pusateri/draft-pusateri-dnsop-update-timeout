@@ -173,9 +173,9 @@
        <t>The Hash Count is a 16-bit value that specifies the number of hash values for the instance. All hashes within the instance MUST have the same Hash Algorithm Index.</t>
        <t>A Hash Count of 0 indicates that the Expiry Time applies to all resource records with the same owner name and class. There MUST only be one instance of Hash Count and Hash Algorithm Index in this case. When the Hash Count is 0, the Hash Algorithm Index is set to NOHASH on transmission and ignored on reception.</t>
      </section>
-     <section title="Hash Algorithm Index">
+     <section title="Hash Algorithm Index" anchor="HashIndex">
        <t>The Hash Algorithm Index is a 16-bit value that specifies an identifier for the hash algorithm used. The indexes are declared in a registry maintained by IANA for the purpose of listing acceptable hash algorithms for this purpose. In addition to the algorithm and the index, the registry will contain the output length in bits of the algorithm to be used. It is conceivable, though not likely, that the same algorithm could be used with different output lengths. In this case, each output length would require a different index in the registry. Additions to this registry will be approved with additional documentation under expert review. At the time that the registry is created by IANA, a group of expert reviewers will be established.</t>
-       <t>The Hash Algorithm Index of 0 is defined as NOHASH and MUST NOT be used if any hash values are present in the instance.</t> 
+       <t>The Hash Algorithm Index of 0 is defined as NOHASH and MUST NOT be used if any hash values are present in the instance. The index value of 0 is to be included in the IANA registry of Hash Algorithm Index values.</t> 
      </section>
      <section title="Expiry Time">
        <t>The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire. Lease times must be converted to an absolute expiry time when received.</t>
@@ -193,7 +193,7 @@
        </list>
      </t>
      <t>While computational complexity is always a consideration when selecting algorithms, the frequency of this calculation is intended to be low volume and, therefore, this property is of reduced importance.</t>
-     <section title="REQUIRED Cryptographic Hash Algorithm">
+     <section title="REQUIRED Cryptographic Hash Algorithm" anchor="SHAKE128">
        <t>The initial algorithm selected to meet this criteria is SHAKE128. It is part of the SHA-3 <xref target="SHA3"/> family of cryptographic hash algorithms. The output length of the hash used is 128 bits or 16 bytes. SHAKE128 is implemented in the OpenSSL Library version 1.1.1 <xref target="OPENSSL"/>. In order to be in compliance with this specification, the SHAKE128 algorithm MUST be implemented. SHAKE128 is to be assigned an algorithm index of 1 in the IANA registry.</t>
        <t>Additional algorithms may be defined in the future that can be used in place of SHAKE128. Coordination between the primary and secondary servers is required out of band to ensure both sides of a transfer have implemented the particular algorithm.</t>
      </section>
@@ -255,20 +255,22 @@
    <section anchor="IANA" title="IANA Considerations">
        <t>This document defines a new DNS Resource Record Type named TIMEOUT to be exchanged between authoritative primary and secondary DNS servers. It is assigned out of the DNS Parameters Resource Record (RR) Type registry. The value for the TIMEOUT resource record type is TBA.</t>
        <t>This document establishes a new registry of DNS TIMEOUT Resource Record Cryptographic Hash Algorithms. The registry shall include the name of the algorithm, the length of the output function in bits, and an index to be used in the RDATA section of the TIMEOUT resource record.</t>
-       <texttable anchor="table_ex" title="IETF Meetings in 2005">
-           <ttcol align='center'>IETF #</ttcol>
-           <ttcol align='center'>City</ttcol>
-           <ttcol align='center'># of Attendees</ttcol>
-           <c>62</c>
-           <c>Minneapolis</c>
-           <c>1133</c>
-           <c>63</c>
-           <c>Paris</c>
-           <c>1450</c>
-           <c>64</c>
-           <c>Vancouver</c>
-           <c>1240</c>
-           <postamble>Data from http://www.ietf.org/meetings/past.meetings.html</postamble>
+       <texttable anchor="table_algs" title="TIMEOUT RR Hash Algorithm Index Values">
+           <ttcol align='center'>Index</ttcol>
+           <ttcol align='left'>Name</ttcol>
+           <ttcol align='left'>Algorithm</ttcol>
+           <ttcol align='center'>Length (bits)</ttcol>
+           <ttcol align='left'>Definition</ttcol>
+           <c>0</c>
+           <c>NOHASH</c>
+           <c></c>
+           <c>0</c>
+           <c><xref target="HashIndex"/></c>
+           <c>1</c>
+           <c>SHAKE128</c>
+           <c>SHAKE128</c>
+           <c>128</c>
+           <c><xref target="SHAKE128"/></c>
        </texttable>
    </section>
 
