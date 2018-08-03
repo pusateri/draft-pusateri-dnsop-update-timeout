@@ -170,8 +170,8 @@
      <t>Since each TIMEOUT resource record is actually a collection of state from different sources over different time periods, there is a potential for default algorithm changes to occur on a single server or due to unavailability of an UPDATE server for a period of time to merge records between failover servers with different default algorithms. Therefore, the ability to have different hash algorithms in the same TIMEOUT resource record is accounted for. While this won't be a common scenario, it could occur during failure and restart scenarios. All hashes for the same expiry time MUST use the same hash algorithm. This is not likely to cause any problems with merging since the same server will be using the same default hash algorithm at a particular second resolution in time.</t>
      <t>Within the TIMEOUT resource record there can exist an arbitrary number of combinations of Hash Algorithm Index, Hash Count, Expiry Time, and list of zero or more cryptographic hashes. The specific fields and their values are defined as:</t>
      <section title="Hash Count">
-       <t>The Hash Count is a 16-bit value that specifies the number of hash values for the instance. All hashes within the instance MUST have the same Hash Algorithm Index.</t>
-       <t>A Hash Count of 0 indicates that the Expiry Time applies to all resource records with the same owner name and class. There MUST only be one instance of Hash Count and Hash Algorithm Index in this case. When the Hash Count is 0, the Hash Algorithm Index is set to NOHASH on transmission and ignored on reception.</t>
+       <t>The Hash Count is a 16-bit value that specifies the number of hash values for the instance. All hashes within the instance MUST use the same Hash Algorithm specified by the Hash Algorithm Index.</t>
+       <t>A Hash Count of 0 indicates that no hashes are contained in the list. This is a shortcut notation meaning all resource records with the same owner name and class use the same Expiry Time. There MUST be only one instance of Hash Count and Hash Algorithm Index in this case. When the Hash Count is 0, the Hash Algorithm Index is set to NOHASH (0) on transmission and ignored on reception.</t>
      </section>
      <section title="Hash Algorithm Index" anchor="HashIndex">
        <t>The Hash Algorithm Index is a 16-bit value that specifies an identifier for the hash algorithm used. The indexes are declared in a registry maintained by IANA for the purpose of listing acceptable hash algorithms for this purpose. In addition to the algorithm and the index, the registry will contain the output length in bits of the algorithm to be used. It is conceivable, though not likely, that the same algorithm could be used with different output lengths. In this case, each output length would require a different index in the registry. Additions to this registry will be approved with additional documentation under expert review. At the time that the registry is created by IANA, a group of expert reviewers will be established.</t>
@@ -239,8 +239,8 @@
         ]]>
         </artwork>
       </figure>
-      <t><xref target="rr_art"/> represents an arbitrary number of combinations of Hash Algorithm Index, Hash Count, Expiry Time, and list of cryptographic hashes. The figure entries containing "A" in the name represent one instance while the figure entries containing "B" in the name represent a second instance. There can be an arbitrary number of instances whose byte counts are accumulated by the RDLEN field in the resource record header.</t>
-      <t>The letter "n" represents the Hash Count in the first instance where there exists 1..n cryptographic hashes in the list. The letter "m" represents the Hash Count in the second instance where there exists 1..m cryptographic hashes in the second list.</t>
+      <t><xref target="rr_art"/> represents an arbitrary number of combinations of Hash Algorithm Index, Hash Count, Expiry Time, and list of zero or more cryptographic hashes. The figure entries containing "A" in the name represent one instance while the figure entries containing "B" in the name represent a second instance. There can be an arbitrary number of instances whose byte counts are accumulated by the RDLEN field in the resource record header.</t>
+      <t>The letter "n" represents the Hash Count in the first instance where there exists 0..n cryptographic hashes in the list. The letter "m" represents the Hash Count in the second instance where there exists 0..m cryptographic hashes in the second list. Either "n" or "m" could be zero.</t>
    </section>
    <section title="TIMEOUT RR RDATA Presentation Format">
      <t>
@@ -255,7 +255,7 @@
    <section anchor="IANA" title="IANA Considerations">
        <t>This document defines a new DNS Resource Record Type named TIMEOUT to be exchanged between authoritative primary and secondary DNS servers. It is assigned out of the DNS Parameters Resource Record (RR) Type registry. The value for the TIMEOUT resource record type is TBA.</t>
        <t>This document establishes a new registry of DNS TIMEOUT Resource Record Cryptographic Hash Algorithm Index values. The registry shall include an index, an index name, the name of the algorithm, and the length of the output function in bits. The index is to be used in the RDATA section of the TIMEOUT resource record.</t>
-       <texttable anchor="table_algs" title="TIMEOUT RR Hash Algorithm Index Values">
+       <texttable anchor="table_algs" title="TIMEOUT RR Hash Algorithm Index values">
            <ttcol align='center'>Index</ttcol>
            <ttcol align='left'>Name</ttcol>
            <ttcol align='left'>Algorithm</ttcol>
