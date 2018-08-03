@@ -254,7 +254,7 @@
    </section>
    <section anchor="IANA" title="IANA Considerations">
        <t>This document defines a new DNS Resource Record Type named TIMEOUT to be exchanged between authoritative primary and secondary DNS servers. It is assigned out of the DNS Parameters Resource Record (RR) Type registry. The value for the TIMEOUT resource record type is TBA.</t>
-       <t>This document establishes a new registry of DNS TIMEOUT Resource Record Cryptographic Hash Algorithms. The registry shall include the name of the algorithm, the length of the output function in bits, and an index to be used in the RDATA section of the TIMEOUT resource record.</t>
+       <t>This document establishes a new registry of DNS TIMEOUT Resource Record Cryptographic Hash Algorithm Index values. The registry shall include an index, an index name, the name of the algorithm, and the length of the output function in bits. The index is to be used in the RDATA section of the TIMEOUT resource record.</t>
        <texttable anchor="table_algs" title="TIMEOUT RR Hash Algorithm Index Values">
            <ttcol align='center'>Index</ttcol>
            <ttcol align='left'>Name</ttcol>

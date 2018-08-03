@@ -416,10 +416,10 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    registry.  The value for the TIMEOUT resource record type is TBA.
 
    This document establishes a new registry of DNS TIMEOUT Resource
-   Record Cryptographic Hash Algorithms.  The registry shall include the
-   name of the algorithm, the length of the output function in bits, and
-   an index to be used in the RDATA section of the TIMEOUT resource
-   record.
+   Record Cryptographic Hash Algorithm Index values.  The registry shall
+   include an index, an index name, the name of the algorithm, and the
+   length of the output function in bits.  The index is to be used in
+   the RDATA section of the TIMEOUT resource record.
 
       +-------+----------+-----------+---------------+-------------+
       | Index | Name     | Algorithm | Length (bits) | Definition  |
