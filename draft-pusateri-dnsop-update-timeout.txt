@@ -73,16 +73,16 @@ Table of Contents
      5.2.  Hash Algorithm Index  . . . . . . . . . . . . . . . . . .   5
      5.3.  Expiry Time . . . . . . . . . . . . . . . . . . . . . . .   5
      5.4.  Cryptographic Hashes  . . . . . . . . . . . . . . . . . .   6
-     5.5.  Cryptographic Hash Requirements . . . . . . . . . . . . .   6
-       5.5.1.  REQUIRED Cryptographic Hash Algorithm . . . . . . . .   6
-   6.  TIMEOUT RR RDATA Wire Format  . . . . . . . . . . . . . . . .   6
-   7.  TIMEOUT RR RDATA Presentation Format  . . . . . . . . . . . .   8
-   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   8
-   9.  Security Considerations . . . . . . . . . . . . . . . . . . .   8
-   10. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .   8
-   11. References  . . . . . . . . . . . . . . . . . . . . . . . . .   8
-     11.1.  Normative References . . . . . . . . . . . . . . . . . .   8
-     11.2.  Informative References . . . . . . . . . . . . . . . . .   9
+   6.  Cryptographic Hash Requirements . . . . . . . . . . . . . . .   6
+     6.1.  REQUIRED Cryptographic Hash Algorithm . . . . . . . . . .   6
+   7.  TIMEOUT RR RDATA Wire Format  . . . . . . . . . . . . . . . .   6
+   8.  TIMEOUT RR RDATA Presentation Format  . . . . . . . . . . . .   8
+   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   8
+   10. Security Considerations . . . . . . . . . . . . . . . . . . .   8
+   11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .   8
+   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .   8
+     12.1.  Normative References . . . . . . . . . . . . . . . . . .   8
+     12.2.  Informative References . . . . . . . . . . . . . . . . .   9
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  10
 
 1.  Introduction
@@ -289,7 +289,7 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    is always a fixed pre-defined length specified with the hash
    algorithm.
 
-5.5.  Cryptographic Hash Requirements
+6.  Cryptographic Hash Requirements
 
    The cryptographic hash algorithm used SHOULD provide the following
    properties:
@@ -306,7 +306,7 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    to be low volume and, therefore, this property is of reduced
    importance.
 
-5.5.1.  REQUIRED Cryptographic Hash Algorithm
+6.1.  REQUIRED Cryptographic Hash Algorithm
 
    The initial algorithm selected to meet this criteria is SHAKE128.  It
    is part of the SHA-3 [SHA3] family of cryptographic hash algorithms.
@@ -321,7 +321,7 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    servers is required out of band to ensure both sides of a transfer
    have implemented the particular algorithm.
 
-6.  TIMEOUT RR RDATA Wire Format
+7.  TIMEOUT RR RDATA Wire Format
 
    The TIMEOUT resource record follows the same pattern as other DNS
    resource records as defined in Section 3.2.1 of [RFC1035].  The RDATA
@@ -397,7 +397,7 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    represents the Hash Count in the second instance where there exists
    1..m cryptographic hashes in the second list.
 
-7.  TIMEOUT RR RDATA Presentation Format
+8.  TIMEOUT RR RDATA Presentation Format
 
    Hash Count:  unsigned decimal integer
 
@@ -408,7 +408,7 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
 
    Hash: Base64 encoding (whitespace allowed), Section 4 of [RFC4648]
 
-8.  IANA Considerations
+9.  IANA Considerations
 
    This document defines a new DNS Resource Record Type named TIMEOUT to
    be exchanged between authoritative master and slave DNS servers.  It
@@ -421,7 +421,7 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    an index to be used in the RDATA section of the TIMEOUT resource
    record.
 
-9.  Security Considerations
+10.  Security Considerations
 
    Secondary servers that have received TIMEOUT resource records in a
    transfer but do not understand the record type will serve requests
@@ -429,13 +429,13 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    configuration error and can reveal the time that other DNS resource
    records will be present.
 
-10.  Acknowledgments
+11.  Acknowledgments
 
    This idea was motivated through conversations with Mark Andrews.
 
-11.  References
+12.  References
 
-11.1.  Normative References
+12.1.  Normative References
 
    [RFC1035]  Mockapetris, P., "Domain names - implementation and
               specification", STD 13, RFC 1035, DOI 10.17487/RFC1035,
@@ -473,7 +473,7 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
               <https://www.nist.gov/publications/sha-3-standard-
               permutation-based-hash-and-extendable-output-functions>.
 
-11.2.  Informative References
+12.2.  Informative References
 
    [I-D.sekar-dns-ul]
               Sekar, K., "Dynamic DNS Update Leases", draft-sekar-dns-

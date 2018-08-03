@@ -384,16 +384,16 @@
 <link href="#rfc.section.5.2" rel="Chapter" title="5.2 Hash Algorithm Index">
 <link href="#rfc.section.5.3" rel="Chapter" title="5.3 Expiry Time">
 <link href="#rfc.section.5.4" rel="Chapter" title="5.4 Cryptographic Hashes">
-<link href="#rfc.section.5.5" rel="Chapter" title="5.5 Cryptographic Hash Requirements">
-<link href="#rfc.section.5.5.1" rel="Chapter" title="5.5.1 REQUIRED Cryptographic Hash Algorithm">
-<link href="#rfc.section.6" rel="Chapter" title="6 TIMEOUT RR RDATA Wire Format">
-<link href="#rfc.section.7" rel="Chapter" title="7 TIMEOUT RR RDATA Presentation Format">
-<link href="#rfc.section.8" rel="Chapter" title="8 IANA Considerations">
-<link href="#rfc.section.9" rel="Chapter" title="9 Security Considerations">
-<link href="#rfc.section.10" rel="Chapter" title="10 Acknowledgments">
-<link href="#rfc.references" rel="Chapter" title="11 References">
-<link href="#rfc.references.1" rel="Chapter" title="11.1 Normative References">
-<link href="#rfc.references.2" rel="Chapter" title="11.2 Informative References">
+<link href="#rfc.section.6" rel="Chapter" title="6 Cryptographic Hash Requirements">
+<link href="#rfc.section.6.1" rel="Chapter" title="6.1 REQUIRED Cryptographic Hash Algorithm">
+<link href="#rfc.section.7" rel="Chapter" title="7 TIMEOUT RR RDATA Wire Format">
+<link href="#rfc.section.8" rel="Chapter" title="8 TIMEOUT RR RDATA Presentation Format">
+<link href="#rfc.section.9" rel="Chapter" title="9 IANA Considerations">
+<link href="#rfc.section.10" rel="Chapter" title="10 Security Considerations">
+<link href="#rfc.section.11" rel="Chapter" title="11 Acknowledgments">
+<link href="#rfc.references" rel="Chapter" title="12 References">
+<link href="#rfc.references.1" rel="Chapter" title="12.1 Normative References">
+<link href="#rfc.references.2" rel="Chapter" title="12.2 Informative References">
 <link href="#rfc.authors" rel="Chapter">
 
 
@@ -473,25 +473,25 @@
 </li>
 <li>5.4.   <a href="#rfc.section.5.4">Cryptographic Hashes</a>
 </li>
-<li>5.5.   <a href="#rfc.section.5.5">Cryptographic Hash Requirements</a>
+</ul><li>6.   <a href="#rfc.section.6">Cryptographic Hash Requirements</a>
 </li>
-<ul><li>5.5.1.   <a href="#rfc.section.5.5.1">REQUIRED Cryptographic Hash Algorithm</a>
+<ul><li>6.1.   <a href="#rfc.section.6.1">REQUIRED Cryptographic Hash Algorithm</a>
 </li>
-</ul></ul><li>6.   <a href="#rfc.section.6">TIMEOUT RR RDATA Wire Format</a>
+</ul><li>7.   <a href="#rfc.section.7">TIMEOUT RR RDATA Wire Format</a>
 </li>
-<li>7.   <a href="#rfc.section.7">TIMEOUT RR RDATA Presentation Format</a>
+<li>8.   <a href="#rfc.section.8">TIMEOUT RR RDATA Presentation Format</a>
 </li>
-<li>8.   <a href="#rfc.section.8">IANA Considerations</a>
+<li>9.   <a href="#rfc.section.9">IANA Considerations</a>
 </li>
-<li>9.   <a href="#rfc.section.9">Security Considerations</a>
+<li>10.   <a href="#rfc.section.10">Security Considerations</a>
 </li>
-<li>10.   <a href="#rfc.section.10">Acknowledgments</a>
+<li>11.   <a href="#rfc.section.11">Acknowledgments</a>
 </li>
-<li>11.   <a href="#rfc.references">References</a>
+<li>12.   <a href="#rfc.references">References</a>
 </li>
-<ul><li>11.1.   <a href="#rfc.references.1">Normative References</a>
+<ul><li>12.1.   <a href="#rfc.references.1">Normative References</a>
 </li>
-<li>11.2.   <a href="#rfc.references.2">Informative References</a>
+<li>12.2.   <a href="#rfc.references.2">Informative References</a>
 </li>
 </ul><li><a href="#rfc.authors">Authors' Addresses</a>
 </li>
@@ -557,9 +557,9 @@
 <h1 id="rfc.section.5.4">
 <a href="#rfc.section.5.4">5.4.</a> Cryptographic Hashes</h1>
 <p id="rfc.section.5.4.p.1">The hash of each resource record is calculated using the entire length of the resource record as input. The output value of the hash is always a fixed pre-defined length specified with the hash algorithm.</p>
-<h1 id="rfc.section.5.5">
-<a href="#rfc.section.5.5">5.5.</a> Cryptographic Hash Requirements</h1>
-<p id="rfc.section.5.5.p.1">The cryptographic hash algorithm used SHOULD provide the following properties: </p>
+<h1 id="rfc.section.6">
+<a href="#rfc.section.6">6.</a> Cryptographic Hash Requirements</h1>
+<p id="rfc.section.6.p.1">The cryptographic hash algorithm used SHOULD provide the following properties: </p>
 
 <ol>
 <li>Well known algorithm with implementations easily available.</li>
@@ -568,14 +568,14 @@
 </ol>
 
 <p> </p>
-<p id="rfc.section.5.5.p.2">While computational complexity is always a consideration when selecting algorithms, the frequency of this calculation is intended to be low volume and, therefore, this property is of reduced importance.</p>
-<h1 id="rfc.section.5.5.1">
-<a href="#rfc.section.5.5.1">5.5.1.</a> REQUIRED Cryptographic Hash Algorithm</h1>
-<p id="rfc.section.5.5.1.p.1">The initial algorithm selected to meet this criteria is SHAKE128. It is part of the SHA-3 <a href="#SHA3" class="xref">[SHA3]</a> family of cryptographic hash algorithms. The output length of the hash used is 128 bits or 16 bytes. SHAKE128 is implemented in the OpenSSL Library version 1.1.1 <a href="#OPENSSL" class="xref">[OPENSSL]</a>. In order to be in compliance with this specification, the SHAKE128 algorithm MUST be implemented. SHAKE128 is to be assigned an algorithm index of 1 in the IANA registry.</p>
-<p id="rfc.section.5.5.1.p.2">Additional algorithms may be defined in the future that can be used in place of SHAKE128. Coordination between the primary and secondary servers is required out of band to ensure both sides of a transfer have implemented the particular algorithm.</p>
-<h1 id="rfc.section.6">
-<a href="#rfc.section.6">6.</a> TIMEOUT RR RDATA Wire Format</h1>
-<p id="rfc.section.6.p.1">The TIMEOUT resource record follows the same pattern as other DNS resource records as defined in Section 3.2.1 of <a href="#RFC1035" class="xref">[RFC1035]</a>. The RDATA section of the resource record is illustrated in <a href="#rr_art" class="xref">Figure 1</a>:</p>
+<p id="rfc.section.6.p.2">While computational complexity is always a consideration when selecting algorithms, the frequency of this calculation is intended to be low volume and, therefore, this property is of reduced importance.</p>
+<h1 id="rfc.section.6.1">
+<a href="#rfc.section.6.1">6.1.</a> REQUIRED Cryptographic Hash Algorithm</h1>
+<p id="rfc.section.6.1.p.1">The initial algorithm selected to meet this criteria is SHAKE128. It is part of the SHA-3 <a href="#SHA3" class="xref">[SHA3]</a> family of cryptographic hash algorithms. The output length of the hash used is 128 bits or 16 bytes. SHAKE128 is implemented in the OpenSSL Library version 1.1.1 <a href="#OPENSSL" class="xref">[OPENSSL]</a>. In order to be in compliance with this specification, the SHAKE128 algorithm MUST be implemented. SHAKE128 is to be assigned an algorithm index of 1 in the IANA registry.</p>
+<p id="rfc.section.6.1.p.2">Additional algorithms may be defined in the future that can be used in place of SHAKE128. Coordination between the primary and secondary servers is required out of band to ensure both sides of a transfer have implemented the particular algorithm.</p>
+<h1 id="rfc.section.7">
+<a href="#rfc.section.7">7.</a> TIMEOUT RR RDATA Wire Format</h1>
+<p id="rfc.section.7.p.1">The TIMEOUT resource record follows the same pattern as other DNS resource records as defined in Section 3.2.1 of <a href="#RFC1035" class="xref">[RFC1035]</a>. The RDATA section of the resource record is illustrated in <a href="#rr_art" class="xref">Figure 1</a>:</p>
 <div id="rfc.figure.1"></div>
 <div id="rr_art"></div>
 <pre>
@@ -617,9 +617,9 @@
         </pre>
 <p class="figure">Figure 1: RDATA Wire Format</p>
 <p><a href="#rr_art" class="xref">Figure 1</a> represents an arbitrary number of combinations of Hash Algorithm Index, Hash Count, Expiry Time, and list of cryptographic hashes. The figure entries containing "A" in the name represent one instance while the figure entries containing "B" in the name represent a second instance. There can be an arbitrary number of instances whose byte counts are accumulated by the RDLEN field in the resource record header.</p>
-<p id="rfc.section.6.p.3">The letter "n" represents the Hash Count in the first instance where there exists 1..n cryptographic hashes in the list. The letter "m" represents the Hash Count in the second instance where there exists 1..m cryptographic hashes in the second list.</p>
-<h1 id="rfc.section.7">
-<a href="#rfc.section.7">7.</a> TIMEOUT RR RDATA Presentation Format</h1>
+<p id="rfc.section.7.p.3">The letter "n" represents the Hash Count in the first instance where there exists 1..n cryptographic hashes in the list. The letter "m" represents the Hash Count in the second instance where there exists 1..m cryptographic hashes in the second list.</p>
+<h1 id="rfc.section.8">
+<a href="#rfc.section.8">8.</a> TIMEOUT RR RDATA Presentation Format</h1>
 <p></p>
 
 <dl>
@@ -635,23 +635,23 @@
 </dl>
 
 <p> </p>
-<h1 id="rfc.section.8">
-<a href="#rfc.section.8">8.</a> <a href="#IANA" id="IANA">IANA Considerations</a>
-</h1>
-<p id="rfc.section.8.p.1">This document defines a new DNS Resource Record Type named TIMEOUT to be exchanged between authoritative master and slave DNS servers. It is assigned out of the DNS Parameters Resource Record (RR) Type registry. The value for the TIMEOUT resource record type is TBA.</p>
-<p id="rfc.section.8.p.2">This document establishes a new registry of DNS TIMEOUT Resource Record Cryptographic Hash Algorithms. The registry shall include the name of the algorithm, the length of the output function in bits, and an index to be used in the RDATA section of the TIMEOUT resource record.</p>
 <h1 id="rfc.section.9">
-<a href="#rfc.section.9">9.</a> <a href="#Security" id="Security">Security Considerations</a>
+<a href="#rfc.section.9">9.</a> <a href="#IANA" id="IANA">IANA Considerations</a>
 </h1>
-<p id="rfc.section.9.p.1">Secondary servers that have received TIMEOUT resource records in a transfer but do not understand the record type will serve requests for them like any other resource record type. This is a configuration error and can reveal the time that other DNS resource records will be present.</p>
+<p id="rfc.section.9.p.1">This document defines a new DNS Resource Record Type named TIMEOUT to be exchanged between authoritative master and slave DNS servers. It is assigned out of the DNS Parameters Resource Record (RR) Type registry. The value for the TIMEOUT resource record type is TBA.</p>
+<p id="rfc.section.9.p.2">This document establishes a new registry of DNS TIMEOUT Resource Record Cryptographic Hash Algorithms. The registry shall include the name of the algorithm, the length of the output function in bits, and an index to be used in the RDATA section of the TIMEOUT resource record.</p>
 <h1 id="rfc.section.10">
-<a href="#rfc.section.10">10.</a> <a href="#Acknowledgments" id="Acknowledgments">Acknowledgments</a>
+<a href="#rfc.section.10">10.</a> <a href="#Security" id="Security">Security Considerations</a>
 </h1>
-<p id="rfc.section.10.p.1">This idea was motivated through conversations with Mark Andrews.</p>
+<p id="rfc.section.10.p.1">Secondary servers that have received TIMEOUT resource records in a transfer but do not understand the record type will serve requests for them like any other resource record type. This is a configuration error and can reveal the time that other DNS resource records will be present.</p>
+<h1 id="rfc.section.11">
+<a href="#rfc.section.11">11.</a> <a href="#Acknowledgments" id="Acknowledgments">Acknowledgments</a>
+</h1>
+<p id="rfc.section.11.p.1">This idea was motivated through conversations with Mark Andrews.</p>
 <h1 id="rfc.references">
-<a href="#rfc.references">11.</a> References</h1>
+<a href="#rfc.references">12.</a> References</h1>
 <h1 id="rfc.references.1">
-<a href="#rfc.references.1">11.1.</a> Normative References</h1>
+<a href="#rfc.references.1">12.1.</a> Normative References</h1>
 <table><tbody>
 <tr>
 <td class="reference"><b id="RFC1035">[RFC1035]</b></td>
@@ -685,7 +685,7 @@
 </tr>
 </tbody></table>
 <h1 id="rfc.references.2">
-<a href="#rfc.references.2">11.2.</a> Informative References</h1>
+<a href="#rfc.references.2">12.2.</a> Informative References</h1>
 <table><tbody>
 <tr>
 <td class="reference"><b id="I-D.sekar-dns-ul">[I-D.sekar-dns-ul]</b></td>

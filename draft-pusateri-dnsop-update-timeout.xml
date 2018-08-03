@@ -183,19 +183,19 @@
      <section title="Cryptographic Hashes">
        <t>The hash of each resource record is calculated using the entire length of the resource record as input. The output value of the hash is always a fixed pre-defined length specified with the hash algorithm.</t>
      </section>
-     <section title="Cryptographic Hash Requirements">
-       <t>The cryptographic hash algorithm used SHOULD provide the following properties:
-         <list style="numbers">
-           <t>Well known algorithm with implementations easily available.</t>
-           <t>Trusted algorithm with resistance to collision attacks.</t>
-           <t>Minimize output length for efficient storage in the TIMEOUT resource record.</t>
-         </list>
-       </t>
-       <t>While computational complexity is always a consideration when selecting algorithms, the frequency of this calculation is intended to be low volume and, therefore, this property is of reduced importance.</t>
-       <section title="REQUIRED Cryptographic Hash Algorithm">
-         <t>The initial algorithm selected to meet this criteria is SHAKE128. It is part of the SHA-3 <xref target="SHA3"/> family of cryptographic hash algorithms. The output length of the hash used is 128 bits or 16 bytes. SHAKE128 is implemented in the OpenSSL Library version 1.1.1 <xref target="OPENSSL"/>. In order to be in compliance with this specification, the SHAKE128 algorithm MUST be implemented. SHAKE128 is to be assigned an algorithm index of 1 in the IANA registry.</t>
-         <t>Additional algorithms may be defined in the future that can be used in place of SHAKE128. Coordination between the primary and secondary servers is required out of band to ensure both sides of a transfer have implemented the particular algorithm.</t>
-       </section>
+   </section>
+   <section title="Cryptographic Hash Requirements">
+     <t>The cryptographic hash algorithm used SHOULD provide the following properties:
+       <list style="numbers">
+         <t>Well known algorithm with implementations easily available.</t>
+         <t>Trusted algorithm with resistance to collision attacks.</t>
+         <t>Minimize output length for efficient storage in the TIMEOUT resource record.</t>
+       </list>
+     </t>
+     <t>While computational complexity is always a consideration when selecting algorithms, the frequency of this calculation is intended to be low volume and, therefore, this property is of reduced importance.</t>
+     <section title="REQUIRED Cryptographic Hash Algorithm">
+       <t>The initial algorithm selected to meet this criteria is SHAKE128. It is part of the SHA-3 <xref target="SHA3"/> family of cryptographic hash algorithms. The output length of the hash used is 128 bits or 16 bytes. SHAKE128 is implemented in the OpenSSL Library version 1.1.1 <xref target="OPENSSL"/>. In order to be in compliance with this specification, the SHAKE128 algorithm MUST be implemented. SHAKE128 is to be assigned an algorithm index of 1 in the IANA registry.</t>
+       <t>Additional algorithms may be defined in the future that can be used in place of SHAKE128. Coordination between the primary and secondary servers is required out of band to ensure both sides of a transfer have implemented the particular algorithm.</t>
      </section>
    </section>
    <section title="TIMEOUT RR RDATA Wire Format">
