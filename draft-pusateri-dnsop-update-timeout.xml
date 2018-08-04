@@ -199,7 +199,9 @@
      </section>
    </section>
    <section title="TIMEOUT RR RDATA Wire Format">
-     <t>The TIMEOUT resource record follows the same pattern as other DNS resource records as defined in Section 3.2.1 of <xref target="RFC1035"/>. The RDATA section of the resource record is illustrated in <xref target="rr_art"/>:</t>
+     <t>The TIMEOUT resource record follows the same pattern as other DNS resource records as defined in Section 3.2.1 of <xref target="RFC1035"/>.</t>
+     <t>When transferred to a secondary server, the TTL field of the TIMEOUT resource record is set to 0. The TTL has no meaning since TIMEOUT RR's are never directly queried.</t>
+     <t>The RDATA section of the resource record is illustrated in <xref target="rr_art"/>:</t>
      <figure align="center" anchor="rr_art" title="RDATA Wire Format">
         <artwork align="center">
         <![CDATA[
@@ -276,6 +278,7 @@
 
    <section anchor="Security" title="Security Considerations">
      <t>Secondary servers that have received TIMEOUT resource records in a transfer but do not understand the record type will serve requests for them like any other resource record type. This is a configuration error and can reveal the time that other DNS resource records will be present.</t>
+     <t>Vulnerabilities in cryptographic hash algorithms may become known over time. This specification only defines one well respected algorithm (SHAKE128) for hashing resource records to maximize interoperability. The IANA registry is defined for the future when vulnerabilities are found in this algorithm. Until that point, there likely will not exist a need to add new hash algorithms to the registry.</t>
    </section>
 
    <section anchor="Acknowledgments" title="Acknowledgments">

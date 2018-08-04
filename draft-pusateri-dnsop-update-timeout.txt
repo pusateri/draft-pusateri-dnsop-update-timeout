@@ -5,7 +5,7 @@
 Internet Engineering Task Force                              T. Pusateri
 Internet-Draft                                             T. Wattenberg
 Intended status: Standards Track                            Unaffiliated
-Expires: February 4, 2019                                 August 3, 2018
+Expires: February 5, 2019                                 August 4, 2018
 
 
                       DNS TIMEOUT Resource Record
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on February 4, 2019.
+   This Internet-Draft will expire on February 5, 2019.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Pusateri & Wattenberg   Expires February 4, 2019                [Page 1]
+Pusateri & Wattenberg   Expires February 5, 2019                [Page 1]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
@@ -82,7 +82,7 @@ Table of Contents
    11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .   9
    12. References  . . . . . . . . . . . . . . . . . . . . . . . . .   9
      12.1.  Normative References . . . . . . . . . . . . . . . . . .   9
-     12.2.  Informative References . . . . . . . . . . . . . . . . .   9
+     12.2.  Informative References . . . . . . . . . . . . . . . . .  10
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  10
 
 1.  Introduction
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Pusateri & Wattenberg   Expires February 4, 2019                [Page 2]
+Pusateri & Wattenberg   Expires February 5, 2019                [Page 2]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
@@ -165,7 +165,7 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
 
 
 
-Pusateri & Wattenberg   Expires February 4, 2019                [Page 3]
+Pusateri & Wattenberg   Expires February 5, 2019                [Page 3]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
@@ -221,7 +221,7 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
 
 
 
-Pusateri & Wattenberg   Expires February 4, 2019                [Page 4]
+Pusateri & Wattenberg   Expires February 5, 2019                [Page 4]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
@@ -277,7 +277,7 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
 
 
 
-Pusateri & Wattenberg   Expires February 4, 2019                [Page 5]
+Pusateri & Wattenberg   Expires February 5, 2019                [Page 5]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
@@ -327,15 +327,22 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
 7.  TIMEOUT RR RDATA Wire Format
 
    The TIMEOUT resource record follows the same pattern as other DNS
-   resource records as defined in Section 3.2.1 of [RFC1035].  The RDATA
-   section of the resource record is illustrated in Figure 1:
+   resource records as defined in Section 3.2.1 of [RFC1035].
 
 
 
 
-Pusateri & Wattenberg   Expires February 4, 2019                [Page 6]
+
+Pusateri & Wattenberg   Expires February 5, 2019                [Page 6]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
+
+
+   When transferred to a secondary server, the TTL field of the TIMEOUT
+   resource record is set to 0.  The TTL has no meaning since TIMEOUT
+   RR's are never directly queried.
+
+   The RDATA section of the resource record is illustrated in Figure 1:
 
 
       0                   1                   2                   3
@@ -379,6 +386,14 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    Algorithm Index, Hash Count, Expiry Time, and list of zero or more
    cryptographic hashes.  The figure entries containing "A" in the name
    represent one instance while the figure entries containing "B" in the
+
+
+
+Pusateri & Wattenberg   Expires February 5, 2019                [Page 7]
+
+Internet-Draft           TIMEOUT Resource Record             August 2018
+
+
    name represent a second instance.  There can be an arbitrary number
    of instances whose byte counts are accumulated by the RDLEN field in
    the resource record header.
@@ -386,14 +401,6 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    The letter "n" represents the Hash Count in the first instance where
    there exists 0..n cryptographic hashes in the list.  The letter "m"
    represents the Hash Count in the second instance where there exists
-
-
-
-Pusateri & Wattenberg   Expires February 4, 2019                [Page 7]
-
-Internet-Draft           TIMEOUT Resource Record             August 2018
-
-
    0..m cryptographic hashes in the second list.  Either "n" or "m"
    could be zero.
 
@@ -435,20 +442,24 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    Secondary servers that have received TIMEOUT resource records in a
    transfer but do not understand the record type will serve requests
    for them like any other resource record type.  This is a
-   configuration error and can reveal the time that other DNS resource
-   records will be present.
 
 
 
-
-
-
-
-
-Pusateri & Wattenberg   Expires February 4, 2019                [Page 8]
+Pusateri & Wattenberg   Expires February 5, 2019                [Page 8]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
+
+   configuration error and can reveal the time that other DNS resource
+   records will be present.
+
+   Vulnerabilities in cryptographic hash algorithms may become known
+   over time.  This specification only defines one well respected
+   algorithm (SHAKE128) for hashing resource records to maximize
+   interoperability.  The IANA registry is defined for the future when
+   vulnerabilities are found in this algorithm.  Until that point, there
+   likely will not exist a need to add new hash algorithms to the
+   registry.
 
 11.  Acknowledgments
 
@@ -485,6 +496,16 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
               <https://www.nist.gov/publications/sha-3-standard-
               permutation-based-hash-and-extendable-output-functions>.
 
+
+
+
+
+
+Pusateri & Wattenberg   Expires February 5, 2019                [Page 9]
+
+Internet-Draft           TIMEOUT Resource Record             August 2018
+
+
 12.2.  Informative References
 
    [I-D.sekar-dns-ul]
@@ -497,14 +518,6 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
    [RFC1995]  Ohta, M., "Incremental Zone Transfer in DNS", RFC 1995,
               DOI 10.17487/RFC1995, August 1996,
               <https://www.rfc-editor.org/info/rfc1995>.
-
-
-
-
-Pusateri & Wattenberg   Expires February 4, 2019                [Page 9]
-
-Internet-Draft           TIMEOUT Resource Record             August 2018
-
 
    [RFC2136]  Vixie, P., Ed., Thomson, S., Rekhter, Y., and J. Bound,
               "Dynamic Updates in the Domain Name System (DNS UPDATE)",
@@ -544,17 +557,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-Pusateri & Wattenberg   Expires February 4, 2019               [Page 10]
+Pusateri & Wattenberg   Expires February 5, 2019               [Page 10]

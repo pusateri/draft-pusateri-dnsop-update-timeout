@@ -402,7 +402,7 @@
 
   <meta name="dct.creator" content="Pusateri, T. and T. Wattenberg" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-pusateri-dnsop-update-timeout-00" />
-  <meta name="dct.issued" scheme="ISO8601" content="2018-03" />
+  <meta name="dct.issued" scheme="ISO8601" content="2018-04" />
   <meta name="dct.abstract" content="This specification defines a new DNS TIMEOUT resource record (RR) that associates a lifetime with one or more zone resource records with the same owner name and class. It is intended to be used to transfer resource record lifetime state between a zone's primary and secondary servers and to store lifetime state during server software restarts." />
   <meta name="description" content="This specification defines a new DNS TIMEOUT resource record (RR) that associates a lifetime with one or more zone resource records with the same owner name and class. It is intended to be used to transfer resource record lifetime state between a zone's primary and secondary servers and to store lifetime state during server software restarts." />
 
@@ -426,8 +426,8 @@
 <td class="right">Unaffiliated</td>
 </tr>
 <tr>
-<td class="left">Expires: February 4, 2019</td>
-<td class="right">August 3, 2018</td>
+<td class="left">Expires: February 5, 2019</td>
+<td class="right">August 4, 2018</td>
 </tr>
 
     	
@@ -443,7 +443,7 @@
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on February 4, 2019.</p>
+<p>This Internet-Draft will expire on February 5, 2019.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2018 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -577,7 +577,9 @@
 <p id="rfc.section.6.1.p.2">Additional algorithms may be defined in the future that can be used in place of SHAKE128. Coordination between the primary and secondary servers is required out of band to ensure both sides of a transfer have implemented the particular algorithm.</p>
 <h1 id="rfc.section.7">
 <a href="#rfc.section.7">7.</a> TIMEOUT RR RDATA Wire Format</h1>
-<p id="rfc.section.7.p.1">The TIMEOUT resource record follows the same pattern as other DNS resource records as defined in Section 3.2.1 of <a href="#RFC1035" class="xref">[RFC1035]</a>. The RDATA section of the resource record is illustrated in <a href="#rr_art" class="xref">Figure 1</a>:</p>
+<p id="rfc.section.7.p.1">The TIMEOUT resource record follows the same pattern as other DNS resource records as defined in Section 3.2.1 of <a href="#RFC1035" class="xref">[RFC1035]</a>.</p>
+<p id="rfc.section.7.p.2">When transferred to a secondary server, the TTL field of the TIMEOUT resource record is set to 0. The TTL has no meaning since TIMEOUT RR's are never directly queried.</p>
+<p id="rfc.section.7.p.3">The RDATA section of the resource record is illustrated in <a href="#rr_art" class="xref">Figure 1</a>:</p>
 <div id="rfc.figure.1"></div>
 <div id="rr_art"></div>
 <pre>
@@ -619,7 +621,7 @@
         </pre>
 <p class="figure">Figure 1: RDATA Wire Format</p>
 <p><a href="#rr_art" class="xref">Figure 1</a> represents an arbitrary number of combinations of Hash Algorithm Index, Hash Count, Expiry Time, and list of zero or more cryptographic hashes. The figure entries containing "A" in the name represent one instance while the figure entries containing "B" in the name represent a second instance. There can be an arbitrary number of instances whose byte counts are accumulated by the RDLEN field in the resource record header.</p>
-<p id="rfc.section.7.p.3">The letter "n" represents the Hash Count in the first instance where there exists 0..n cryptographic hashes in the list. The letter "m" represents the Hash Count in the second instance where there exists 0..m cryptographic hashes in the second list. Either "n" or "m" could be zero.</p>
+<p id="rfc.section.7.p.5">The letter "n" represents the Hash Count in the first instance where there exists 0..n cryptographic hashes in the list. The letter "m" represents the Hash Count in the second instance where there exists 0..m cryptographic hashes in the second list. Either "n" or "m" could be zero.</p>
 <h1 id="rfc.section.8">
 <a href="#rfc.section.8">8.</a> TIMEOUT RR RDATA Presentation Format</h1>
 <p></p>
@@ -674,6 +676,7 @@
 <a href="#rfc.section.10">10.</a> <a href="#Security" id="Security">Security Considerations</a>
 </h1>
 <p id="rfc.section.10.p.1">Secondary servers that have received TIMEOUT resource records in a transfer but do not understand the record type will serve requests for them like any other resource record type. This is a configuration error and can reveal the time that other DNS resource records will be present.</p>
+<p id="rfc.section.10.p.2">Vulnerabilities in cryptographic hash algorithms may become known over time. This specification only defines one well respected algorithm (SHAKE128) for hashing resource records to maximize interoperability. The IANA registry is defined for the future when vulnerabilities are found in this algorithm. Until that point, there likely will not exist a need to add new hash algorithms to the registry.</p>
 <h1 id="rfc.section.11">
 <a href="#rfc.section.11">11.</a> <a href="#Acknowledgments" id="Acknowledgments">Acknowledgments</a>
 </h1>
