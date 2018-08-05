@@ -5,7 +5,7 @@
 Internet Engineering Task Force                              T. Pusateri
 Internet-Draft                                             T. Wattenberg
 Intended status: Standards Track                            Unaffiliated
-Expires: February 5, 2019                                 August 4, 2018
+Expires: February 6, 2019                                 August 5, 2018
 
 
                       DNS TIMEOUT Resource Record
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on February 5, 2019.
+   This Internet-Draft will expire on February 6, 2019.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Pusateri & Wattenberg   Expires February 5, 2019                [Page 1]
+Pusateri & Wattenberg   Expires February 6, 2019                [Page 1]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Pusateri & Wattenberg   Expires February 5, 2019                [Page 2]
+Pusateri & Wattenberg   Expires February 6, 2019                [Page 2]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
@@ -165,7 +165,7 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
 
 
 
-Pusateri & Wattenberg   Expires February 5, 2019                [Page 3]
+Pusateri & Wattenberg   Expires February 6, 2019                [Page 3]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
@@ -221,7 +221,7 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
 
 
 
-Pusateri & Wattenberg   Expires February 5, 2019                [Page 4]
+Pusateri & Wattenberg   Expires February 6, 2019                [Page 4]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
@@ -277,7 +277,7 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
 
 
 
-Pusateri & Wattenberg   Expires February 5, 2019                [Page 5]
+Pusateri & Wattenberg   Expires February 6, 2019                [Page 5]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
@@ -333,7 +333,7 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
 
 
 
-Pusateri & Wattenberg   Expires February 5, 2019                [Page 6]
+Pusateri & Wattenberg   Expires February 6, 2019                [Page 6]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
@@ -383,13 +383,13 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
                         Figure 1: RDATA Wire Format
 
    Figure 1 represents an arbitrary number of combinations of Hash
-   Algorithm Index, Hash Count, Expiry Time, and list of zero or more
+   Count, Hash Algorithm Index, Expiry Time, and list of zero or more
    cryptographic hashes.  The figure entries containing "A" in the name
    represent one instance while the figure entries containing "B" in the
 
 
 
-Pusateri & Wattenberg   Expires February 5, 2019                [Page 7]
+Pusateri & Wattenberg   Expires February 6, 2019                [Page 7]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
@@ -445,7 +445,7 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
 
 
 
-Pusateri & Wattenberg   Expires February 5, 2019                [Page 8]
+Pusateri & Wattenberg   Expires February 6, 2019                [Page 8]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
@@ -501,7 +501,7 @@ Internet-Draft           TIMEOUT Resource Record             August 2018
 
 
 
-Pusateri & Wattenberg   Expires February 5, 2019                [Page 9]
+Pusateri & Wattenberg   Expires February 6, 2019                [Page 9]
 
 Internet-Draft           TIMEOUT Resource Record             August 2018
 
@@ -557,4 +557,4 @@ Authors' Addresses
 
 
 
-Pusateri & Wattenberg   Expires February 5, 2019               [Page 10]
+Pusateri & Wattenberg   Expires February 6, 2019               [Page 10]
