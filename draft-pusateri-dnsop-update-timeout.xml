@@ -193,7 +193,6 @@
    </section>
    <section title="TIMEOUT RR RDATA Wire Format">
      <t>The TIMEOUT resource record follows the same pattern as other DNS resource records as defined in Section 3.2.1 of <xref target="RFC1035"/>.</t>
-     <t>When transferred to a secondary server, the TTL field of the TIMEOUT resource record is set to 0. The TTL has no meaning since TIMEOUT RR's are never directly queried.</t>
      <t>The RDATA section of the resource record is illustrated in <xref target="rr_art"/>:</t>
      <figure align="center" anchor="rr_art" title="RDATA Wire Format">
         <artwork align="center">

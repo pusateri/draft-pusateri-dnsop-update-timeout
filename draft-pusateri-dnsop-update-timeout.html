@@ -569,8 +569,7 @@
 <h1 id="rfc.section.7">
 <a href="#rfc.section.7">7.</a> TIMEOUT RR RDATA Wire Format</h1>
 <p id="rfc.section.7.p.1">The TIMEOUT resource record follows the same pattern as other DNS resource records as defined in Section 3.2.1 of <a href="#RFC1035" class="xref">[RFC1035]</a>.</p>
-<p id="rfc.section.7.p.2">When transferred to a secondary server, the TTL field of the TIMEOUT resource record is set to 0. The TTL has no meaning since TIMEOUT RR's are never directly queried.</p>
-<p id="rfc.section.7.p.3">The RDATA section of the resource record is illustrated in <a href="#rr_art" class="xref">Figure 1</a>:</p>
+<p id="rfc.section.7.p.2">The RDATA section of the resource record is illustrated in <a href="#rr_art" class="xref">Figure 1</a>:</p>
 <div id="rfc.figure.1"></div>
 <div id="rr_art"></div>
 <pre>
@@ -612,7 +611,7 @@
         </pre>
 <p class="figure">Figure 1: RDATA Wire Format</p>
 <p><a href="#rr_art" class="xref">Figure 1</a> represents an arbitrary number of combinations of Hash Count, Hash Algorithm Index, Expiry Time, and list of zero or more cryptographic hashes. The figure entries containing "A" in the name represent one instance while the figure entries containing "B" in the name represent a second instance. There can be an arbitrary number of instances whose byte counts are accumulated by the RDLEN field in the resource record header.</p>
-<p id="rfc.section.7.p.5">The letter "n" represents the Hash Count in the first instance where there exists 0..n cryptographic hashes in the list. The letter "m" represents the Hash Count in the second instance where there exists 0..m cryptographic hashes in the second list. Either "n" or "m" could be zero.</p>
+<p id="rfc.section.7.p.4">The letter "n" represents the Hash Count in the first instance where there exists 0..n cryptographic hashes in the list. The letter "m" represents the Hash Count in the second instance where there exists 0..m cryptographic hashes in the second list. Either "n" or "m" could be zero.</p>
 <h1 id="rfc.section.8">
 <a href="#rfc.section.8">8.</a> TIMEOUT RR RDATA Presentation Format</h1>
 <p></p>
