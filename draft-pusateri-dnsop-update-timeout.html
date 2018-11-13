@@ -376,17 +376,17 @@
   <link href="#rfc.toc" rel="Contents">
 <link href="#rfc.section.1" rel="Chapter" title="1 Introduction">
 <link href="#rfc.section.1.1" rel="Chapter" title="1.1 Requirements Language">
-<link href="#rfc.section.2" rel="Chapter" title="2 TIMEOUT Resource Record Properties">
-<link href="#rfc.section.3" rel="Chapter" title="3 Secondary Server Behavior">
-<link href="#rfc.section.4" rel="Chapter" title="4 Sources of TIMEOUT Expiry Time">
-<link href="#rfc.section.5" rel="Chapter" title="5 Resource Record Composition">
-<link href="#rfc.section.5.1" rel="Chapter" title="5.1 Hash Count">
-<link href="#rfc.section.5.2" rel="Chapter" title="5.2 Hash Algorithm Index">
-<link href="#rfc.section.5.3" rel="Chapter" title="5.3 Expiry Time">
-<link href="#rfc.section.5.4" rel="Chapter" title="5.4 Cryptographic Hashes">
-<link href="#rfc.section.6" rel="Chapter" title="6 Cryptographic Hash Requirements">
-<link href="#rfc.section.6.1" rel="Chapter" title="6.1 REQUIRED Cryptographic Hash Algorithm">
-<link href="#rfc.section.7" rel="Chapter" title="7 TIMEOUT RR RDATA Wire Format">
+<link href="#rfc.section.2" rel="Chapter" title="2 Sources of TIMEOUT Expiry Time">
+<link href="#rfc.section.3" rel="Chapter" title="3 Resource Record Composition">
+<link href="#rfc.section.3.1" rel="Chapter" title="3.1 Hash Count">
+<link href="#rfc.section.3.2" rel="Chapter" title="3.2 Hash Algorithm Index">
+<link href="#rfc.section.3.3" rel="Chapter" title="3.3 Expiry Time">
+<link href="#rfc.section.3.4" rel="Chapter" title="3.4 Cryptographic Hashes">
+<link href="#rfc.section.4" rel="Chapter" title="4 Cryptographic Hash Requirements">
+<link href="#rfc.section.4.1" rel="Chapter" title="4.1 REQUIRED Cryptographic Hash Algorithm">
+<link href="#rfc.section.5" rel="Chapter" title="5 TIMEOUT RR RDATA Wire Format">
+<link href="#rfc.section.6" rel="Chapter" title="6 Primary Server Behavior">
+<link href="#rfc.section.7" rel="Chapter" title="7 Secondary Server Behavior">
 <link href="#rfc.section.8" rel="Chapter" title="8 TIMEOUT RR RDATA Presentation Format">
 <link href="#rfc.section.9" rel="Chapter" title="9 IANA Considerations">
 <link href="#rfc.section.10" rel="Chapter" title="10 Security Considerations">
@@ -457,27 +457,27 @@
 </li>
 <ul><li>1.1.   <a href="#rfc.section.1.1">Requirements Language</a>
 </li>
-</ul><li>2.   <a href="#rfc.section.2">TIMEOUT Resource Record Properties</a>
+</ul><li>2.   <a href="#rfc.section.2">Sources of TIMEOUT Expiry Time</a>
 </li>
-<li>3.   <a href="#rfc.section.3">Secondary Server Behavior</a>
+<li>3.   <a href="#rfc.section.3">Resource Record Composition</a>
 </li>
-<li>4.   <a href="#rfc.section.4">Sources of TIMEOUT Expiry Time</a>
+<ul><li>3.1.   <a href="#rfc.section.3.1">Hash Count</a>
 </li>
-<li>5.   <a href="#rfc.section.5">Resource Record Composition</a>
+<li>3.2.   <a href="#rfc.section.3.2">Hash Algorithm Index</a>
 </li>
-<ul><li>5.1.   <a href="#rfc.section.5.1">Hash Count</a>
+<li>3.3.   <a href="#rfc.section.3.3">Expiry Time</a>
 </li>
-<li>5.2.   <a href="#rfc.section.5.2">Hash Algorithm Index</a>
+<li>3.4.   <a href="#rfc.section.3.4">Cryptographic Hashes</a>
 </li>
-<li>5.3.   <a href="#rfc.section.5.3">Expiry Time</a>
+</ul><li>4.   <a href="#rfc.section.4">Cryptographic Hash Requirements</a>
 </li>
-<li>5.4.   <a href="#rfc.section.5.4">Cryptographic Hashes</a>
+<ul><li>4.1.   <a href="#rfc.section.4.1">REQUIRED Cryptographic Hash Algorithm</a>
 </li>
-</ul><li>6.   <a href="#rfc.section.6">Cryptographic Hash Requirements</a>
+</ul><li>5.   <a href="#rfc.section.5">TIMEOUT RR RDATA Wire Format</a>
 </li>
-<ul><li>6.1.   <a href="#rfc.section.6.1">REQUIRED Cryptographic Hash Algorithm</a>
+<li>6.   <a href="#rfc.section.6">Primary Server Behavior</a>
 </li>
-</ul><li>7.   <a href="#rfc.section.7">TIMEOUT RR RDATA Wire Format</a>
+<li>7.   <a href="#rfc.section.7">Secondary Server Behavior</a>
 </li>
 <li>8.   <a href="#rfc.section.8">TIMEOUT RR RDATA Presentation Format</a>
 </li>
@@ -506,20 +506,8 @@
 <a href="#rfc.section.1.1">1.1.</a> Requirements Language</h1>
 <p id="rfc.section.1.1.p.1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <a href="#RFC2119" class="xref">RFC 2119</a>.</p>
 <h1 id="rfc.section.2">
-<a href="#rfc.section.2">2.</a> <a href="#properties" id="properties">TIMEOUT Resource Record Properties</a>
-</h1>
-<p id="rfc.section.2.p.1">TIMEOUT resource records have different properties than normal DNS resource records.  </p>
-
-<ol><li>A TIMEOUT resource record MUST be removed when the last resource record it covers has been removed. This may be due to the record expiring (reaching the expiry time) or due to a subsequent DNS Update or administrative action.</li></ol>
-
-<p> </p>
-<h1 id="rfc.section.3">
-<a href="#rfc.section.3">3.</a> Secondary Server Behavior</h1>
-<p id="rfc.section.3.p.1">A secondary server may or may not understand TIMEOUT resource records. If a secondary server does not understand them, they are treated like any other resource record that the server may not understand <a href="#RFC3597" class="xref">[RFC3597]</a>.</p>
-<p id="rfc.section.3.p.2">A secondary server MUST NOT expire the records in a zone it maintains covered by the TIMEOUT resource record and it MUST NOT expire the TIMEOUT resource record itself when the last record it covers has expired. The secondary server MUST always wait for the records to be removed or updated by the primary server.</p>
-<h1 id="rfc.section.4">
-<a href="#rfc.section.4">4.</a> Sources of TIMEOUT Expiry Time</h1>
-<p id="rfc.section.4.p.1">The expire time may come from many different sources. A few are listed here however, this list is not considered complete.  </p>
+<a href="#rfc.section.2">2.</a> Sources of TIMEOUT Expiry Time</h1>
+<p id="rfc.section.2.p.1">The expire time may come from many different sources. A few are listed here however, this list is not considered complete.  </p>
 
 <ol>
 <li>Via DHCP Dynamic Lease Lifetime communicated out of band.</li>
@@ -528,30 +516,30 @@
 </ol>
 
 <p> </p>
-<h1 id="rfc.section.5">
-<a href="#rfc.section.5">5.</a> Resource Record Composition</h1>
-<p id="rfc.section.5.p.1">The TIMEOUT resource record must provide expiry times for a mixed variety of resource record types with the same owner name and class. Since there could exist multiple records of the same record type with the same owner name and class, the TIMEOUT resource record must be able to identify each of these records individually with only different RDATA. As an example, PTR records for service discovery provide a level of indirection to SRV and TXT records by instance name. The instance name is stored in the PTR RDATA and multiple PTR records with the same owner name but only differing RDATA often exist.</p>
-<p id="rfc.section.5.p.2">In order to distinguish each individual record with potentially different expiry times, the TIMEOUT resource record is made up of multiple lists of hashes of the records for which they are applicable. Each list has an expiry time associated with it and each hash corresponds to a resource record for which that expiry time applies. Each resource record represented by a hash in the list uses the same expiry time associated with the list. There is also a hash algorithm index associated with each list. All hashes in the list MUST use the same hash algorithm.</p>
-<p id="rfc.section.5.p.3">Since each TIMEOUT resource record is actually a collection of state from different sources over different time periods, there is a potential for default algorithm changes to occur on a single server or due to unavailability of an UPDATE server for a period of time to merge records between failover servers with different default algorithms. Therefore, the ability to have different hash algorithms in the same TIMEOUT resource record is accounted for. While this won't be a common scenario, it could occur during failure and restart scenarios. All hashes for the same expiry time MUST use the same hash algorithm. This is not likely to cause any problems with merging since the same server will be using the same default hash algorithm at a particular second resolution in time.</p>
-<p id="rfc.section.5.p.4">Within the TIMEOUT resource record there can exist an arbitrary number of combinations of Hash Algorithm Index, Hash Count, Expiry Time, and list of zero or more cryptographic hashes. The specific fields and their values are defined as:</p>
-<h1 id="rfc.section.5.1">
-<a href="#rfc.section.5.1">5.1.</a> Hash Count</h1>
-<p id="rfc.section.5.1.p.1">The Hash Count is a 16-bit value that specifies the number of hash values for the instance. All hashes within the instance MUST use the same Hash Algorithm specified by the Hash Algorithm Index.</p>
-<p id="rfc.section.5.1.p.2">A Hash Count of 0 indicates that no hashes are contained in the list. This is a shortcut notation meaning all resource records with the same owner name and class use the same Expiry Time. There MUST be only one instance of Hash Count and Hash Algorithm Index in this case. When the Hash Count is 0, the Hash Algorithm Index is set to NOHASH (0) on transmission and ignored on reception.</p>
-<h1 id="rfc.section.5.2">
-<a href="#rfc.section.5.2">5.2.</a> <a href="#HashIndex" id="HashIndex">Hash Algorithm Index</a>
+<h1 id="rfc.section.3">
+<a href="#rfc.section.3">3.</a> Resource Record Composition</h1>
+<p id="rfc.section.3.p.1">The TIMEOUT resource record must provide expiry times for a mixed variety of resource record types with the same owner name and class. Since there could exist multiple records of the same record type with the same owner name and class, the TIMEOUT resource record must be able to identify each of these records individually with only different RDATA. As an example, PTR records for service discovery provide a level of indirection to SRV and TXT records by instance name. The instance name is stored in the PTR RDATA and multiple PTR records with the same owner name but only differing RDATA often exist.</p>
+<p id="rfc.section.3.p.2">In order to distinguish each individual record with potentially different expiry times, the TIMEOUT resource record is made up of multiple lists of hashes of the records for which they are applicable. Each list has an expiry time associated with it and each hash corresponds to a resource record for which that expiry time applies. Each resource record represented by a hash in the list uses the same expiry time associated with the list. There is also a hash algorithm index associated with each list. All hashes in the list MUST use the same hash algorithm.</p>
+<p id="rfc.section.3.p.3">Since each TIMEOUT resource record is actually a collection of state from different sources over different time periods, there is a potential for default algorithm changes to occur on a single server or due to unavailability of an UPDATE server for a period of time to merge records between failover servers with different default algorithms. Therefore, the ability to have different hash algorithms in the same TIMEOUT resource record is accounted for. While this won't be a common scenario, it could occur during failure and restart scenarios. All hashes for the same expiry time MUST use the same hash algorithm. This is not likely to cause any problems with merging since the same server will be using the same default hash algorithm at a particular second resolution in time.</p>
+<p id="rfc.section.3.p.4">Within the TIMEOUT resource record there can exist an arbitrary number of combinations of Hash Algorithm Index, Hash Count, Expiry Time, and list of zero or more cryptographic hashes. The specific fields and their values are defined as:</p>
+<h1 id="rfc.section.3.1">
+<a href="#rfc.section.3.1">3.1.</a> Hash Count</h1>
+<p id="rfc.section.3.1.p.1">The Hash Count is a 16-bit value that specifies the number of hash values for the instance. All hashes within the instance MUST use the same Hash Algorithm specified by the Hash Algorithm Index.</p>
+<p id="rfc.section.3.1.p.2">A Hash Count of 0 indicates that no hashes are contained in the list. This is a shortcut notation meaning all resource records with the same owner name and class use the same Expiry Time. There MUST be only one instance of Hash Count and Hash Algorithm Index in this case. When the Hash Count is 0, the Hash Algorithm Index is set to NOHASH (0) on transmission and ignored on reception.</p>
+<h1 id="rfc.section.3.2">
+<a href="#rfc.section.3.2">3.2.</a> <a href="#HashIndex" id="HashIndex">Hash Algorithm Index</a>
 </h1>
-<p id="rfc.section.5.2.p.1">The Hash Algorithm Index is a 16-bit value that specifies an identifier for the hash algorithm used. The indexes are declared in a registry maintained by IANA for the purpose of listing acceptable hash algorithms for this purpose. In addition to the algorithm and the index, the registry will contain the output length in bits of the algorithm to be used. It is conceivable, though not likely, that the same algorithm could be used with different output lengths. In this case, each output length would require a different index in the registry. Additions to this registry will be approved with additional documentation under expert review. At the time that the registry is created by IANA, a group of expert reviewers will be established.</p>
-<p id="rfc.section.5.2.p.2">The Hash Algorithm Index of 0 is defined as NOHASH and MUST NOT be used if any hash values are present in the instance. The index value of 0 is to be included in the IANA registry of Hash Algorithm Index values.</p>
-<h1 id="rfc.section.5.3">
-<a href="#rfc.section.5.3">5.3.</a> Expiry Time</h1>
-<p id="rfc.section.5.3.p.1">The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire. Lease times must be converted to an absolute expiry time when received.</p>
-<h1 id="rfc.section.5.4">
-<a href="#rfc.section.5.4">5.4.</a> Cryptographic Hashes</h1>
-<p id="rfc.section.5.4.p.1">The hash of each resource record is calculated using the entire length of the resource record as input. The output value of the hash is always a fixed pre-defined length specified with the hash algorithm.</p>
-<h1 id="rfc.section.6">
-<a href="#rfc.section.6">6.</a> Cryptographic Hash Requirements</h1>
-<p id="rfc.section.6.p.1">The cryptographic hash algorithm used SHOULD provide the following properties: </p>
+<p id="rfc.section.3.2.p.1">The Hash Algorithm Index is a 16-bit value that specifies an identifier for the hash algorithm used. The indexes are declared in a registry maintained by IANA for the purpose of listing acceptable hash algorithms for this purpose. In addition to the algorithm and the index, the registry will contain the output length in bits of the algorithm to be used. It is conceivable, though not likely, that the same algorithm could be used with different output lengths. In this case, each output length would require a different index in the registry. Additions to this registry will be approved with additional documentation under expert review. At the time that the registry is created by IANA, a group of expert reviewers will be established.</p>
+<p id="rfc.section.3.2.p.2">The Hash Algorithm Index of 0 is defined as NOHASH and MUST NOT be used if any hash values are present in the instance. The index value of 0 is to be included in the IANA registry of Hash Algorithm Index values.</p>
+<h1 id="rfc.section.3.3">
+<a href="#rfc.section.3.3">3.3.</a> Expiry Time</h1>
+<p id="rfc.section.3.3.p.1">The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire. Lease times must be converted to an absolute expiry time when received.</p>
+<h1 id="rfc.section.3.4">
+<a href="#rfc.section.3.4">3.4.</a> Cryptographic Hashes</h1>
+<p id="rfc.section.3.4.p.1">The hash of each resource record is calculated using the entire length of the resource record as input. The output value of the hash is always a fixed pre-defined length specified with the hash algorithm.</p>
+<h1 id="rfc.section.4">
+<a href="#rfc.section.4">4.</a> Cryptographic Hash Requirements</h1>
+<p id="rfc.section.4.p.1">The cryptographic hash algorithm used SHOULD provide the following properties: </p>
 
 <ol>
 <li>Well known algorithm with implementations easily available.</li>
@@ -560,16 +548,16 @@
 </ol>
 
 <p> </p>
-<p id="rfc.section.6.p.2">While computational complexity is always a consideration when selecting algorithms, the frequency of this calculation is intended to be low volume and, therefore, this property is of reduced importance.</p>
-<h1 id="rfc.section.6.1">
-<a href="#rfc.section.6.1">6.1.</a> <a href="#SHAKE128" id="SHAKE128">REQUIRED Cryptographic Hash Algorithm</a>
+<p id="rfc.section.4.p.2">While computational complexity is always a consideration when selecting algorithms, the frequency of this calculation is intended to be low volume and, therefore, this property is of reduced importance.</p>
+<h1 id="rfc.section.4.1">
+<a href="#rfc.section.4.1">4.1.</a> <a href="#SHAKE128" id="SHAKE128">REQUIRED Cryptographic Hash Algorithm</a>
 </h1>
-<p id="rfc.section.6.1.p.1">The initial algorithm selected to meet this criteria is SHAKE128. It is part of the SHA-3 <a href="#SHA3" class="xref">[SHA3]</a> family of cryptographic hash algorithms. The output length of the hash used is 128 bits or 16 bytes. SHAKE128 is implemented in the OpenSSL Library version 1.1.1 <a href="#OPENSSL" class="xref">[OPENSSL]</a>. In order to be in compliance with this specification, the SHAKE128 algorithm MUST be implemented. SHAKE128 is to be assigned an algorithm index of 1 in the IANA registry.</p>
-<p id="rfc.section.6.1.p.2">Additional algorithms may be defined in the future that can be used in place of SHAKE128.</p>
-<h1 id="rfc.section.7">
-<a href="#rfc.section.7">7.</a> TIMEOUT RR RDATA Wire Format</h1>
-<p id="rfc.section.7.p.1">The TIMEOUT resource record follows the same pattern as other DNS resource records as defined in Section 3.2.1 of <a href="#RFC1035" class="xref">[RFC1035]</a>.</p>
-<p id="rfc.section.7.p.2">The RDATA section of the resource record is illustrated in <a href="#rr_art" class="xref">Figure 1</a>:</p>
+<p id="rfc.section.4.1.p.1">The initial algorithm selected to meet this criteria is SHAKE128. It is part of the SHA-3 <a href="#SHA3" class="xref">[SHA3]</a> family of cryptographic hash algorithms. The output length of the hash used is 128 bits or 16 bytes. SHAKE128 is implemented in the OpenSSL Library version 1.1.1 <a href="#OPENSSL" class="xref">[OPENSSL]</a>. In order to be in compliance with this specification, the SHAKE128 algorithm MUST be implemented. SHAKE128 is to be assigned an algorithm index of 1 in the IANA registry.</p>
+<p id="rfc.section.4.1.p.2">Additional algorithms may be defined in the future that can be used in place of SHAKE128.</p>
+<h1 id="rfc.section.5">
+<a href="#rfc.section.5">5.</a> TIMEOUT RR RDATA Wire Format</h1>
+<p id="rfc.section.5.p.1">The TIMEOUT resource record follows the same pattern as other DNS resource records as defined in Section 3.2.1 of <a href="#RFC1035" class="xref">[RFC1035]</a>.</p>
+<p id="rfc.section.5.p.2">The RDATA section of the resource record is illustrated in <a href="#rr_art" class="xref">Figure 1</a>:</p>
 <div id="rfc.figure.1"></div>
 <div id="rr_art"></div>
 <pre>
@@ -611,7 +599,15 @@
         </pre>
 <p class="figure">Figure 1: RDATA Wire Format</p>
 <p><a href="#rr_art" class="xref">Figure 1</a> represents an arbitrary number of combinations of Hash Count, Hash Algorithm Index, Expiry Time, and list of zero or more cryptographic hashes. The figure entries containing "A" in the name represent one instance while the figure entries containing "B" in the name represent a second instance. There can be an arbitrary number of instances whose byte counts are accumulated by the RDLEN field in the resource record header.</p>
-<p id="rfc.section.7.p.4">The letter "n" represents the Hash Count in the first instance where there exists 0..n cryptographic hashes in the list. The letter "m" represents the Hash Count in the second instance where there exists 0..m cryptographic hashes in the second list. Either "n" or "m" could be zero.</p>
+<p id="rfc.section.5.p.4">The letter "n" represents the Hash Count in the first instance where there exists 0..n cryptographic hashes in the list. The letter "m" represents the Hash Count in the second instance where there exists 0..m cryptographic hashes in the second list. Either "n" or "m" could be zero.</p>
+<h1 id="rfc.section.6">
+<a href="#rfc.section.6">6.</a> Primary Server Behavior</h1>
+<p id="rfc.section.6.p.1">A TIMEOUT resource record MUST be removed when the last resource record it covers has been removed. This may be due to the record expiring (reaching the expiry time) or due to a subsequent DNS Update or administrative action.</p>
+<p id="rfc.section.6.p.2">Upon receiving any DNS UPDATE deleting resource records that might have been covered by a TIMEOUT RR, a primary server MUST go through all instances within the TIMEOUT RR and delete all hashes matching the relevant resource records.</p>
+<h1 id="rfc.section.7">
+<a href="#rfc.section.7">7.</a> Secondary Server Behavior</h1>
+<p id="rfc.section.7.p.1">A secondary server may or may not understand TIMEOUT resource records. If a secondary server does not understand them, they are treated like any other resource record that the server may not understand <a href="#RFC3597" class="xref">[RFC3597]</a>.</p>
+<p id="rfc.section.7.p.2">A secondary server MUST NOT expire the records in a zone it maintains covered by the TIMEOUT resource record and it MUST NOT expire the TIMEOUT resource record itself when the last record it covers has expired. The secondary server MUST always wait for the records to be removed or updated by the primary server.</p>
 <h1 id="rfc.section.8">
 <a href="#rfc.section.8">8.</a> TIMEOUT RR RDATA Presentation Format</h1>
 <p></p>
@@ -651,14 +647,14 @@
 <td class="left">NOHASH</td>
 <td class="left"></td>
 <td class="center">0</td>
-<td class="left"><a href="#HashIndex" class="xref">Section 5.2</a></td>
+<td class="left"><a href="#HashIndex" class="xref">Section 3.2</a></td>
 </tr>
 <tr>
 <td class="center">1</td>
 <td class="left">SHAKE128</td>
 <td class="left">SHAKE128</td>
 <td class="center">128</td>
-<td class="left"><a href="#SHAKE128" class="xref">Section 6.1</a></td>
+<td class="left"><a href="#SHAKE128" class="xref">Section 4.1</a></td>
 </tr>
 </tbody>
 </table>
