@@ -397,12 +397,12 @@
 <link href="#rfc.authors" rel="Chapter">
 
 
-  <meta name="generator" content="xml2rfc version 2.10.0 - https://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 2.12.3 - https://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Pusateri, T. and T. Wattenberg" />
-  <meta name="dct.identifier" content="urn:ietf:id:draft-pusateri-dnsop-update-timeout-00" />
-  <meta name="dct.issued" scheme="ISO8601" content="2018-05" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-pusateri-dnsop-update-timeout-01" />
+  <meta name="dct.issued" scheme="ISO8601" content="2018-12" />
   <meta name="dct.abstract" content="This specification defines a new DNS TIMEOUT resource record (RR) that associates a lifetime with one or more zone resource records with the same owner name and class. It is intended to be used to transfer resource record lifetime state between a zone's primary and secondary servers and to store lifetime state during server software restarts." />
   <meta name="description" content="This specification defines a new DNS TIMEOUT resource record (RR) that associates a lifetime with one or more zone resource records with the same owner name and class. It is intended to be used to transfer resource record lifetime state between a zone's primary and secondary servers and to store lifetime state during server software restarts." />
 
@@ -426,8 +426,8 @@
 <td class="right">Unaffiliated</td>
 </tr>
 <tr>
-<td class="left">Expires: February 6, 2019</td>
-<td class="right">August 5, 2018</td>
+<td class="left">Expires: May 16, 2019</td>
+<td class="right">November 12, 2018</td>
 </tr>
 
     	
@@ -435,7 +435,7 @@
   </table>
 
   <p class="title">DNS TIMEOUT Resource Record<br />
-  <span class="filename">draft-pusateri-dnsop-update-timeout-00</span></p>
+  <span class="filename">draft-pusateri-dnsop-update-timeout-01</span></p>
   
   <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
 <p>This specification defines a new DNS TIMEOUT resource record (RR) that associates a lifetime with one or more zone resource records with the same owner name and class. It is intended to be used to transfer resource record lifetime state between a zone's primary and secondary servers and to store lifetime state during server software restarts.</p>
@@ -443,7 +443,7 @@
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on February 6, 2019.</p>
+<p>This Internet-Draft will expire on May 16, 2019.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2018 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -510,22 +510,13 @@
 </h1>
 <p id="rfc.section.2.p.1">TIMEOUT resource records have different properties than normal DNS resource records.  </p>
 
-<ol>
-<li>TIMEOUT resource records are only defined for CLASS IN.</li>
-<li>TIMEOUT resource records are only for administrative use and they cannot be directly queried via the normal DNS request/response query mechanism. Valid requests for TIMEOUT resource record types MUST return responses with an NOERROR RCODE and an ANSWER COUNT of zero.</li>
-<li>TIMEOUT resource records are not automatically sent in AXFR, IXFR zone transfer requests. Both primary and secondary servers should be configured on a per zone basis to transfer TIMEOUT resource records to ensure they are supported.</li>
-<li>TIMEOUT resource records are not considered for DNSSEC/NSEC/NSEC3/NSEC5 record construction.</li>
-<li>TIMEOUT resource records cannot be directly added, modified, or deleted through DNS Update.</li>
-<li>A TIMEOUT resource record MUST be removed when the last resource record it covers has been removed. This may be due to the record expiring (reaching the expiry time) or due to a subsequent DNS Update or administrative action.</li>
-</ol>
+<ol><li>A TIMEOUT resource record MUST be removed when the last resource record it covers has been removed. This may be due to the record expiring (reaching the expiry time) or due to a subsequent DNS Update or administrative action.</li></ol>
 
 <p> </p>
 <h1 id="rfc.section.3">
 <a href="#rfc.section.3">3.</a> Secondary Server Behavior</h1>
-<p id="rfc.section.3.p.1">A secondary server may or may not understand TIMEOUT resource records. The primary server should not be configured to send TIMEOUT resource records if the secondary server does not understand them. However, if TIMEOUT resource records are mistakenly transferred to a server that does not understand them, they are treated like any other resource record that the server may not understand <a href="#RFC3597" class="xref">[RFC3597]</a>.</p>
-<p id="rfc.section.3.p.2">A secondary server that does understand the TIMEOUT resource records it receives in a transfer MUST abide by the properties of the resource record type defined in <a href="#properties" class="xref">Section 2</a>.</p>
-<p id="rfc.section.3.p.3">A secondary server will independently expire the records in a zone it maintains covered by the TIMEOUT resource record as well as expire the TIMEOUT resource record itself when the last record it covers has expired in the same manner that a primary server would.</p>
-<p id="rfc.section.3.p.4">If a TIMEOUT resource record is removed from a subsequent zone transfer, the secondary server MUST also remove it from its zone database regardless of the expiry time.</p>
+<p id="rfc.section.3.p.1">A secondary server may or may not understand TIMEOUT resource records. If a secondary server does not understand them, they are treated like any other resource record that the server may not understand <a href="#RFC3597" class="xref">[RFC3597]</a>.</p>
+<p id="rfc.section.3.p.2">A secondary server MUST NOT expire the records in a zone it maintains covered by the TIMEOUT resource record and it MUST NOT expire the TIMEOUT resource record itself when the last record it covers has expired. The secondary server MUST always wait for the records to be removed or updated by the primary server.</p>
 <h1 id="rfc.section.4">
 <a href="#rfc.section.4">4.</a> Sources of TIMEOUT Expiry Time</h1>
 <p id="rfc.section.4.p.1">The expire time may come from many different sources. A few are listed here however, this list is not considered complete.  </p>
@@ -540,7 +531,7 @@
 <h1 id="rfc.section.5">
 <a href="#rfc.section.5">5.</a> Resource Record Composition</h1>
 <p id="rfc.section.5.p.1">The TIMEOUT resource record must provide expiry times for a mixed variety of resource record types with the same owner name and class. Since there could exist multiple records of the same record type with the same owner name and class, the TIMEOUT resource record must be able to identify each of these records individually with only different RDATA. As an example, PTR records for service discovery provide a level of indirection to SRV and TXT records by instance name. The instance name is stored in the PTR RDATA and multiple PTR records with the same owner name but only differing RDATA often exist.</p>
-<p id="rfc.section.5.p.2">In order to distinguish each individual record with potentially different expiry times, the TIMEOUT resource record is made up multiple lists of hashes of the records for which they are applicable. Each list has an expiry time associated with it and each hash corresponds to a resource record for which that expiry time applies. Each resource record represented by a hash in the list uses the same expiry time associated with the list. There is also a hash algorithm index associated with each list. All hashes in the list MUST use the same hash algorithm.</p>
+<p id="rfc.section.5.p.2">In order to distinguish each individual record with potentially different expiry times, the TIMEOUT resource record is made up of multiple lists of hashes of the records for which they are applicable. Each list has an expiry time associated with it and each hash corresponds to a resource record for which that expiry time applies. Each resource record represented by a hash in the list uses the same expiry time associated with the list. There is also a hash algorithm index associated with each list. All hashes in the list MUST use the same hash algorithm.</p>
 <p id="rfc.section.5.p.3">Since each TIMEOUT resource record is actually a collection of state from different sources over different time periods, there is a potential for default algorithm changes to occur on a single server or due to unavailability of an UPDATE server for a period of time to merge records between failover servers with different default algorithms. Therefore, the ability to have different hash algorithms in the same TIMEOUT resource record is accounted for. While this won't be a common scenario, it could occur during failure and restart scenarios. All hashes for the same expiry time MUST use the same hash algorithm. This is not likely to cause any problems with merging since the same server will be using the same default hash algorithm at a particular second resolution in time.</p>
 <p id="rfc.section.5.p.4">Within the TIMEOUT resource record there can exist an arbitrary number of combinations of Hash Algorithm Index, Hash Count, Expiry Time, and list of zero or more cryptographic hashes. The specific fields and their values are defined as:</p>
 <h1 id="rfc.section.5.1">
@@ -574,7 +565,7 @@
 <a href="#rfc.section.6.1">6.1.</a> <a href="#SHAKE128" id="SHAKE128">REQUIRED Cryptographic Hash Algorithm</a>
 </h1>
 <p id="rfc.section.6.1.p.1">The initial algorithm selected to meet this criteria is SHAKE128. It is part of the SHA-3 <a href="#SHA3" class="xref">[SHA3]</a> family of cryptographic hash algorithms. The output length of the hash used is 128 bits or 16 bytes. SHAKE128 is implemented in the OpenSSL Library version 1.1.1 <a href="#OPENSSL" class="xref">[OPENSSL]</a>. In order to be in compliance with this specification, the SHAKE128 algorithm MUST be implemented. SHAKE128 is to be assigned an algorithm index of 1 in the IANA registry.</p>
-<p id="rfc.section.6.1.p.2">Additional algorithms may be defined in the future that can be used in place of SHAKE128. Coordination between the primary and secondary servers is required out of band to ensure both sides of a transfer have implemented the particular algorithm.</p>
+<p id="rfc.section.6.1.p.2">Additional algorithms may be defined in the future that can be used in place of SHAKE128.</p>
 <h1 id="rfc.section.7">
 <a href="#rfc.section.7">7.</a> TIMEOUT RR RDATA Wire Format</h1>
 <p id="rfc.section.7.p.1">The TIMEOUT resource record follows the same pattern as other DNS resource records as defined in Section 3.2.1 of <a href="#RFC1035" class="xref">[RFC1035]</a>.</p>
@@ -675,8 +666,7 @@
 <h1 id="rfc.section.10">
 <a href="#rfc.section.10">10.</a> <a href="#Security" id="Security">Security Considerations</a>
 </h1>
-<p id="rfc.section.10.p.1">Secondary servers that have received TIMEOUT resource records in a transfer but do not understand the record type will serve requests for them like any other resource record type. This is a configuration error and can reveal the time that other DNS resource records will be present.</p>
-<p id="rfc.section.10.p.2">Vulnerabilities in cryptographic hash algorithms may become known over time. This specification only defines one well respected algorithm (SHAKE128) for hashing resource records to maximize interoperability. The IANA registry is defined for the future when vulnerabilities are found in this algorithm. Until that point, there likely will not exist a need to add new hash algorithms to the registry.</p>
+<p id="rfc.section.10.p.1">Vulnerabilities in cryptographic hash algorithms may become known over time. This specification only defines one well respected algorithm (SHAKE128) for hashing resource records to maximize interoperability. The IANA registry is defined for the future when vulnerabilities are found in this algorithm. Until that point, there likely will not exist a need to add new hash algorithms to the registry.</p>
 <h1 id="rfc.section.11">
 <a href="#rfc.section.11">11.</a> <a href="#Acknowledgments" id="Acknowledgments">Acknowledgments</a>
 </h1>
