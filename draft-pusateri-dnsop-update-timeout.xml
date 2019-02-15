@@ -93,7 +93,7 @@
      </address>
    </author>
 
-   <date year="2018"/>
+   <date year="2019"/>
 
    <!-- If the month and year are both specified and are the current ones, xml2rfc will fill 
         in the current day for you. If only the current year is specified, xml2rfc will fill 
@@ -271,26 +271,14 @@
    </section>
 
    <section anchor="Acknowledgments" title="Acknowledgments">
-     <t>This idea was motivated through conversations with Mark Andrews.</t>
+     <t>This idea was motivated through conversations with Mark Andrews. Thanks to Mark as well as Paul Vixie, Joe Abley, and Ted Lemon for their suggestions, review, and comments.</t>
+     <t><vspace blankLines='999' /></t>
    </section>
  </middle>
 
  <!--  *****BACK MATTER ***** -->
 
  <back>
-   <!-- References split into informative and normative -->
-
-   <!-- There are 2 ways to insert reference entries from the citation libraries:
-    1. define an ENTITY at the top, and use "ampersand character"RFC2629; here (as shown)
-    2. simply use a PI "less than character"?rfc include="reference.RFC.2119.xml"?> here
-       (for I-Ds: include="reference.I-D.narten-iana-considerations-rfc2434bis.xml")
-
-    Both are cited textually in the same manner: by using xref elements.
-    If you use the PI option, xml2rfc will, by default, try to find included files in the same
-    directory as the including file. You can also define the XML_LIBRARY environment variable
-    with a value containing a set of directories to search.  These can be either in the local
-    filing system or remote ones accessed by http (http://domain/dir/... ).-->
-
    <references title="Normative References">
      <!--?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
      &RFC1035;
@@ -337,5 +325,50 @@
        </front>
      </reference>
    </references>
+   <section title="Example TIMEOUT resource records">
+     <t>The following example shows some sample TIMEOUT resource records based on a DNS Update containing A and AAAA address plus the corresponding PTR records.</t>
+     <t>A host sending a name registration at time Tn for <spanx style="verb">A</spanx> and <spanx style="verb">AAAA</spanx> records with lease lifetime Ln would have an UPDATE that contains:</t>
+     <texttable anchor="address_update" title="Example Address Records Update">
+         <ttcol align='left' width='50%'>Name</ttcol>
+         <ttcol align='left'>RR Type</ttcol>
+         <ttcol align='left'>Value</ttcol>
+         <c>name_n.example.com</c>
+         <c>A</c>
+         <c>192.0.2.5</c>
+         <c>name_n.example.com</c>
+         <c>AAAA</c>
+         <c>12001:db8::5</c>
+         <c>5.2.0.192.in-addr.arpa.</c>
+         <c>PTR</c>
+         <c>name_n.example.com.</c>
+         <c>5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.01.20.ip6.arpa. (bytes)</c>
+         <c>PTR</c>
+         <c>name_n.example.com.</c>
+     </texttable>
+     <t>Next, consider the TIMEOUT resource records that would be generated for the records in <xref target="address_update"/>. Notice that none of the 3 TIMEOUT records on the server would require a hash:</t>
+     <texttable anchor="address_timeout" title="Corresponding TIMEOUT records">
+         <ttcol align='left' width='40%'>Owner Name</ttcol>
+         <ttcol align='left'>RRType</ttcol>
+         <ttcol align='left'>Count</ttcol>
+         <ttcol align='left'>Alg</ttcol>
+         <ttcol align='left'>Expiration</ttcol>
+         <c>name_n.example.com</c>
+         <c>TIMEOUT</c>
+         <c>0</c>
+         <c>0</c>
+         <c>Tn + Ln</c>
+         <c>5.2.0.192.in-addr.arpa.</c>
+         <c>TIMEOUT</c>
+         <c>0</c>
+         <c>0</c>
+         <c>Tn + Ln</c>
+         <c>5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.01.20.ip6.arpa. (bytes)</c>
+         <c>TIMEOUT</c>
+         <c>0</c>
+         <c>0</c>
+         <c>Tn + Ln</c>
+     </texttable>
+     <t><vspace blankLines='999' /></t>
+   </section>
  </back>
 </rfc>

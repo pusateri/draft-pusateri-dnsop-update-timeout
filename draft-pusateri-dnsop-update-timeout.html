@@ -394,15 +394,16 @@
 <link href="#rfc.references" rel="Chapter" title="12 References">
 <link href="#rfc.references.1" rel="Chapter" title="12.1 Normative References">
 <link href="#rfc.references.2" rel="Chapter" title="12.2 Informative References">
+<link href="#rfc.appendix.A" rel="Chapter" title="A Example TIMEOUT resource records">
 <link href="#rfc.authors" rel="Chapter">
 
 
-  <meta name="generator" content="xml2rfc version 2.12.3 - https://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 2.18.0 - https://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Pusateri, T. and T. Wattenberg" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-pusateri-dnsop-update-timeout-01" />
-  <meta name="dct.issued" scheme="ISO8601" content="2018-12" />
+  <meta name="dct.issued" scheme="ISO8601" content="2019-15" />
   <meta name="dct.abstract" content="This specification defines a new DNS TIMEOUT resource record (RR) that associates a lifetime with one or more zone resource records with the same owner name and class. It is intended to be used to transfer resource record lifetime state between a zone's primary and secondary servers and to store lifetime state during server software restarts." />
   <meta name="description" content="This specification defines a new DNS TIMEOUT resource record (RR) that associates a lifetime with one or more zone resource records with the same owner name and class. It is intended to be used to transfer resource record lifetime state between a zone's primary and secondary servers and to store lifetime state during server software restarts." />
 
@@ -426,8 +427,8 @@
 <td class="right">Unaffiliated</td>
 </tr>
 <tr>
-<td class="left">Expires: May 16, 2019</td>
-<td class="right">November 12, 2018</td>
+<td class="left">Expires: August 19, 2019</td>
+<td class="right">February 15, 2019</td>
 </tr>
 
     	
@@ -443,9 +444,9 @@
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on May 16, 2019.</p>
+<p>This Internet-Draft will expire on August 19, 2019.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
-<p>Copyright (c) 2018 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
+<p>Copyright (c) 2019 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
 
   
@@ -493,7 +494,9 @@
 </li>
 <li>12.2.   <a href="#rfc.references.2">Informative References</a>
 </li>
-</ul><li><a href="#rfc.authors">Authors' Addresses</a>
+</ul><li>Appendix A.   <a href="#rfc.appendix.A">Example TIMEOUT resource records</a>
+</li>
+<li><a href="#rfc.authors">Authors' Addresses</a>
 </li>
 
 
@@ -665,7 +668,8 @@
 <h1 id="rfc.section.11">
 <a href="#rfc.section.11">11.</a> <a href="#Acknowledgments" id="Acknowledgments">Acknowledgments</a>
 </h1>
-<p id="rfc.section.11.p.1">This idea was motivated through conversations with Mark Andrews.</p>
+<p id="rfc.section.11.p.1">This idea was motivated through conversations with Mark Andrews. Thanks to Mark as well as Paul Vixie, Joe Abley, and Ted Lemon for their suggestions, review, and comments.</p>
+<p></p>
 <h1 id="rfc.references">
 <a href="#rfc.references">12.</a> References</h1>
 <h1 id="rfc.references.1">
@@ -731,6 +735,79 @@
 <a>Lewis, E.</a> and <a>A. Hoenes</a>, "<a href="https://tools.ietf.org/html/rfc5936">DNS Zone Transfer Protocol (AXFR)</a>", RFC 5936, DOI 10.17487/RFC5936, June 2010.</td>
 </tr>
 </tbody></table>
+<h1 id="rfc.appendix.A">
+<a href="#rfc.appendix.A">Appendix A.</a> Example TIMEOUT resource records</h1>
+<p id="rfc.section.A.p.1">The following example shows some sample TIMEOUT resource records based on a DNS Update containing A and AAAA address plus the corresponding PTR records.</p>
+<p id="rfc.section.A.p.2">A host sending a name registration at time Tn for <samp>A</samp> and <samp>AAAA</samp> records with lease lifetime Ln would have an UPDATE that contains:</p>
+<div id="rfc.table.2"></div>
+<div id="address_update"></div>
+<table cellpadding="3" cellspacing="0" class="tt full center">
+<caption>Example Address Records Update</caption>
+<thead><tr>
+<th class="left">Name</th>
+<th class="left">RR Type</th>
+<th class="left">Value</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="left">name_n.example.com</td>
+<td class="left">A</td>
+<td class="left">192.0.2.5</td>
+</tr>
+<tr>
+<td class="left">name_n.example.com</td>
+<td class="left">AAAA</td>
+<td class="left">12001:db8::5</td>
+</tr>
+<tr>
+<td class="left">5.2.0.192.in-addr.arpa.</td>
+<td class="left">PTR</td>
+<td class="left">name_n.example.com.</td>
+</tr>
+<tr>
+<td class="left">5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.01.20.ip6.arpa. (bytes)</td>
+<td class="left">PTR</td>
+<td class="left">name_n.example.com.</td>
+</tr>
+</tbody>
+</table>
+<p id="rfc.section.A.p.3">Next, consider the TIMEOUT resource records that would be generated for the records in <a href="#address_update" class="xref">Table 2</a>. Notice that none of the 3 TIMEOUT records on the server would require a hash:</p>
+<div id="rfc.table.3"></div>
+<div id="address_timeout"></div>
+<table cellpadding="3" cellspacing="0" class="tt full center">
+<caption>Corresponding TIMEOUT records</caption>
+<thead><tr>
+<th class="left">Owner Name</th>
+<th class="left">RRType</th>
+<th class="left">Count</th>
+<th class="left">Alg</th>
+<th class="left">Expiration</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="left">name_n.example.com</td>
+<td class="left">TIMEOUT</td>
+<td class="left">0</td>
+<td class="left">0</td>
+<td class="left">Tn + Ln</td>
+</tr>
+<tr>
+<td class="left">5.2.0.192.in-addr.arpa.</td>
+<td class="left">TIMEOUT</td>
+<td class="left">0</td>
+<td class="left">0</td>
+<td class="left">Tn + Ln</td>
+</tr>
+<tr>
+<td class="left">5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.01.20.ip6.arpa. (bytes)</td>
+<td class="left">TIMEOUT</td>
+<td class="left">0</td>
+<td class="left">0</td>
+<td class="left">Tn + Ln</td>
+</tr>
+</tbody>
+</table>
+<p></p>
 <h1 id="rfc.authors"><a href="#rfc.authors">Authors' Addresses</a></h1>
 <div class="avoidbreak">
   <address class="vcard">
