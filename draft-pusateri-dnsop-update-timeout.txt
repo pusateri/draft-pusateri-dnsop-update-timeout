@@ -5,7 +5,7 @@
 Internet Engineering Task Force                              T. Pusateri
 Internet-Draft                                             T. Wattenberg
 Intended status: Standards Track                            Unaffiliated
-Expires: August 19, 2019                               February 15, 2019
+Expires: August 20, 2019                               February 16, 2019
 
 
                       DNS TIMEOUT Resource Record
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on August 19, 2019.
+   This Internet-Draft will expire on August 20, 2019.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Pusateri & Wattenberg    Expires August 19, 2019                [Page 1]
+Pusateri & Wattenberg    Expires August 20, 2019                [Page 1]
 
 Internet-Draft           TIMEOUT Resource Record           February 2019
 
@@ -84,7 +84,7 @@ Table of Contents
      12.1.  Normative References . . . . . . . . . . . . . . . . . .   9
      12.2.  Informative References . . . . . . . . . . . . . . . . .   9
    Appendix A.  Example TIMEOUT resource records . . . . . . . . . .  10
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  11
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  12
 
 1.  Introduction
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Pusateri & Wattenberg    Expires August 19, 2019                [Page 2]
+Pusateri & Wattenberg    Expires August 20, 2019                [Page 2]
 
 Internet-Draft           TIMEOUT Resource Record           February 2019
 
@@ -165,7 +165,7 @@ Internet-Draft           TIMEOUT Resource Record           February 2019
 
 
 
-Pusateri & Wattenberg    Expires August 19, 2019                [Page 3]
+Pusateri & Wattenberg    Expires August 20, 2019                [Page 3]
 
 Internet-Draft           TIMEOUT Resource Record           February 2019
 
@@ -221,7 +221,7 @@ Internet-Draft           TIMEOUT Resource Record           February 2019
 
 
 
-Pusateri & Wattenberg    Expires August 19, 2019                [Page 4]
+Pusateri & Wattenberg    Expires August 20, 2019                [Page 4]
 
 Internet-Draft           TIMEOUT Resource Record           February 2019
 
@@ -277,7 +277,7 @@ Internet-Draft           TIMEOUT Resource Record           February 2019
 
 
 
-Pusateri & Wattenberg    Expires August 19, 2019                [Page 5]
+Pusateri & Wattenberg    Expires August 20, 2019                [Page 5]
 
 Internet-Draft           TIMEOUT Resource Record           February 2019
 
@@ -333,7 +333,7 @@ Internet-Draft           TIMEOUT Resource Record           February 2019
 
 
 
-Pusateri & Wattenberg    Expires August 19, 2019                [Page 6]
+Pusateri & Wattenberg    Expires August 20, 2019                [Page 6]
 
 Internet-Draft           TIMEOUT Resource Record           February 2019
 
@@ -389,7 +389,7 @@ Internet-Draft           TIMEOUT Resource Record           February 2019
 
 
 
-Pusateri & Wattenberg    Expires August 19, 2019                [Page 7]
+Pusateri & Wattenberg    Expires August 20, 2019                [Page 7]
 
 Internet-Draft           TIMEOUT Resource Record           February 2019
 
@@ -445,7 +445,7 @@ Internet-Draft           TIMEOUT Resource Record           February 2019
 
 
 
-Pusateri & Wattenberg    Expires August 19, 2019                [Page 8]
+Pusateri & Wattenberg    Expires August 20, 2019                [Page 8]
 
 Internet-Draft           TIMEOUT Resource Record           February 2019
 
@@ -501,7 +501,7 @@ Internet-Draft           TIMEOUT Resource Record           February 2019
 
 
 
-Pusateri & Wattenberg    Expires August 19, 2019                [Page 9]
+Pusateri & Wattenberg    Expires August 20, 2019                [Page 9]
 
 Internet-Draft           TIMEOUT Resource Record           February 2019
 
@@ -513,22 +513,23 @@ Internet-Draft           TIMEOUT Resource Record           February 2019
 Appendix A.  Example TIMEOUT resource records
 
    The following example shows some sample TIMEOUT resource records
-   based on a DNS Update containing A and AAAA address plus the
+   based on DNS UPDATEs containing A and AAAA address records plus the
    corresponding PTR records.
 
    A host sending a name registration at time Tn for "A" and "AAAA"
-   records with lease lifetime Ln would have an UPDATE that contains:
+   records with lease lifetime Ln would have a series of UPDATEs (one
+   for each zone) that contain:
 
-   +--------------------------------------+------+---------------------+
-   | Name                                 | RR   | Value               |
-   |                                      | Type |                     |
-   +--------------------------------------+------+---------------------+
-   | name_n.example.com                   | A    | 192.0.2.5           |
-   | name_n.example.com                   | AAAA | 12001:db8::5        |
-   | 5.2.0.192.in-addr.arpa.              | PTR  | name_n.example.com. |
-   | 5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.01.20. | PTR  | name_n.example.com. |
-   | ip6.arpa. (bytes)                    |      |                     |
-   +--------------------------------------+------+---------------------+
+   +----------------------------------------+------+-------------------+
+   | Name                                   | RR   | Value             |
+   |                                        | Type |                   |
+   +----------------------------------------+------+-------------------+
+   | name.example.com.                      | A    | 192.0.2.5         |
+   | name.example.com.                      | AAAA | 12001:db8::5      |
+   | 5.2.0.192.in-addr.arpa.                | PTR  | name.example.com. |
+   | 5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.01.20.ip | PTR  | name.example.com. |
+   | 6.arpa. (bytes)                        |      |                   |
+   +----------------------------------------+------+-------------------+
 
                   Table 2: Example Address Records Update
 
@@ -539,28 +540,108 @@ Appendix A.  Example TIMEOUT resource records
    +------------------------------+---------+-------+-----+------------+
    | Owner Name                   | RRType  | Count | Alg | Expiration |
    +------------------------------+---------+-------+-----+------------+
-   | name_n.example.com           | TIMEOUT | 0     | 0   | Tn + Ln    |
+   | name.example.com.            | TIMEOUT | 0     | 0   | Tn + Ln    |
    | 5.2.0.192.in-addr.arpa.      | TIMEOUT | 0     | 0   | Tn + Ln    |
    | 5.0.0.0.0.0.0.0.0.0.0.0.b8.0 | TIMEOUT | 0     | 0   | Tn + Ln    |
    | d.01.20.ip6.arpa. (bytes)    |         |       |     |            |
    +------------------------------+---------+-------+-----+------------+
 
-                  Table 3: Corresponding TIMEOUT records
+                     Table 3: Address TIMEOUT records
+
+   Next, assume there are two hosts advertising the same service type
+   (different service types will have different owner names).  We will
+   use _ipp._tcp.example.com as an example.
 
 
 
 
 
 
-
-
-
-
-
-Pusateri & Wattenberg    Expires August 19, 2019               [Page 10]
+Pusateri & Wattenberg    Expires August 20, 2019               [Page 10]
 
 Internet-Draft           TIMEOUT Resource Record           February 2019
 
+
+   Host A sends an UPDATE at time Ta with lease life La for PTR, SRV, A,
+   AAAA, and TXT records.  Host B sends an UPDATE at time Tb with lease
+   life Lb for PTR, SRV, A, and TXT records.
+
+   +--------------------------------+------+---------------------------+
+   | Owner name                     | RR   | Value                     |
+   |                                | Type |                           |
+   +--------------------------------+------+---------------------------+
+   | _ipp._tcp.example.com.         | PTR  | p1._ipp._tcp.example.com. |
+   | p1._ipp._tcp.example.com.      | SRV  | 0 0 631 p1.example.com.   |
+   | p1._ipp._tcp.example.com.      | TXT  | paper=A4                  |
+   | p1.example.com.                | A    | 192.0.2.1                 |
+   | p1.example.com.                | AAAA | 2001:db8::1               |
+   +--------------------------------+------+---------------------------+
+
+                      Table 4: DNS UPDATE from Host A
+
+   +--------------------------------+------+---------------------------+
+   | Owner name                     | RR   | Value                     |
+   |                                | Type |                           |
+   +--------------------------------+------+---------------------------+
+   | _ipp._tcp.example.com.         | PTR  | p2._ipp._tcp.example.com. |
+   | p2._ipp._tcp.example.com.      | SRV  | 0 0 631 p2.example.com.   |
+   | p2._ipp._tcp.example.com.      | TXT  | paper=B4                  |
+   | p2.example.com.                | A    | 192.0.2.2                 |
+   +--------------------------------+------+---------------------------+
+
+                      Table 5: DNS UPDATE from Host B
+
+   For these printer registrations, the TIMEOUT records on the server
+   would look like the following:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Pusateri & Wattenberg    Expires August 20, 2019               [Page 11]
+
+Internet-Draft           TIMEOUT Resource Record           February 2019
+
+
+   +---------------------------+------+-------+-----+------------------+
+   | Owner Name                | RR   | Count | Alg | Expire /         |
+   |                           | Type |       |     | Hash List        |
+   +---------------------------+------+-------+-----+------------------+
+   | _ipp.tcp.example.com.     | TIME | 1     | 1   | Ta + La          |
+   |                           | OUT  |       |     | 7ba17d11f8d96bb5 |
+   |                           |      |       |     | 4b7ca675bebaf1b6 |
+   |                           |      | 1     | 1   | Tb + Lb          |
+   |                           |      |       |     | 644685a489ad3bd4 |
+   |                           |      |       |     | 350c1230c7643745 |
+   | p1._ipp._tcp.example.com. | TIME | 0     | 0   | Ta + La          |
+   |                           | OUT  |       |     |                  |
+   | p2._ipp._tcp.example.com. | TIME | 0     | 0   | Tb + Lb          |
+   |                           | OUT  |       |     |                  |
+   | p1.example.com.           | TIME | 2     | 1   | Ta + La          |
+   |                           | OUT  |       |     | e6285fbe75eae13c |
+   |                           |      |       |     | febf9505cf9ffefc |
+   |                           |      |       |     | 592316d7df872856 |
+   |                           |      |       |     | bcb8c94fda4603db |
+   | p2.example.com.           | TIME | 0     | 0   | Tb + Lb          |
+   |                           | OUT  |       |     |                  |
+   +---------------------------+------+-------+-----+------------------+
+
+                     Table 6: Service TIMEOUT records
 
 Authors' Addresses
 
@@ -588,29 +669,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Pusateri & Wattenberg    Expires August 19, 2019               [Page 11]
+Pusateri & Wattenberg    Expires August 20, 2019               [Page 12]

@@ -326,33 +326,33 @@
      </reference>
    </references>
    <section title="Example TIMEOUT resource records">
-     <t>The following example shows some sample TIMEOUT resource records based on a DNS Update containing A and AAAA address plus the corresponding PTR records.</t>
-     <t>A host sending a name registration at time Tn for <spanx style="verb">A</spanx> and <spanx style="verb">AAAA</spanx> records with lease lifetime Ln would have an UPDATE that contains:</t>
+     <t>The following example shows some sample TIMEOUT resource records based on DNS UPDATEs containing A and AAAA address records plus the corresponding PTR records.</t>
+     <t>A host sending a name registration at time Tn for <spanx style="verb">A</spanx> and <spanx style="verb">AAAA</spanx> records with lease lifetime Ln would have a series of UPDATEs (one for each zone) that contain:</t>
      <texttable anchor="address_update" title="Example Address Records Update">
          <ttcol align='left' width='50%'>Name</ttcol>
          <ttcol align='left'>RR Type</ttcol>
          <ttcol align='left'>Value</ttcol>
-         <c>name_n.example.com</c>
+         <c>name.example.com.</c>
          <c>A</c>
          <c>192.0.2.5</c>
-         <c>name_n.example.com</c>
+         <c>name.example.com.</c>
          <c>AAAA</c>
          <c>12001:db8::5</c>
          <c>5.2.0.192.in-addr.arpa.</c>
          <c>PTR</c>
-         <c>name_n.example.com.</c>
+         <c>name.example.com.</c>
          <c>5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.01.20.ip6.arpa. (bytes)</c>
          <c>PTR</c>
-         <c>name_n.example.com.</c>
+         <c>name.example.com.</c>
      </texttable>
      <t>Next, consider the TIMEOUT resource records that would be generated for the records in <xref target="address_update"/>. Notice that none of the 3 TIMEOUT records on the server would require a hash:</t>
-     <texttable anchor="address_timeout" title="Corresponding TIMEOUT records">
+     <texttable anchor="address_timeout" title="Address TIMEOUT records">
          <ttcol align='left' width='40%'>Owner Name</ttcol>
          <ttcol align='left'>RRType</ttcol>
          <ttcol align='left'>Count</ttcol>
          <ttcol align='left'>Alg</ttcol>
          <ttcol align='left'>Expiration</ttcol>
-         <c>name_n.example.com</c>
+         <c>name.example.com.</c>
          <c>TIMEOUT</c>
          <c>0</c>
          <c>0</c>
@@ -368,7 +368,83 @@
          <c>0</c>
          <c>Tn + Ln</c>
      </texttable>
-     <t><vspace blankLines='999' /></t>
+     <t>Next, assume there are two hosts advertising the same service type (different service types will have different owner names). We will use _ipp._tcp.example.com as an example.</t>
+     <t>Host A sends an UPDATE at time Ta with lease life La for PTR, SRV, A, AAAA, and TXT records. Host B sends an UPDATE at time Tb with lease life Lb for PTR, SRV, A, and TXT records.</t>
+      <texttable anchor="ipp_host_a" title="DNS UPDATE from Host A">
+          <ttcol align='left' width='50%'>Owner name</ttcol>
+          <ttcol align='left'>RR Type</ttcol>
+          <ttcol align='left'>Value</ttcol>
+          <c>_ipp._tcp.example.com.</c>
+          <c>PTR</c>
+          <c>p1._ipp._tcp.example.com.</c>
+          <c>p1._ipp._tcp.example.com.</c>
+          <c>SRV</c>
+          <c>0 0 631 p1.example.com.</c>
+          <c>p1._ipp._tcp.example.com.</c>
+          <c>TXT</c>
+          <c>paper=A4</c>
+          <c>p1.example.com.</c>
+          <c>A</c>
+          <c>192.0.2.1</c>
+          <c>p1.example.com.</c>
+          <c>AAAA</c>
+          <c>2001:db8::1</c>
+      </texttable>
+      <texttable anchor="ipp_host_b" title="DNS UPDATE from Host B">
+          <ttcol align='left' width='50%'>Owner name</ttcol>
+          <ttcol align='left'>RR Type</ttcol>
+          <ttcol align='left'>Value</ttcol>
+          <c>_ipp._tcp.example.com.</c>
+          <c>PTR</c>
+          <c>p2._ipp._tcp.example.com.</c>
+          <c>p2._ipp._tcp.example.com.</c>
+          <c>SRV</c>
+          <c>0 0 631 p2.example.com.</c>
+          <c>p2._ipp._tcp.example.com.</c>
+          <c>TXT</c>
+          <c>paper=B4</c>
+          <c>p2.example.com.</c>
+          <c>A</c>
+          <c>192.0.2.2</c>
+      </texttable>
+      <t>For these printer registrations, the TIMEOUT records on the server would look like the following:</t>
+      <texttable anchor="printer_timeout" title="Service TIMEOUT records">
+          <ttcol align='left' width='46%'>Owner Name</ttcol>
+          <ttcol align='left' width='5%'>RR Type</ttcol>
+          <ttcol align='left'>Count</ttcol>
+          <ttcol align='left'>Alg</ttcol>
+          <ttcol align='left' width='36%'>Expire /       Hash List</ttcol>
+          <c>_ipp.tcp.example.com.</c>
+          <c>TIMEOUT</c>
+          <c>1</c>
+          <c>1</c>
+          <c>Ta + La&nbsp;           7ba17d11f8d96bb5 4b7ca675bebaf1b6</c>
+          <c></c>
+          <c></c>
+          <c>1</c>
+          <c>1</c>
+          <c>Tb + Lb&nbsp;           644685a489ad3bd4 350c1230c7643745</c>
+          <c>p1._ipp._tcp.example.com.</c>
+          <c>TIMEOUT</c>
+          <c>0</c>
+          <c>0</c>
+          <c>Ta + La</c>
+          <c>p2._ipp._tcp.example.com.</c>
+          <c>TIMEOUT</c>
+          <c>0</c>
+          <c>0</c>
+          <c>Tb + Lb</c>
+          <c>p1.example.com.</c>
+          <c>TIMEOUT</c>
+          <c>2</c>
+          <c>1</c>
+          <c>Ta + La&nbsp;           e6285fbe75eae13c febf9505cf9ffefc           592316d7df872856 bcb8c94fda4603db</c>
+          <c>p2.example.com.</c>
+          <c>TIMEOUT</c>
+          <c>0</c>
+          <c>0</c>
+          <c>Tb + Lb</c>
+      </texttable>
    </section>
  </back>
 </rfc>
