@@ -76,7 +76,7 @@ Table of Contents
    5.  TIMEOUT RR RDATA Wire Format  . . . . . . . . . . . . . . . .   6
    6.  Primary Server Behavior . . . . . . . . . . . . . . . . . . .   7
    7.  Secondary Server Behavior . . . . . . . . . . . . . . . . . .   7
-   8.  TIMEOUT RR RDATA Presentation Format  . . . . . . . . . . . .   7
+   8.  TIMEOUT RR RDATA Presentation Format  . . . . . . . . . . . .   8
    9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   8
    10. Security Considerations . . . . . . . . . . . . . . . . . . .   8
    11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .   8
@@ -361,6 +361,18 @@ Internet-Draft           TIMEOUT Resource Record           February 2019
    all instances within the TIMEOUT RR and delete all hashes matching
    the relevant resource records.
 
+   As a reminder from Section 3.3.13 of [RFC1035], the MINIMUM field of
+   the SOA for the zone is used as a lower bound of the TTL for all
+   records in the zone.  Therefore, even if the TIMEOUT record will
+   expire in less time than the MINIMUM, the TTL is still set to the
+   MINIMUM for records covered by the TIMEOUT record and the TIMEOUT
+   record itself when a response is returned by an authoritative server.
+   The TIMEOUT RR is mostly for the benefit of the authoritative server
+   to know when to remove the records.  The fact that some records might
+   live longer in the cache of a resolver is no different than other
+   records that might get removed while still in a remote resolver
+   cache.
+
 7.  Secondary Server Behavior
 
    A secondary server may or may not understand TIMEOUT resource
@@ -374,6 +386,14 @@ Internet-Draft           TIMEOUT Resource Record           February 2019
    expired.  The secondary server MUST always wait for the records to be
    removed or updated by the primary server.
 
+
+
+
+Pusateri & Wattenberg    Expires August 20, 2019                [Page 7]
+
+Internet-Draft           TIMEOUT Resource Record           February 2019
+
+
 8.  TIMEOUT RR RDATA Presentation Format
 
    Hash Count:  unsigned decimal integer
@@ -384,15 +404,6 @@ Internet-Draft           TIMEOUT Resource Record           February 2019
          profile of ISO 8601
 
    Hash: Base64 encoding (whitespace allowed), Section 4 of [RFC4648]
-
-
-
-
-
-Pusateri & Wattenberg    Expires August 20, 2019                [Page 7]
-
-Internet-Draft           TIMEOUT Resource Record           February 2019
-
 
 9.  IANA Considerations
 
@@ -431,17 +442,6 @@ Internet-Draft           TIMEOUT Resource Record           February 2019
    This idea was motivated through conversations with Mark Andrews.
    Thanks to Mark as well as Paul Vixie, Joe Abley, and Ted Lemon for
    their suggestions, review, and comments.
-
-
-
-
-
-
-
-
-
-
-
 
 
 

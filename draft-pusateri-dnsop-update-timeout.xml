@@ -229,6 +229,7 @@
    <section title="Primary Server Behavior">
      <t>A TIMEOUT resource record MUST be removed when the last resource record it covers has been removed. This may be due to the record expiring (reaching the expiry time) or due to a subsequent DNS Update or administrative action.</t>
      <t>Upon receiving any DNS UPDATE deleting resource records that might have been covered by a TIMEOUT RR, a primary server MUST go through all instances within the TIMEOUT RR and delete all hashes matching the relevant resource records.</t>
+     <t>As a reminder from Section 3.3.13 of <xref target="RFC1035"/>, the MINIMUM field of the SOA for the zone is used as a lower bound of the TTL for all records in the zone. Therefore, even if the TIMEOUT record will expire in less time than the MINIMUM, the TTL is still set to the MINIMUM for records covered by the TIMEOUT record and the TIMEOUT record itself when a response is returned by an authoritative server. The TIMEOUT RR is mostly for the benefit of the authoritative server to know when to remove the records. The fact that some records might live longer in the cache of a resolver is no different than other records that might get removed while still in a remote resolver cache.</t>
    </section>
    <section title="Secondary Server Behavior">
      <t>A secondary server may or may not understand TIMEOUT resource records. If a secondary server does not understand them, they are treated like any other resource record that the server may not understand <xref target="RFC3597"/>.</t>
