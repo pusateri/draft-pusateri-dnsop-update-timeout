@@ -14,6 +14,7 @@
 <!ENTITY RFC3597 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3597.xml">
 <!ENTITY RFC4648 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4648.xml">
 <!ENTITY RFC5936 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5936.xml">
+<!ENTITY RFC8174 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.8174.xml">
 <!ENTITY I-D.sekar-dns-ul SYSTEM  "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.sekar-dns-ul.xml">
 ]>
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
@@ -121,23 +122,24 @@
         keywords will be used for the search engine. -->
 
    <abstract>
-	   <t>This specification defines a new DNS TIMEOUT resource record (RR) that associates a lifetime with one or more zone resource records with the same owner name and class. It is intended to be used to transfer resource record lifetime state between a zone's primary and secondary servers and to store lifetime state during server software restarts.</t>
+	   <t>This specification defines a new DNS TIMEOUT resource record (RR) that associates a lifetime with one or more zone resource records with the same owner name, type, and class. It is intended to be used to transfer resource record lifetime state between a zone's primary and secondary servers and to store lifetime state during server software restarts.</t>
    </abstract>
  </front>
 
  <middle>
    <section title="Introduction">
-	   <t>DNS Update <xref target="RFC2136"/> provides a mechanism to dynamically add/remove DNS resource records to/from a zone. When a resource record is dynamically added, it remains in the zone until it is removed manually or via a subsequent DNS Update. A zone administrator may want to enforce a default lifetime for dynamic updates (such as the DHCP lease lifetime) or the DNS Update may contain a lifetime using an EDNS(0) Update Lease option <xref target="I-D.sekar-dns-ul"/>. This lease lifetime is not communicated to secondary servers and will not endure through server software restarts. This specification defines a new DNS TIMEOUT resource record that associates a lifetime with one or more resource records with the same owner name and class that can be transferred to secondary servers through normal AXFR <xref target="RFC5936"/>, IXFR <xref target="RFC1995"/> transfer mechanisms.</t>
-
-     <section title="Requirements Language">
-       <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-       "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
-       document are to be interpreted as described in <xref
-       target="RFC2119">RFC 2119</xref>.</t>
-     </section>
+	   <t>DNS Update <xref target="RFC2136"/> provides a mechanism to dynamically add/remove DNS resource records to/from a zone. When a resource record is dynamically added, it remains in the zone until it is removed manually or via a subsequent DNS Update. A zone administrator may want to enforce a default lifetime for dynamic updates (such as the DHCP lease lifetime) or the DNS Update may contain a lifetime using an EDNS(0) Update Lease option <xref target="I-D.sekar-dns-ul"/>. This lease lifetime is not communicated to secondary servers and will not endure through server software restarts. This specification defines a new DNS TIMEOUT resource record that associates a lifetime with one or more resource records with the same owner name, type, and class that can be transferred to secondary servers through normal AXFR <xref target="RFC5936"/>, IXFR <xref target="RFC1995"/> transfer mechanisms.</t>
    </section>
-
-   
+   <section title="Requirements Language">
+     <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 <xref target="RFC2119"/> <xref target="RFC8174"/> when,
+   and only when, they appear in all
+   capitals, as shown here.  These words may also appear in this
+   document in lower case as plain English words, absent their normative
+   meanings.</t>
+   </section>
    <section title="Sources of TIMEOUT Expiry Time">
      <t>The expire time may come from many different sources. A few are listed here however, this list is not considered complete.
        <list style="numbers">
@@ -148,23 +150,26 @@
      </t>
    </section>
    <section title="Resource Record Composition">
-     <t>The TIMEOUT resource record must provide expiry times for a mixed variety of resource record types with the same owner name and class. Since there could exist multiple records of the same record type with the same owner name and class, the TIMEOUT resource record must be able to identify each of these records individually with only different RDATA. As an example, PTR records for service discovery provide a level of indirection to SRV and TXT records by instance name. The instance name is stored in the PTR RDATA and multiple PTR records with the same owner name but only differing RDATA often exist.</t>
+     <t>The TIMEOUT resource record must provide expiry times for a mixed variety of resource record types with the same owner name, type, and class. Since there could exist multiple records of the same record type with the same owner name and class, the TIMEOUT resource record must be able to identify each of these records individually with only different RDATA. As an example, PTR records for service discovery provide a level of indirection to SRV and TXT records by instance name. The instance name is stored in the PTR RDATA and multiple PTR records with the same owner name but only differing RDATA often exist.</t>
      <t>In order to distinguish each individual record with potentially different expiry times, the TIMEOUT resource record is made up of multiple lists of hashes of the records for which they are applicable. Each list has an expiry time associated with it and each hash corresponds to a resource record for which that expiry time applies. Each resource record represented by a hash in the list uses the same expiry time associated with the list. There is also a hash algorithm index associated with each list. All hashes in the list MUST use the same hash algorithm.</t>
      <t>Since each TIMEOUT resource record is actually a collection of state from different sources over different time periods, there is a potential for default algorithm changes to occur on a single server or due to unavailability of an UPDATE server for a period of time to merge records between failover servers with different default algorithms. Therefore, the ability to have different hash algorithms in the same TIMEOUT resource record is accounted for. While this won't be a common scenario, it could occur during failure and restart scenarios. All hashes for the same expiry time MUST use the same hash algorithm. This is not likely to cause any problems with merging since the same server will be using the same default hash algorithm at a particular second resolution in time.</t>
      <t>Within the TIMEOUT resource record there can exist an arbitrary number of combinations of Hash Algorithm Index, Hash Count, Expiry Time, and list of zero or more cryptographic hashes. The specific fields and their values are defined as:</t>
+     <section title="Record Type">
+       <t>A 16-bit field containing the resource record type to which the TIMEOUT record applies. Multiple TIMEOUT records for the same owner name can exist (one for each record type, class combination).</t>
+     </section>
      <section title="Hash Count">
-       <t>The Hash Count is a 16-bit value that specifies the number of hash values for the instance. All hashes within the instance MUST use the same Hash Algorithm specified by the Hash Algorithm Index.</t>
-       <t>A Hash Count of 0 indicates that no hashes are contained in the list. This is a shortcut notation meaning all resource records with the same owner name and class use the same Expiry Time. There MUST be only one instance of Hash Count and Hash Algorithm Index in this case. When the Hash Count is 0, the Hash Algorithm Index is set to NOHASH (0) on transmission and ignored on reception.</t>
+       <t>The Hash Count is a 8-bit value that specifies the number of hash values for the instance. All hashes within the instance MUST use the same Hash Algorithm specified by the Hash Algorithm Index.</t>
+       <t>A Hash Count of 0 indicates that no hashes are contained in the list. This is a shortcut notation meaning all resource records with the same owner name, record type, and class use the same Expiry Time. There MUST be only one instance of Hash Count and Hash Algorithm Index in this case. When the Hash Count is 0, the Hash Algorithm Index is set to NOHASH (0) on transmission and ignored on reception.</t>
      </section>
      <section title="Hash Algorithm Index" anchor="HashIndex">
-       <t>The Hash Algorithm Index is a 16-bit value that specifies an identifier for the hash algorithm used. The indexes are declared in a registry maintained by IANA for the purpose of listing acceptable hash algorithms for this purpose. In addition to the algorithm and the index, the registry will contain the output length in bits of the algorithm to be used. It is conceivable, though not likely, that the same algorithm could be used with different output lengths. In this case, each output length would require a different index in the registry. Additions to this registry will be approved with additional documentation under expert review. At the time that the registry is created by IANA, a group of expert reviewers will be established.</t>
+       <t>The Hash Algorithm Index is a 8-bit value that specifies an identifier for the hash algorithm used. The indexes are declared in a registry maintained by IANA for the purpose of listing acceptable hash algorithms for this purpose. In addition to the algorithm and the index, the registry will contain the output length in bits of the algorithm to be used. It is conceivable, though not likely, that the same algorithm could be used with different output lengths. In this case, each output length would require a different index in the registry. Additions to this registry will be approved with additional documentation under expert review. At the time that the registry is created by IANA, a group of expert reviewers will be established.</t>
        <t>The Hash Algorithm Index of 0 is defined as NOHASH and MUST NOT be used if any hash values are present in the instance. The index value of 0 is to be included in the IANA registry of Hash Algorithm Index values.</t> 
      </section>
      <section title="Expiry Time">
        <t>The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire. Lease times must be converted to an absolute expiry time when received.</t>
      </section>
      <section title="Cryptographic Hashes">
-       <t>The hash of each resource record is calculated using the entire length of the resource record as input. The output value of the hash is always a fixed pre-defined length specified with the hash algorithm.</t>
+       <t>The hash of each resource record is calculated using the entire length of the resource record as input. The output value of the hash is always a fixed pre-defined length specified with the hash algorithm. Any names contained in a resource record MUST be hashed in an uncompressed form.</t>
      </section>
    </section>
    <section title="Cryptographic Hash Requirements">
@@ -190,7 +195,7 @@
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|       Hash Count A (n)        |     Hash Algorithm Index A    |
+|             RR Type           |  Count A (n)  |  Algorithm A  |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |                      Expiry Time A (64-bit)                   |
 |                                                               |
@@ -205,7 +210,7 @@
 .                                                               .
 .                                                               .
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|       Hash Count B (m)        |     Hash Algorithm Index B    |
+|             RR Type           |  Count B (m)  |  Algorithm B  |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |                      Expiry Time B (64-bit)                   |
 |                                                               |
@@ -224,7 +229,7 @@
         </artwork>
       </figure>
       <t><xref target="rr_art"/> represents an arbitrary number of combinations of Hash Count, Hash Algorithm Index, Expiry Time, and list of zero or more cryptographic hashes. The figure entries containing "A" in the name represent one instance while the figure entries containing "B" in the name represent a second instance. There can be an arbitrary number of instances whose byte counts are accumulated by the RDLEN field in the resource record header.</t>
-      <t>The letter "n" represents the Hash Count in the first instance where there exists 0..n cryptographic hashes in the list. The letter "m" represents the Hash Count in the second instance where there exists 0..m cryptographic hashes in the second list. Either "n" or "m" could be zero.</t>
+      <t>The letter "n" represents the Hash Count in the first instance where there exists 0..n cryptographic hashes in the list. The letter "m" represents the Hash Count in the second instance where there exists 0..m cryptographic hashes in the second list.</t>
    </section>
    <section title="Primary Server Behavior">
      <t>A TIMEOUT resource record MUST be removed when the last resource record it covers has been removed. This may be due to the record expiring (reaching the expiry time) or due to a subsequent DNS Update or administrative action.</t>
@@ -238,10 +243,21 @@
    <section title="TIMEOUT RR RDATA Presentation Format">
      <t>
        <list style="hanging" hangIndent="6">
-         <t hangText="Hash Count:">unsigned decimal integer</t>
-         <t hangText="Hash Algorithm index:">unsigned decimal integer</t>
-         <t hangText="Expiry Time:">Internet Date/Time Format from <xref target="RFC3339"/> Section 5.6 profile of ISO 8601</t>
-         <t hangText="Hash:">Base64 encoding (whitespace allowed), Section 4 of <xref target="RFC4648"/></t>
+         <t hangText="Record Type:">
+           <vspace />
+           resource record type mnemonics.  When the mnemonic is unknown, the TYPE representation described in Section 5 of <xref target="RFC3597"/></t>
+         <t hangText="Hash Count:">
+           <vspace />
+           unsigned decimal integer</t>
+         <t hangText="Hash Algorithm index:">
+           <vspace />
+           unsigned decimal integer</t>
+         <t hangText="Expiry Time:">
+           <vspace />
+           Internet Date/Time Format from <xref target="RFC3339"/> Section 5.6 profile of ISO 8601 basic notation</t>
+         <t hangText="Hash:">
+           <vspace />
+           Base64 encoding (whitespace allowed), Section 4 of <xref target="RFC4648"/></t>
        </list>
           </t>
    </section>
@@ -287,6 +303,7 @@
      &RFC3339;
      &RFC3597;
      &RFC4648;
+     &RFC8174;
      <reference anchor="SHA3" target="https://www.nist.gov/publications/sha-3-standard-permutation-based-hash-and-extendable-output-functions">
        <front>
          <title>SHA-3 Standard - Permutation-Based Hash and Extendable-Output Functions FIPS PUB 202</title>
@@ -327,7 +344,7 @@
      </reference>
    </references>
    <section title="Example TIMEOUT resource records">
-     <t>The following example shows some sample TIMEOUT resource records based on DNS UPDATEs containing A and AAAA address records plus the corresponding PTR records.</t>
+     <t>The following example shows sample TIMEOUT resource records based on DNS UPDATEs containing A and AAAA address records plus the corresponding PTR records.</t>
      <t>A host sending a name registration at time Tn for <spanx style="verb">A</spanx> and <spanx style="verb">AAAA</spanx> records with lease lifetime Ln would have a series of UPDATEs (one for each zone) that contain:</t>
      <texttable anchor="address_update" title="Example Address Records Update">
          <ttcol align='left' width='50%'>Name</ttcol>
@@ -346,25 +363,30 @@
          <c>PTR</c>
          <c>name.example.com.</c>
      </texttable>
-     <t>Next, consider the TIMEOUT resource records that would be generated for the records in <xref target="address_update"/>. Notice that none of the 3 TIMEOUT records on the server would require a hash:</t>
+     <t>Next, consider the TIMEOUT resource records that would be generated for the records in <xref target="address_update"/>. Notice that none of the 4 TIMEOUT records on the server would require a hash:</t>
      <texttable anchor="address_timeout" title="Address TIMEOUT records">
          <ttcol align='left' width='40%'>Owner Name</ttcol>
-         <ttcol align='left'>RRType</ttcol>
+         <ttcol align='left'>For Type</ttcol>
          <ttcol align='left'>Count</ttcol>
          <ttcol align='left'>Alg</ttcol>
          <ttcol align='left'>Expiration</ttcol>
          <c>name.example.com.</c>
-         <c>TIMEOUT</c>
+         <c>A</c>
+         <c>0</c>
+         <c>0</c>
+         <c>Tn + Ln</c>
+         <c>name.example.com.</c>
+         <c>AAAA</c>
          <c>0</c>
          <c>0</c>
          <c>Tn + Ln</c>
          <c>5.2.0.192.in-addr.arpa.</c>
-         <c>TIMEOUT</c>
+         <c>PTR</c>
          <c>0</c>
          <c>0</c>
          <c>Tn + Ln</c>
          <c>5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.01.20.ip6.arpa. (bytes)</c>
-         <c>TIMEOUT</c>
+         <c>PTR</c>
          <c>0</c>
          <c>0</c>
          <c>Tn + Ln</c>
@@ -411,12 +433,12 @@
       <t>For these printer registrations, the TIMEOUT records on the server would look like the following:</t>
       <texttable anchor="printer_timeout" title="Service TIMEOUT records">
           <ttcol align='left' width='46%'>Owner Name</ttcol>
-          <ttcol align='left' width='5%'>RR Type</ttcol>
+          <ttcol align='left' width='5%'>For Type</ttcol>
           <ttcol align='left'>Count</ttcol>
           <ttcol align='left'>Alg</ttcol>
           <ttcol align='left' width='36%'>Expire /       Hash List</ttcol>
           <c>_ipp.tcp.example.com.</c>
-          <c>TIMEOUT</c>
+          <c>PTR</c>
           <c>1</c>
           <c>1</c>
           <c>Ta + La&nbsp;           7ba17d11f8d96bb5 4b7ca675bebaf1b6</c>
@@ -426,22 +448,37 @@
           <c>1</c>
           <c>Tb + Lb&nbsp;           644685a489ad3bd4 350c1230c7643745</c>
           <c>p1._ipp._tcp.example.com.</c>
-          <c>TIMEOUT</c>
+          <c>SRV</c>
+          <c>0</c>
+          <c>0</c>
+          <c>Ta + La</c>
+          <c>p1._ipp._tcp.example.com.</c>
+          <c>TXT</c>
           <c>0</c>
           <c>0</c>
           <c>Ta + La</c>
           <c>p2._ipp._tcp.example.com.</c>
-          <c>TIMEOUT</c>
+          <c>SRV</c>
+          <c>0</c>
+          <c>0</c>
+          <c>Tb + Lb</c>
+          <c>p2._ipp._tcp.example.com.</c>
+          <c>TXT</c>
           <c>0</c>
           <c>0</c>
           <c>Tb + Lb</c>
           <c>p1.example.com.</c>
-          <c>TIMEOUT</c>
-          <c>2</c>
-          <c>1</c>
-          <c>Ta + La&nbsp;           e6285fbe75eae13c febf9505cf9ffefc           592316d7df872856 bcb8c94fda4603db</c>
+          <c>A</c>
+          <c>0</c>
+          <c>0</c>
+          <c>Ta + La</c>
+          <c>p1.example.com.</c>
+          <c>AAAA</c>
+          <c>0</c>
+          <c>0</c>
+          <c>Ta + La</c>
           <c>p2.example.com.</c>
-          <c>TIMEOUT</c>
+          <c>A</c>
           <c>0</c>
           <c>0</c>
           <c>Tb + Lb</c>
