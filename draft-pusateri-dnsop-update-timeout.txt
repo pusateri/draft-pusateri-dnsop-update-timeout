@@ -80,12 +80,12 @@ Table of Contents
    9.  TIMEOUT RR RDATA Presentation Format  . . . . . . . . . . . .   8
    10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .   9
    11. Security Considerations . . . . . . . . . . . . . . . . . . .   9
-   12. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .   9
-   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  10
-     13.1.  Normative References . . . . . . . . . . . . . . . . . .  10
-     13.2.  Informative References . . . . . . . . . . . . . . . . .  10
-   Appendix A.  Example TIMEOUT resource records . . . . . . . . . .  11
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  13
+   12. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  10
+   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
+     13.1.  Normative References . . . . . . . . . . . . . . . . . .  11
+     13.2.  Informative References . . . . . . . . . . . . . . . . .  11
+   Appendix A.  Example TIMEOUT resource records . . . . . . . . . .  12
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  14
 
 1.  Introduction
 
@@ -454,8 +454,19 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
          unsigned decimal integer
 
    Expiry Time:
-         Internet Date/Time Format from [RFC3339] Section 5.6 profile of
-         ISO 8601 basic notation
+         The Expiry Time is displayed as a compact numeric-only
+         representation of ISO 8601.  All punctuation is removed.  This
+         form is slightly different than the recommendation in [RFC3339]
+         but is common for DNS protocols.  It is defined in Section 3.2
+         of [RFC4034] as YYYYMMDDHHmmSS in UTC.  This form will always
+         be exactly 14 digits since no component is optional.
+
+         YYYY is the year;
+         MM is the month number (01-12);
+         DD is the day of the month (01-31);
+         HH is the hour, in 24 hour notation (00-23);
+         mm is the minute (00-59); and
+         SS is the second (00-59).
 
    Hash:
          Base64 encoding (whitespace allowed), Section 4 of [RFC4648]
@@ -487,6 +498,14 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
    Vulnerabilities in cryptographic hash algorithms may become known
    over time.  This specification only defines one well respected
    algorithm (SHAKE128) for hashing resource records to maximize
+
+
+
+Pusateri & Wattenberg   Expires September 3, 2019               [Page 9]
+
+Internet-Draft           TIMEOUT Resource Record              March 2019
+
+
    interoperability.  The IANA registry is defined for the future when
    vulnerabilities are found in this algorithm.  Until that point, there
    likely will not exist a need to add new hash algorithms to the
@@ -501,7 +520,44 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
 
-Pusateri & Wattenberg   Expires September 3, 2019               [Page 9]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Pusateri & Wattenberg   Expires September 3, 2019              [Page 10]
 
 Internet-Draft           TIMEOUT Resource Record              March 2019
 
@@ -557,7 +613,7 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
 
-Pusateri & Wattenberg   Expires September 3, 2019              [Page 10]
+Pusateri & Wattenberg   Expires September 3, 2019              [Page 11]
 
 Internet-Draft           TIMEOUT Resource Record              March 2019
 
@@ -613,7 +669,7 @@ Appendix A.  Example TIMEOUT resource records
 
 
 
-Pusateri & Wattenberg   Expires September 3, 2019              [Page 11]
+Pusateri & Wattenberg   Expires September 3, 2019              [Page 12]
 
 Internet-Draft           TIMEOUT Resource Record              March 2019
 
@@ -669,7 +725,7 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
 
-Pusateri & Wattenberg   Expires September 3, 2019              [Page 12]
+Pusateri & Wattenberg   Expires September 3, 2019              [Page 13]
 
 Internet-Draft           TIMEOUT Resource Record              March 2019
 
@@ -725,4 +781,4 @@ Authors' Addresses
 
 
 
-Pusateri & Wattenberg   Expires September 3, 2019              [Page 13]
+Pusateri & Wattenberg   Expires September 3, 2019              [Page 14]

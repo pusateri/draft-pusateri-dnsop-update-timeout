@@ -636,7 +636,7 @@
 <br> unsigned decimal integer</dd>
 <dt>Expiry Time:</dt>
 <dd style="margin-left: 6">
-<br> Internet Date/Time Format from <a href="#RFC3339" class="xref">[RFC3339]</a> Section 5.6 profile of ISO 8601 basic notation</dd>
+<br> The Expiry Time is displayed as a compact numeric-only representation of ISO 8601. All punctuation is removed. This form is slightly different than the recommendation in <a href="#RFC3339" class="xref">[RFC3339]</a> but is common for DNS protocols. It is defined in Section 3.2 of <a href="#RFC4034" class="xref">[RFC4034]</a> as YYYYMMDDHHmmSS in UTC. This form will always be exactly 14 digits since no component is optional.  <br> <br> YYYY is the year; <br> MM is the month number (01-12); <br> DD is the day of the month (01-31); <br> HH is the hour, in 24 hour notation (00-23); <br> mm is the minute (00-59); and <br> SS is the second (00-59).  </dd>
 <dt>Hash:</dt>
 <dd style="margin-left: 6">
 <br> Base64 encoding (whitespace allowed), Section 4 of <a href="#RFC4648" class="xref">[RFC4648]</a>
