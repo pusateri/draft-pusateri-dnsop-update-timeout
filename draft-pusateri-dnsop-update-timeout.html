@@ -546,7 +546,7 @@
 <p id="rfc.section.4.4.p.1">The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire. Lease times must be converted to an absolute expiry time when received.</p>
 <h1 id="rfc.section.4.5">
 <a href="#rfc.section.4.5">4.5.</a> Cryptographic Hashes</h1>
-<p id="rfc.section.4.5.p.1">The hash of each resource record is calculated using the entire length of the resource record as input. The output value of the hash is always a fixed pre-defined length specified with the hash algorithm. Any names contained in a resource record MUST be hashed in an uncompressed form.</p>
+<p id="rfc.section.4.5.p.1">The hash of each resource record is calculated using the entire length of the resource record as input. The output value of the hash is always a fixed pre-defined length specified with the hash algorithm registry. Before calculating the hash, the record MUST be in canonical DNSSEC form as described in Section 6 of <a href="#RFC4034" class="xref">[RFC4034]</a>.</p>
 <h1 id="rfc.section.5">
 <a href="#rfc.section.5">5.</a> Cryptographic Hash Requirements</h1>
 <p id="rfc.section.5.p.1">The cryptographic hash algorithm used SHOULD provide the following properties: </p>
@@ -710,6 +710,11 @@
 <td class="reference"><b id="RFC3597">[RFC3597]</b></td>
 <td class="top">
 <a>Gustafsson, A.</a>, "<a href="https://tools.ietf.org/html/rfc3597">Handling of Unknown DNS Resource Record (RR) Types</a>", RFC 3597, DOI 10.17487/RFC3597, September 2003.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC4034">[RFC4034]</b></td>
+<td class="top">
+<a>Arends, R.</a>, <a>Austein, R.</a>, <a>Larson, M.</a>, <a>Massey, D.</a> and <a>S. Rose</a>, "<a href="https://tools.ietf.org/html/rfc4034">Resource Records for the DNS Security Extensions</a>", RFC 4034, DOI 10.17487/RFC4034, March 2005.</td>
 </tr>
 <tr>
 <td class="reference"><b id="RFC4648">[RFC4648]</b></td>

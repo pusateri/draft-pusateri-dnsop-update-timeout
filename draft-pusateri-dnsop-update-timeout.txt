@@ -250,8 +250,8 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
    The hash of each resource record is calculated using the entire
    length of the resource record as input.  The output value of the hash
    is always a fixed pre-defined length specified with the hash
-   algorithm.  Any names contained in a resource record MUST be hashed
-   in an uncompressed form.
+   algorithm registry.  Before calculating the hash, the record MUST be
+   in canonical DNSSEC form as described in Section 6 of [RFC4034].
 
 5.  Cryptographic Hash Requirements
 
@@ -527,6 +527,11 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
               (RR) Types", RFC 3597, DOI 10.17487/RFC3597, September
               2003, <https://www.rfc-editor.org/info/rfc3597>.
 
+   [RFC4034]  Arends, R., Austein, R., Larson, M., Massey, D., and S.
+              Rose, "Resource Records for the DNS Security Extensions",
+              RFC 4034, DOI 10.17487/RFC4034, March 2005,
+              <https://www.rfc-editor.org/info/rfc4034>.
+
    [RFC4648]  Josefsson, S., "The Base16, Base32, and Base64 Data
               Encodings", RFC 4648, DOI 10.17487/RFC4648, October 2006,
               <https://www.rfc-editor.org/info/rfc4648>.
@@ -550,17 +555,16 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
    [OPENSSL]  OpenSSL Software Foundation, "OpenSSL: Cryptography and
               SSL/TLS Toolkit", October 2017, <https://www.openssl.org>.
 
-   [RFC1995]  Ohta, M., "Incremental Zone Transfer in DNS", RFC 1995,
-              DOI 10.17487/RFC1995, August 1996,
-              <https://www.rfc-editor.org/info/rfc1995>.
-
-
 
 
 Pusateri & Wattenberg   Expires September 3, 2019              [Page 10]
 
 Internet-Draft           TIMEOUT Resource Record              March 2019
 
+
+   [RFC1995]  Ohta, M., "Incremental Zone Transfer in DNS", RFC 1995,
+              DOI 10.17487/RFC1995, August 1996,
+              <https://www.rfc-editor.org/info/rfc1995>.
 
    [RFC2136]  Vixie, P., Ed., Thomson, S., Rekhter, Y., and J. Bound,
               "Dynamic Updates in the Domain Name System (DNS UPDATE)",
@@ -601,10 +605,6 @@ Appendix A.  Example TIMEOUT resource records
    Next, consider the TIMEOUT resource records that would be generated
    for the records in Table 2.  Notice that none of the 4 TIMEOUT
    records on the server would require a hash:
-
-
-
-
 
 
 
