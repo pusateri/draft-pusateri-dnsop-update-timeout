@@ -5,7 +5,7 @@
 Internet Engineering Task Force                              T. Pusateri
 Internet-Draft                                             T. Wattenberg
 Intended status: Standards Track                            Unaffiliated
-Expires: August 22, 2019                               February 18, 2019
+Expires: September 3, 2019                                 March 2, 2019
 
 
                       DNS TIMEOUT Resource Record
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on August 22, 2019.
+   This Internet-Draft will expire on September 3, 2019.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Pusateri & Wattenberg    Expires August 22, 2019                [Page 1]
+Pusateri & Wattenberg   Expires September 3, 2019               [Page 1]
 
-Internet-Draft           TIMEOUT Resource Record           February 2019
+Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
    the Trust Legal Provisions and are provided without warranty as
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Pusateri & Wattenberg    Expires August 22, 2019                [Page 2]
+Pusateri & Wattenberg   Expires September 3, 2019               [Page 2]
 
-Internet-Draft           TIMEOUT Resource Record           February 2019
+Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
 2.  Requirements Language
@@ -145,10 +145,10 @@ Internet-Draft           TIMEOUT Resource Record           February 2019
    the same owner name and class, the TIMEOUT resource record must be
    able to identify each of these records individually with only
    different RDATA.  As an example, PTR records for service discovery
-   provide a level of indirection to SRV and TXT records by instance
-   name.  The instance name is stored in the PTR RDATA and multiple PTR
-   records with the same owner name but only differing RDATA often
-   exist.
+   [RFC6763] provide a level of indirection to SRV and TXT records by
+   instance name.  The instance name is stored in the PTR RDATA and
+   multiple PTR records with the same owner name but only differing
+   RDATA often exist.
 
    In order to distinguish each individual record with potentially
    different expiry times, the TIMEOUT resource record is made up of
@@ -165,9 +165,9 @@ Internet-Draft           TIMEOUT Resource Record           February 2019
 
 
 
-Pusateri & Wattenberg    Expires August 22, 2019                [Page 3]
+Pusateri & Wattenberg   Expires September 3, 2019               [Page 3]
 
-Internet-Draft           TIMEOUT Resource Record           February 2019
+Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
    potential for default algorithm changes to occur on a single server
@@ -221,9 +221,9 @@ Internet-Draft           TIMEOUT Resource Record           February 2019
 
 
 
-Pusateri & Wattenberg    Expires August 22, 2019                [Page 4]
+Pusateri & Wattenberg   Expires September 3, 2019               [Page 4]
 
-Internet-Draft           TIMEOUT Resource Record           February 2019
+Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
    same algorithm could be used with different output lengths.  In this
@@ -277,9 +277,9 @@ Internet-Draft           TIMEOUT Resource Record           February 2019
 
 
 
-Pusateri & Wattenberg    Expires August 22, 2019                [Page 5]
+Pusateri & Wattenberg   Expires September 3, 2019               [Page 5]
 
-Internet-Draft           TIMEOUT Resource Record           February 2019
+Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
 5.1.  REQUIRED Cryptographic Hash Algorithm
@@ -333,9 +333,9 @@ Internet-Draft           TIMEOUT Resource Record           February 2019
 
 
 
-Pusateri & Wattenberg    Expires August 22, 2019                [Page 6]
+Pusateri & Wattenberg   Expires September 3, 2019               [Page 6]
 
-Internet-Draft           TIMEOUT Resource Record           February 2019
+Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
       0                   1                   2                   3
@@ -389,9 +389,9 @@ Internet-Draft           TIMEOUT Resource Record           February 2019
 
 
 
-Pusateri & Wattenberg    Expires August 22, 2019                [Page 7]
+Pusateri & Wattenberg   Expires September 3, 2019               [Page 7]
 
-Internet-Draft           TIMEOUT Resource Record           February 2019
+Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
    0..m cryptographic hashes in the second list.  Either "n" or "m"
@@ -445,9 +445,9 @@ Internet-Draft           TIMEOUT Resource Record           February 2019
 
 
 
-Pusateri & Wattenberg    Expires August 22, 2019                [Page 8]
+Pusateri & Wattenberg   Expires September 3, 2019               [Page 8]
 
-Internet-Draft           TIMEOUT Resource Record           February 2019
+Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
    Hash Algorithm index:
@@ -501,9 +501,9 @@ Internet-Draft           TIMEOUT Resource Record           February 2019
 
 
 
-Pusateri & Wattenberg    Expires August 22, 2019                [Page 9]
+Pusateri & Wattenberg   Expires September 3, 2019               [Page 9]
 
-Internet-Draft           TIMEOUT Resource Record           February 2019
+Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
 13.  References
@@ -557,9 +557,9 @@ Internet-Draft           TIMEOUT Resource Record           February 2019
 
 
 
-Pusateri & Wattenberg    Expires August 22, 2019               [Page 10]
+Pusateri & Wattenberg   Expires September 3, 2019              [Page 10]
 
-Internet-Draft           TIMEOUT Resource Record           February 2019
+Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
    [RFC2136]  Vixie, P., Ed., Thomson, S., Rekhter, Y., and J. Bound,
@@ -570,6 +570,10 @@ Internet-Draft           TIMEOUT Resource Record           February 2019
    [RFC5936]  Lewis, E. and A. Hoenes, Ed., "DNS Zone Transfer Protocol
               (AXFR)", RFC 5936, DOI 10.17487/RFC5936, June 2010,
               <https://www.rfc-editor.org/info/rfc5936>.
+
+   [RFC6763]  Cheshire, S. and M. Krochmal, "DNS-Based Service
+              Discovery", RFC 6763, DOI 10.17487/RFC6763, February 2013,
+              <https://www.rfc-editor.org/info/rfc6763>.
 
 Appendix A.  Example TIMEOUT resource records
 
@@ -598,6 +602,22 @@ Appendix A.  Example TIMEOUT resource records
    for the records in Table 2.  Notice that none of the 4 TIMEOUT
    records on the server would require a hash:
 
+
+
+
+
+
+
+
+
+
+
+
+Pusateri & Wattenberg   Expires September 3, 2019              [Page 11]
+
+Internet-Draft           TIMEOUT Resource Record              March 2019
+
+
    +---------------------------------+------+-------+-----+------------+
    | Owner Name                      | For  | Count | Alg | Expiration |
    |                                 | Type |       |     |            |
@@ -610,13 +630,6 @@ Appendix A.  Example TIMEOUT resource records
    +---------------------------------+------+-------+-----+------------+
 
                      Table 3: Address TIMEOUT records
-
-
-
-Pusateri & Wattenberg    Expires August 22, 2019               [Page 11]
-
-Internet-Draft           TIMEOUT Resource Record           February 2019
-
 
    Next, assume there are two hosts advertising the same service type
    (different service types will have different owner names).  We will
@@ -656,22 +669,9 @@ Internet-Draft           TIMEOUT Resource Record           February 2019
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-Pusateri & Wattenberg    Expires August 22, 2019               [Page 12]
+Pusateri & Wattenberg   Expires September 3, 2019              [Page 12]
 
-Internet-Draft           TIMEOUT Resource Record           February 2019
+Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
    +---------------------------+------+-------+-----+------------------+
@@ -725,4 +725,4 @@ Authors' Addresses
 
 
 
-Pusateri & Wattenberg    Expires August 22, 2019               [Page 13]
+Pusateri & Wattenberg   Expires September 3, 2019              [Page 13]
