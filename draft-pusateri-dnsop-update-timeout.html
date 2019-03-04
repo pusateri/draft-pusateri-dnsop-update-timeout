@@ -378,23 +378,22 @@
 <link href="#rfc.section.2" rel="Chapter" title="2 Requirements Language">
 <link href="#rfc.section.3" rel="Chapter" title="3 Sources of TIMEOUT Expiry Time">
 <link href="#rfc.section.4" rel="Chapter" title="4 Resource Record Composition">
-<link href="#rfc.section.4.1" rel="Chapter" title="4.1 Record Type">
-<link href="#rfc.section.4.2" rel="Chapter" title="4.2 Hash Count">
-<link href="#rfc.section.4.3" rel="Chapter" title="4.3 Hash Algorithm Index">
+<link href="#rfc.section.4.1" rel="Chapter" title="4.1 Represented Record Type">
+<link href="#rfc.section.4.2" rel="Chapter" title="4.2 Represented Record Count">
+<link href="#rfc.section.4.3" rel="Chapter" title="4.3 Method Identifiers">
+<link href="#rfc.section.4.3.1" rel="Chapter" title="4.3.1 NO METHOD">
+<link href="#rfc.section.4.3.2" rel="Chapter" title="4.3.2 RDATA">
 <link href="#rfc.section.4.4" rel="Chapter" title="4.4 Expiry Time">
-<link href="#rfc.section.4.5" rel="Chapter" title="4.5 Cryptographic Hashes">
-<link href="#rfc.section.5" rel="Chapter" title="5 Cryptographic Hash Requirements">
-<link href="#rfc.section.5.1" rel="Chapter" title="5.1 REQUIRED Cryptographic Hash Algorithm">
-<link href="#rfc.section.6" rel="Chapter" title="6 TIMEOUT RR RDATA Wire Format">
-<link href="#rfc.section.7" rel="Chapter" title="7 Primary Server Behavior">
-<link href="#rfc.section.8" rel="Chapter" title="8 Secondary Server Behavior">
-<link href="#rfc.section.9" rel="Chapter" title="9 TIMEOUT RR RDATA Presentation Format">
-<link href="#rfc.section.10" rel="Chapter" title="10 IANA Considerations">
-<link href="#rfc.section.11" rel="Chapter" title="11 Security Considerations">
-<link href="#rfc.section.12" rel="Chapter" title="12 Acknowledgments">
-<link href="#rfc.references" rel="Chapter" title="13 References">
-<link href="#rfc.references.1" rel="Chapter" title="13.1 Normative References">
-<link href="#rfc.references.2" rel="Chapter" title="13.2 Informative References">
+<link href="#rfc.section.5" rel="Chapter" title="5 TIMEOUT RDATA Wire Format">
+<link href="#rfc.section.6" rel="Chapter" title="6 Primary Server Behavior">
+<link href="#rfc.section.7" rel="Chapter" title="7 Secondary Server Behavior">
+<link href="#rfc.section.8" rel="Chapter" title="8 TIMEOUT RDATA Presentation Format">
+<link href="#rfc.section.9" rel="Chapter" title="9 IANA Considerations">
+<link href="#rfc.section.10" rel="Chapter" title="10 Security Considerations">
+<link href="#rfc.section.11" rel="Chapter" title="11 Acknowledgments">
+<link href="#rfc.references" rel="Chapter" title="12 References">
+<link href="#rfc.references.1" rel="Chapter" title="12.1 Normative References">
+<link href="#rfc.references.2" rel="Chapter" title="12.2 Informative References">
 <link href="#rfc.appendix.A" rel="Chapter" title="A Example TIMEOUT resource records">
 <link href="#rfc.authors" rel="Chapter">
 
@@ -404,7 +403,7 @@
 
   <meta name="dct.creator" content="Pusateri, T. and T. Wattenberg" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-pusateri-dnsop-update-timeout-01" />
-  <meta name="dct.issued" scheme="ISO8601" content="2019-02" />
+  <meta name="dct.issued" scheme="ISO8601" content="2019-03" />
   <meta name="dct.abstract" content="This specification defines a new DNS TIMEOUT resource record (RR) that associates a lifetime with one or more zone resource records with the same owner name, type, and class. It is intended to be used to transfer resource record lifetime state between a zone's primary and secondary servers and to store lifetime state during server software restarts." />
   <meta name="description" content="This specification defines a new DNS TIMEOUT resource record (RR) that associates a lifetime with one or more zone resource records with the same owner name, type, and class. It is intended to be used to transfer resource record lifetime state between a zone's primary and secondary servers and to store lifetime state during server software restarts." />
 
@@ -428,8 +427,8 @@
 <td class="right">Unaffiliated</td>
 </tr>
 <tr>
-<td class="left">Expires: September 3, 2019</td>
-<td class="right">March 2, 2019</td>
+<td class="left">Expires: September 4, 2019</td>
+<td class="right">March 3, 2019</td>
 </tr>
 
     	
@@ -445,7 +444,7 @@
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on September 3, 2019.</p>
+<p>This Internet-Draft will expire on September 4, 2019.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2019 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -463,39 +462,37 @@
 </li>
 <li>4.   <a href="#rfc.section.4">Resource Record Composition</a>
 </li>
-<ul><li>4.1.   <a href="#rfc.section.4.1">Record Type</a>
+<ul><li>4.1.   <a href="#rfc.section.4.1">Represented Record Type</a>
 </li>
-<li>4.2.   <a href="#rfc.section.4.2">Hash Count</a>
+<li>4.2.   <a href="#rfc.section.4.2">Represented Record Count</a>
 </li>
-<li>4.3.   <a href="#rfc.section.4.3">Hash Algorithm Index</a>
+<li>4.3.   <a href="#rfc.section.4.3">Method Identifiers</a>
 </li>
-<li>4.4.   <a href="#rfc.section.4.4">Expiry Time</a>
+<ul><li>4.3.1.   <a href="#rfc.section.4.3.1">NO METHOD</a>
 </li>
-<li>4.5.   <a href="#rfc.section.4.5">Cryptographic Hashes</a>
+<li>4.3.2.   <a href="#rfc.section.4.3.2">RDATA</a>
 </li>
-</ul><li>5.   <a href="#rfc.section.5">Cryptographic Hash Requirements</a>
+</ul><li>4.4.   <a href="#rfc.section.4.4">Expiry Time</a>
 </li>
-<ul><li>5.1.   <a href="#rfc.section.5.1">REQUIRED Cryptographic Hash Algorithm</a>
+</ul><li>5.   <a href="#rfc.section.5">TIMEOUT RDATA Wire Format</a>
 </li>
-</ul><li>6.   <a href="#rfc.section.6">TIMEOUT RR RDATA Wire Format</a>
+<li>6.   <a href="#rfc.section.6">Primary Server Behavior</a>
 </li>
-<li>7.   <a href="#rfc.section.7">Primary Server Behavior</a>
+<li>7.   <a href="#rfc.section.7">Secondary Server Behavior</a>
 </li>
-<li>8.   <a href="#rfc.section.8">Secondary Server Behavior</a>
+<li>8.   <a href="#rfc.section.8">TIMEOUT RDATA Presentation Format</a>
 </li>
-<li>9.   <a href="#rfc.section.9">TIMEOUT RR RDATA Presentation Format</a>
+<li>9.   <a href="#rfc.section.9">IANA Considerations</a>
 </li>
-<li>10.   <a href="#rfc.section.10">IANA Considerations</a>
+<li>10.   <a href="#rfc.section.10">Security Considerations</a>
 </li>
-<li>11.   <a href="#rfc.section.11">Security Considerations</a>
+<li>11.   <a href="#rfc.section.11">Acknowledgments</a>
 </li>
-<li>12.   <a href="#rfc.section.12">Acknowledgments</a>
+<li>12.   <a href="#rfc.references">References</a>
 </li>
-<li>13.   <a href="#rfc.references">References</a>
+<ul><li>12.1.   <a href="#rfc.references.1">Normative References</a>
 </li>
-<ul><li>13.1.   <a href="#rfc.references.1">Normative References</a>
-</li>
-<li>13.2.   <a href="#rfc.references.2">Informative References</a>
+<li>12.2.   <a href="#rfc.references.2">Informative References</a>
 </li>
 </ul><li>Appendix A.   <a href="#rfc.appendix.A">Example TIMEOUT resource records</a>
 </li>
@@ -524,50 +521,37 @@
 <p> </p>
 <h1 id="rfc.section.4">
 <a href="#rfc.section.4">4.</a> Resource Record Composition</h1>
-<p id="rfc.section.4.p.1">The TIMEOUT resource record provides expiry times for a mixed variety of resource record types with the same owner name, type, and class. Since there could exist multiple records of the same record type with the same owner name and class, the TIMEOUT resource record must be able to identify each of these records individually with only different RDATA. As an example, PTR records for service discovery <a href="#RFC6763" class="xref">[RFC6763]</a> provide a level of indirection to SRV and TXT records by instance name. The instance name is stored in the PTR RDATA and multiple PTR records with the same owner name but only differing RDATA often exist.</p>
-<p id="rfc.section.4.p.2">In order to distinguish each individual record with potentially different expiry times, the TIMEOUT resource record is made up of multiple lists of hashes of the records for which they are applicable. Each list has an expiry time associated with it and each hash corresponds to a resource record for which that expiry time applies. Each resource record represented by a hash in the list uses the same expiry time associated with the list. There is also a hash algorithm index associated with each list. All hashes in the list MUST use the same hash algorithm.</p>
-<p id="rfc.section.4.p.3">Since each TIMEOUT resource record is actually a collection of state from different sources over different time periods, there is a potential for default algorithm changes to occur on a single server or due to unavailability of an UPDATE server for a period of time to merge records between failover servers with different default algorithms. Therefore, the ability to have different hash algorithms in the same TIMEOUT resource record is accounted for. While this won't be a common scenario, it could occur during failure and restart scenarios. All hashes for the same expiry time MUST use the same hash algorithm. This is not likely to cause any problems with merging since the same server will be using the same default hash algorithm at a particular second resolution in time.</p>
-<p id="rfc.section.4.p.4">Within the TIMEOUT resource record there can exist an arbitrary number of combinations of applicable Record Type, Hash Algorithm Index, Hash Count, Expiry Time, and list of zero or more cryptographic hashes. The specific fields and their values are defined as:</p>
+<p id="rfc.section.4.p.1">TIMEOUT resource records provide expiry times for a mixed variety of resource record types with the same owner name, type, and class. Since there could exist multiple records of the same record type with the same owner name and class, the TIMEOUT resource record must be able to identify each of these records individually with only different RDATA. As an example, PTR records for service discovery <a href="#RFC6763" class="xref">[RFC6763]</a> provide a level of indirection to SRV and TXT records by instance name. The instance name is stored in the PTR RDATA and multiple PTR records with the same owner name but only differing RDATA often exist.</p>
+<p id="rfc.section.4.p.2">In order to distinguish each individual record with potentially different expiry times, the TIMEOUT resource record contains an exipry time, the record type, a method to identify the actual records for which the expiry time applies, and a count of the number of records represented. Multiple TIMEOUT records with the same owner name and class are created for each expiry time, record type, and resource record representation. If the expiry time is the same, multiple records can be combined into a single TIMEOUT record with the same owner name, class, and record type but this is NOT REQUIRED.</p>
+<p></p>
+<p id="rfc.section.4.p.4">The fields and their values in a TIMEOUT record are defined as:</p>
 <h1 id="rfc.section.4.1">
-<a href="#rfc.section.4.1">4.1.</a> Record Type</h1>
-<p id="rfc.section.4.1.p.1">A 16-bit field containing the resource record type to which the TIMEOUT record applies. Multiple TIMEOUT records for the same owner name can exist (one for each record type, class combination).</p>
+<a href="#rfc.section.4.1">4.1.</a> Represented Record Type</h1>
+<p id="rfc.section.4.1.p.1">A 16-bit field containing the resource record type to which the TIMEOUT record applies. Multiple TIMEOUT records for the same owner name, class, and represented type can exist.</p>
 <h1 id="rfc.section.4.2">
-<a href="#rfc.section.4.2">4.2.</a> Hash Count</h1>
-<p id="rfc.section.4.2.p.1">The Hash Count is a 8-bit value that specifies the number of hash values for the instance. All hashes within the instance MUST use the same Hash Algorithm specified by the Hash Algorithm Index.</p>
-<p id="rfc.section.4.2.p.2">A Hash Count of 0 indicates that no hashes are contained in the list. This is a shortcut notation meaning all resource records with the same owner name, record type, and class use the same Expiry Time. There MUST be only one instance of Hash Count and Hash Algorithm Index in this case. When the Hash Count is 0, the Hash Algorithm Index is set to NOHASH (0) on transmission and ignored on reception.</p>
-<p id="rfc.section.4.2.p.3">In the unlikely event that the Hash Count exceeds 255 which is the largest number representable in 8 bits, multiple instances of the same Expiry Time can exist.</p>
+<a href="#rfc.section.4.2">4.2.</a> Represented Record Count</h1>
+<p id="rfc.section.4.2.p.1">The Represented Record Count is a 8-bit value that specifies the number of records of the specified record type with this expiry time.</p>
+<p id="rfc.section.4.2.p.2">An RR Count of zero indicates that it is not necessary to represent any records in the list. This is a shortcut notation meaning all resource records with the same owner name, class, and record type use the same Expiry Time. There MUST be only one TIMEOUT record for the same owner name, class, and record type if the Represented Record Count is zero. If an additional TIMEOUT record exists with the same owner name, class, and record type, it MUST be ignored and SHOULD be removed. When the Represented Record Count is 0, the Method Identifer is set to NO METHOD (0) on transmission and ignored on reception.</p>
+<p id="rfc.section.4.2.p.3">In the unlikely event that the Represented Record Count exceeds 255 which is the largest number representable in 8 bits, multiple instances of the same Expiry Time can exist.</p>
 <h1 id="rfc.section.4.3">
-<a href="#rfc.section.4.3">4.3.</a> <a href="#HashIndex" id="HashIndex">Hash Algorithm Index</a>
+<a href="#rfc.section.4.3">4.3.</a> Method Identifiers</h1>
+<p id="rfc.section.4.3.p.1">The Method Identifier is a 8-bit value that specifies an identifier for the algorithm used to distinguish between resource records. The identifiers are declared in a registry maintained by IANA for the purpose of listing acceptable methods for this purpose. In addition to the method and the index, the registry MAY contain a fixed output length in bits of the method to be used or the term variable to denote a variable length output per record. It is conceivable, though not likely, that the same method could be used with different fixed output lengths. In this case, each fixed output length would require a different identifier in the registry. Additions to this registry will be approved with additional documentation under expert review. At the time that the registry is created by IANA, a group of expert reviewers will be established.</p>
+<p id="rfc.section.4.3.p.2">Additional methods of representing records such as hashes or other algorithms may be defined in the future.</p>
+<h1 id="rfc.section.4.3.1">
+<a href="#rfc.section.4.3.1">4.3.1.</a> <a href="#nomethod" id="nomethod">NO METHOD</a>
 </h1>
-<p id="rfc.section.4.3.p.1">The Hash Algorithm Index is a 8-bit value that specifies an identifier for the hash algorithm used. The indexes are declared in a registry maintained by IANA for the purpose of listing acceptable hash algorithms for this purpose. In addition to the algorithm and the index, the registry will contain the output length in bits of the algorithm to be used. It is conceivable, though not likely, that the same algorithm could be used with different output lengths. In this case, each output length would require a different index in the registry. Additions to this registry will be approved with additional documentation under expert review. At the time that the registry is created by IANA, a group of expert reviewers will be established.</p>
-<p id="rfc.section.4.3.p.2">The Hash Algorithm Index of 0 is defined as NOHASH and MUST NOT be used if any hash values are present in the instance. The index value of 0 is to be included in the IANA registry of Hash Algorithm Index values.</p>
+<p id="rfc.section.4.3.1.p.1">The method identifier of 0 is defined as <samp>NO METHOD</samp> and MUST NOT be used if the represented record count is greater than 0. The value of 0 is to be included in the IANA registry of method identifier values.</p>
+<h1 id="rfc.section.4.3.2">
+<a href="#rfc.section.4.3.2">4.3.2.</a> <a href="#rdatamethod" id="rdatamethod">RDATA</a>
+</h1>
+<p id="rfc.section.4.3.2.p.1">The method identifier of 1 is defined as <samp>RDATA</samp>. It begins with the RDATA length as a 16-bit value containing the length of the RDATA in bytes followed by the number of bytes of RDATA as appears in the record being represented. The record MUST be in canonical DNSSEC form as described in Section 6 of <a href="#RFC4034" class="xref">[RFC4034]</a>.</p>
 <h1 id="rfc.section.4.4">
 <a href="#rfc.section.4.4">4.4.</a> Expiry Time</h1>
 <p id="rfc.section.4.4.p.1">The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire. Lease times must be converted to an absolute expiry time when received.</p>
-<h1 id="rfc.section.4.5">
-<a href="#rfc.section.4.5">4.5.</a> Cryptographic Hashes</h1>
-<p id="rfc.section.4.5.p.1">The hash of each resource record is calculated using the entire length of the resource record as input. The output value of the hash is always a fixed pre-defined length specified with the hash algorithm registry. Before calculating the hash, the record MUST be in canonical DNSSEC form as described in Section 6 of <a href="#RFC4034" class="xref">[RFC4034]</a>.</p>
 <h1 id="rfc.section.5">
-<a href="#rfc.section.5">5.</a> Cryptographic Hash Requirements</h1>
-<p id="rfc.section.5.p.1">The cryptographic hash algorithm used SHOULD provide the following properties: </p>
-
-<ol>
-<li>Well known algorithm with implementations easily available.</li>
-<li>Trusted algorithm with resistance to collision attacks.</li>
-<li>Minimize output length for efficient storage in the TIMEOUT resource record.</li>
-</ol>
-
-<p> </p>
-<p id="rfc.section.5.p.2">While computational complexity is always a consideration when selecting algorithms, the frequency of this calculation is intended to be low volume and, therefore, this property is of reduced importance.</p>
-<h1 id="rfc.section.5.1">
-<a href="#rfc.section.5.1">5.1.</a> <a href="#SHAKE128" id="SHAKE128">REQUIRED Cryptographic Hash Algorithm</a>
-</h1>
-<p id="rfc.section.5.1.p.1">The initial algorithm selected to meet this criteria is SHAKE128. It is part of the SHA-3 <a href="#SHA3" class="xref">[SHA3]</a> family of cryptographic hash algorithms. The output length of the hash used is 128 bits or 16 bytes. SHAKE128 is implemented in the OpenSSL Library version 1.1.1 <a href="#OPENSSL" class="xref">[OPENSSL]</a>. In order to be in compliance with this specification, the SHAKE128 algorithm MUST be implemented. SHAKE128 is to be assigned an algorithm index of 1 in the IANA registry.</p>
-<p id="rfc.section.5.1.p.2">Additional algorithms may be defined in the future that can be used in place of SHAKE128.</p>
-<h1 id="rfc.section.6">
-<a href="#rfc.section.6">6.</a> TIMEOUT RR RDATA Wire Format</h1>
-<p id="rfc.section.6.p.1">The TIMEOUT resource record follows the same pattern as other DNS resource records as defined in Section 3.2.1 of <a href="#RFC1035" class="xref">[RFC1035]</a>.</p>
-<p id="rfc.section.6.p.2">The RDATA section of the resource record is illustrated in <a href="#rr_art" class="xref">Figure 1</a>:</p>
+<a href="#rfc.section.5">5.</a> TIMEOUT RDATA Wire Format</h1>
+<p id="rfc.section.5.p.1">The TIMEOUT resource record follows the same pattern as other DNS resource records as defined in Section 3.2.1 of <a href="#RFC1035" class="xref">[RFC1035]</a> including owner name, type, class, TTL, RDATA length, and RDATA.</p>
+<p id="rfc.section.5.p.2">The RDATA section of the resource record with method identifier RDATA (1) is illustrated in <a href="#rr_art" class="xref">Figure 1</a>:</p>
 <div id="rfc.figure.1"></div>
 <div id="rr_art"></div>
 <pre>
@@ -575,52 +559,57 @@
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|             RR Type           |  Count A (n)  |  Algorithm A  |
+|      Represented RR Type      |   Count (n)   |   Method (1)  |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|                      Expiry Time A (64-bit)                   |
+|                       Expiry Time (64-bit)                    |
 |                                                               |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+.    Represented RDATA LEN 1    |                               .
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               .
 .                                                               .
-.                            Hash A-1                           .
-.                                                               .
-.                                                               .
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-.                                                               .
-.                            Hash A-n                           .
+.                     Represented RDATA 1                       .
 .                                                               .
 .                                                               .
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|             RR Type           |  Count B (m)  |  Algorithm B  |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|                      Expiry Time B (64-bit)                   |
-|                                                               |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+.    Represented RDATA LEN n    |                               .
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               .
 .                                                               .
-.                            Hash B-1                           .
-.                                                               .
-.                                                               .
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-.                                                               .
-.                            Hash B-m                           .
+.                     Represented RDATA n                       .
 .                                                               .
 .                                                               .
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
         
         </pre>
-<p class="figure">Figure 1: RDATA Wire Format</p>
-<p><a href="#rr_art" class="xref">Figure 1</a> represents an arbitrary number of combinations of applicable Record Type, Hash Count, Hash Algorithm Index, Expiry Time, and list of zero or more cryptographic hashes. The figure entries containing "A" in the name represent one instance while the figure entries containing "B" in the name represent a second instance. There can be an arbitrary number of instances whose byte counts are accumulated by the RDLEN field in the resource record header.</p>
-<p id="rfc.section.6.p.4">The letter "n" represents the Hash Count in the first instance where there exists 0..n cryptographic hashes in the list. The letter "m" represents the Hash Count in the second instance where there exists 0..m cryptographic hashes in the second list. Either "n" or "m" could be zero.</p>
+<p class="figure">Figure 1: Method (1) RDATA Wire Format</p>
+<p><a href="#rr_art" class="xref">Figure 1</a> represents an arbitrary number of represented records with the same owner name, class, and represented type. For each expiry time, a list of RDATA length and RDATA pairs are attached. The overall RDATA length of the TIMEOUT record indicates when the last represented record is contained in the record.</p>
+<p id="rfc.section.5.p.4">The RDATA section of the resource record with method identifier NO METHOD (0) is illustrated in <a href="#rr_art2" class="xref">Figure 2</a>:</p>
+<div id="rfc.figure.2"></div>
+<div id="rr_art2"></div>
+<pre>
+         
+  0                   1                   2                   3
+  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ |      Represented RR Type      |   Count (0)   |   Method (0)  |
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ |                       Expiry Time (64-bit)                    |
+ |                                                               |
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+         
+         </pre>
+<p class="figure">Figure 2: Method (0) RDATA Wire Format</p>
+<p><a href="#rr_art2" class="xref">Figure 2</a> represents the TIMEOUT RDATA field of all matching records of the represented type for the same owner name and class.</p>
+<h1 id="rfc.section.6">
+<a href="#rfc.section.6">6.</a> Primary Server Behavior</h1>
+<p id="rfc.section.6.p.1">A TIMEOUT resource record MUST be removed when the last resource record it covers has been removed. This may be due to the record expiring (reaching the expiry time) or due to a subsequent DNS Update or administrative action.</p>
+<p id="rfc.section.6.p.2">Upon receiving any DNS UPDATE deleting resource records that might have been covered by a TIMEOUT RR, a primary server MUST remove all represented records in all of the TIMEOUT records with the same owner name, class, and represented type.</p>
+<p id="rfc.section.6.p.3">As a reminder from Section 3.3.13 of <a href="#RFC1035" class="xref">[RFC1035]</a>, the MINIMUM field of the SOA for the zone is used as a lower bound of the TTL for all records in the zone. Therefore, even if the TIMEOUT record will expire in less time than the MINIMUM, the TTL is still set to the MINIMUM for records covered by the TIMEOUT record and the TIMEOUT record itself when a response is returned by an authoritative server. The TIMEOUT RR is mostly for the benefit of the authoritative server to know when to remove the records. The fact that some records might live longer in the cache of a resolver is no different than other records that might get removed while still in a remote resolver cache.</p>
 <h1 id="rfc.section.7">
-<a href="#rfc.section.7">7.</a> Primary Server Behavior</h1>
-<p id="rfc.section.7.p.1">A TIMEOUT resource record MUST be removed when the last resource record it covers has been removed. This may be due to the record expiring (reaching the expiry time) or due to a subsequent DNS Update or administrative action.</p>
-<p id="rfc.section.7.p.2">Upon receiving any DNS UPDATE deleting resource records that might have been covered by a TIMEOUT RR, a primary server MUST go through all instances within the TIMEOUT RR and delete all hashes matching the relevant resource records.</p>
-<p id="rfc.section.7.p.3">As a reminder from Section 3.3.13 of <a href="#RFC1035" class="xref">[RFC1035]</a>, the MINIMUM field of the SOA for the zone is used as a lower bound of the TTL for all records in the zone. Therefore, even if the TIMEOUT record will expire in less time than the MINIMUM, the TTL is still set to the MINIMUM for records covered by the TIMEOUT record and the TIMEOUT record itself when a response is returned by an authoritative server. The TIMEOUT RR is mostly for the benefit of the authoritative server to know when to remove the records. The fact that some records might live longer in the cache of a resolver is no different than other records that might get removed while still in a remote resolver cache.</p>
+<a href="#rfc.section.7">7.</a> Secondary Server Behavior</h1>
+<p id="rfc.section.7.p.1">A secondary server may or may not understand TIMEOUT resource records. If a secondary server does not understand them, they are treated like any other resource record that the server may not understand <a href="#RFC3597" class="xref">[RFC3597]</a>.</p>
+<p id="rfc.section.7.p.2">A secondary server MUST NOT expire the records in a zone it maintains covered by the TIMEOUT resource record and it MUST NOT expire the TIMEOUT resource record itself when the last record it covers has expired. The secondary server MUST always wait for the records to be removed or updated by the primary server.</p>
 <h1 id="rfc.section.8">
-<a href="#rfc.section.8">8.</a> Secondary Server Behavior</h1>
-<p id="rfc.section.8.p.1">A secondary server may or may not understand TIMEOUT resource records. If a secondary server does not understand them, they are treated like any other resource record that the server may not understand <a href="#RFC3597" class="xref">[RFC3597]</a>.</p>
-<p id="rfc.section.8.p.2">A secondary server MUST NOT expire the records in a zone it maintains covered by the TIMEOUT resource record and it MUST NOT expire the TIMEOUT resource record itself when the last record it covers has expired. The secondary server MUST always wait for the records to be removed or updated by the primary server.</p>
-<h1 id="rfc.section.9">
-<a href="#rfc.section.9">9.</a> TIMEOUT RR RDATA Presentation Format</h1>
+<a href="#rfc.section.8">8.</a> TIMEOUT RDATA Presentation Format</h1>
 <p></p>
 
 <dl>
@@ -628,68 +617,71 @@
 <dd style="margin-left: 6">
 <br> resource record type mnemonics.  When the mnemonic is unknown, the TYPE representation described in Section 5 of <a href="#RFC3597" class="xref">[RFC3597]</a>
 </dd>
-<dt>Hash Count:</dt>
+<dt>Represented Record Count:</dt>
 <dd style="margin-left: 6">
-<br> unsigned decimal integer</dd>
-<dt>Hash Algorithm index:</dt>
+<br> unsigned decimal integer (0-255)</dd>
+<dt>Method Identifier:</dt>
 <dd style="margin-left: 6">
-<br> unsigned decimal integer</dd>
+<br> unsigned decimal integer (0-255)</dd>
 <dt>Expiry Time:</dt>
 <dd style="margin-left: 6">
 <br> The Expiry Time is displayed as a compact numeric-only representation of ISO 8601. All punctuation is removed. This form is slightly different than the recommendation in <a href="#RFC3339" class="xref">[RFC3339]</a> but is common for DNS protocols. It is defined in Section 3.2 of <a href="#RFC4034" class="xref">[RFC4034]</a> as YYYYMMDDHHmmSS in UTC. This form will always be exactly 14 digits since no component is optional.  <br> <br> YYYY is the year; <br> MM is the month number (01-12); <br> DD is the day of the month (01-31); <br> HH is the hour, in 24 hour notation (00-23); <br> mm is the minute (00-59); and <br> SS is the second (00-59).  </dd>
-<dt>Hash:</dt>
+<dt>RDATA Length:</dt>
 <dd style="margin-left: 6">
-<br> Base64 encoding (whitespace allowed), Section 4 of <a href="#RFC4648" class="xref">[RFC4648]</a>
-</dd>
+<br> unsigned decimal integer</dd>
+<dt>RDATA:</dt>
+<dd style="margin-left: 6">
+<br> record type specific</dd>
 </dl>
 
 <p> </p>
-<h1 id="rfc.section.10">
-<a href="#rfc.section.10">10.</a> <a href="#IANA" id="IANA">IANA Considerations</a>
+<p></p>
+<h1 id="rfc.section.9">
+<a href="#rfc.section.9">9.</a> <a href="#IANA" id="IANA">IANA Considerations</a>
 </h1>
-<p id="rfc.section.10.p.1">This document defines a new DNS Resource Record Type named TIMEOUT to be exchanged between authoritative primary and secondary DNS servers. It is assigned out of the DNS Parameters Resource Record (RR) Type registry. The value for the TIMEOUT resource record type is TBA.</p>
-<p id="rfc.section.10.p.2">This document establishes a new registry of DNS TIMEOUT Resource Record Cryptographic Hash Algorithm Index values. The registry shall include an index, an index name, the name of the algorithm, and the length of the output function in bits. The index is to be used in the RDATA section of the TIMEOUT resource record.</p>
+<p id="rfc.section.9.p.1">This document defines a new DNS Resource Record Type named TIMEOUT to be exchanged between authoritative primary and secondary DNS servers. It is assigned out of the DNS Parameters Resource Record (RR) Type registry. The value for the TIMEOUT resource record type is TBA.</p>
+<p id="rfc.section.9.p.2">This document establishes a new registry of DNS TIMEOUT Resource Record Method Identifier values. The registry shall include a numeric identifier, a method name, a description of the method, and the length of the output function in bits or the keyword <samp>variable</samp>. The identifier is to be used in the RDATA section of the TIMEOUT resource record.</p>
 <div id="rfc.table.1"></div>
 <div id="table_algs"></div>
 <table cellpadding="3" cellspacing="0" class="tt full center">
-<caption>TIMEOUT RR Hash Algorithm Index values</caption>
+<caption>TIMEOUT RR Method Identifier values</caption>
 <thead><tr>
-<th class="center">Index</th>
-<th class="left">Name</th>
-<th class="left">Algorithm</th>
+<th class="center">ID</th>
+<th class="left">Method Name</th>
+<th class="left">Description</th>
 <th class="center">Length (bits)</th>
 <th class="left">Definition</th>
 </tr></thead>
 <tbody>
 <tr>
 <td class="center">0</td>
-<td class="left">NOHASH</td>
-<td class="left"></td>
+<td class="left">NO METHOD</td>
+<td class="left">All records match</td>
 <td class="center">0</td>
-<td class="left"><a href="#HashIndex" class="xref">Section 4.3</a></td>
+<td class="left"><a href="#nomethod" class="xref">Section 4.3.1</a></td>
 </tr>
 <tr>
 <td class="center">1</td>
-<td class="left">SHAKE128</td>
-<td class="left">SHAKE128</td>
-<td class="center">128</td>
-<td class="left"><a href="#SHAKE128" class="xref">Section 5.1</a></td>
+<td class="left">RDATA</td>
+<td class="left">Actual RDATA of represented records</td>
+<td class="center">variable</td>
+<td class="left"><a href="#rdatamethod" class="xref">Section 4.3.2</a></td>
 </tr>
 </tbody>
 </table>
+<h1 id="rfc.section.10">
+<a href="#rfc.section.10">10.</a> <a href="#Security" id="Security">Security Considerations</a>
+</h1>
+<p id="rfc.section.10.p.1">There is no secure relationship between a TIMEOUT resource record and the represented resource records it applies to. TIMEOUT records should typically only apply to resource records created through the UPDATE mechanism. Protection for permanent resource records in a zone is advisable.</p>
+<p id="rfc.section.10.p.2">Authenticated UPDATE operations MUST be REQUIRED at authoritative name servers supporting TIMEOUT resource records.</p>
 <h1 id="rfc.section.11">
-<a href="#rfc.section.11">11.</a> <a href="#Security" id="Security">Security Considerations</a>
+<a href="#rfc.section.11">11.</a> <a href="#Acknowledgments" id="Acknowledgments">Acknowledgments</a>
 </h1>
-<p id="rfc.section.11.p.1">Vulnerabilities in cryptographic hash algorithms may become known over time. This specification only defines one well respected algorithm (SHAKE128) for hashing resource records to maximize interoperability. The IANA registry is defined for the future when vulnerabilities are found in this algorithm. Until that point, there likely will not exist a need to add new hash algorithms to the registry.</p>
-<h1 id="rfc.section.12">
-<a href="#rfc.section.12">12.</a> <a href="#Acknowledgments" id="Acknowledgments">Acknowledgments</a>
-</h1>
-<p id="rfc.section.12.p.1">This idea was motivated through conversations with Mark Andrews. Thanks to Mark as well as Paul Vixie, Joe Abley, and Ted Lemon for their suggestions, review, and comments.</p>
-<p></p>
+<p id="rfc.section.11.p.1">This idea was motivated through conversations with Mark Andrews. Thanks to Mark as well as Paul Vixie, Joe Abley, Ted Lemon, Tony Finch, Robert Story, Paul Wouters, and Dick Franks for their suggestions, review, and comments.</p>
 <h1 id="rfc.references">
-<a href="#rfc.references">13.</a> References</h1>
+<a href="#rfc.references">12.</a> References</h1>
 <h1 id="rfc.references.1">
-<a href="#rfc.references.1">13.1.</a> Normative References</h1>
+<a href="#rfc.references.1">12.1.</a> Normative References</h1>
 <table><tbody>
 <tr>
 <td class="reference"><b id="RFC1035">[RFC1035]</b></td>
@@ -717,33 +709,18 @@
 <a>Arends, R.</a>, <a>Austein, R.</a>, <a>Larson, M.</a>, <a>Massey, D.</a> and <a>S. Rose</a>, "<a href="https://tools.ietf.org/html/rfc4034">Resource Records for the DNS Security Extensions</a>", RFC 4034, DOI 10.17487/RFC4034, March 2005.</td>
 </tr>
 <tr>
-<td class="reference"><b id="RFC4648">[RFC4648]</b></td>
-<td class="top">
-<a>Josefsson, S.</a>, "<a href="https://tools.ietf.org/html/rfc4648">The Base16, Base32, and Base64 Data Encodings</a>", RFC 4648, DOI 10.17487/RFC4648, October 2006.</td>
-</tr>
-<tr>
 <td class="reference"><b id="RFC8174">[RFC8174]</b></td>
 <td class="top">
 <a>Leiba, B.</a>, "<a href="https://tools.ietf.org/html/rfc8174">Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</a>", BCP 14, RFC 8174, DOI 10.17487/RFC8174, May 2017.</td>
 </tr>
-<tr>
-<td class="reference"><b id="SHA3">[SHA3]</b></td>
-<td class="top">
-<a>National Institute of Standards and Technology</a>, "<a href="https://www.nist.gov/publications/sha-3-standard-permutation-based-hash-and-extendable-output-functions">SHA-3 Standard - Permutation-Based Hash and Extendable-Output Functions FIPS PUB 202</a>", August 2015.</td>
-</tr>
 </tbody></table>
 <h1 id="rfc.references.2">
-<a href="#rfc.references.2">13.2.</a> Informative References</h1>
+<a href="#rfc.references.2">12.2.</a> Informative References</h1>
 <table><tbody>
 <tr>
 <td class="reference"><b id="I-D.sekar-dns-ul">[I-D.sekar-dns-ul]</b></td>
 <td class="top">
 <a>Cheshire, S.</a> and <a>T. Lemon</a>, "<a href="https://tools.ietf.org/html/draft-sekar-dns-ul-02">Dynamic DNS Update Leases</a>", Internet-Draft draft-sekar-dns-ul-02, August 2018.</td>
-</tr>
-<tr>
-<td class="reference"><b id="OPENSSL">[OPENSSL]</b></td>
-<td class="top">
-<a>OpenSSL Software Foundation</a>, "<a href="https://www.openssl.org">OpenSSL: Cryptography and SSL/TLS Toolkit</a>", October 2017.</td>
 </tr>
 <tr>
 <td class="reference"><b id="RFC1995">[RFC1995]</b></td>
@@ -781,24 +758,24 @@
 </tr></thead>
 <tbody>
 <tr>
-<td class="left">name.example.com.</td>
+<td class="left">name.exmpl.com.</td>
 <td class="left">A</td>
 <td class="left">192.0.2.5</td>
 </tr>
 <tr>
-<td class="left">name.example.com.</td>
+<td class="left">name.exmpl.com.</td>
 <td class="left">AAAA</td>
 <td class="left">12001:db8::5</td>
 </tr>
 <tr>
 <td class="left">5.2.0.192.in-addr.arpa.</td>
 <td class="left">PTR</td>
-<td class="left">name.example.com.</td>
+<td class="left">name.exmpl.com.</td>
 </tr>
 <tr>
 <td class="left">5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.01.20.ip6.arpa. (bytes)</td>
 <td class="left">PTR</td>
-<td class="left">name.example.com.</td>
+<td class="left">name.exmpl.com.</td>
 </tr>
 </tbody>
 </table>
@@ -811,19 +788,19 @@
 <th class="left">Owner Name</th>
 <th class="left">For Type</th>
 <th class="left">Count</th>
-<th class="left">Alg</th>
+<th class="left">Method</th>
 <th class="left">Expiration</th>
 </tr></thead>
 <tbody>
 <tr>
-<td class="left">name.example.com.</td>
+<td class="left">name.exmpl.com.</td>
 <td class="left">A</td>
 <td class="left">0</td>
 <td class="left">0</td>
 <td class="left">Tn + Ln</td>
 </tr>
 <tr>
-<td class="left">name.example.com.</td>
+<td class="left">name.exmpl.com.</td>
 <td class="left">AAAA</td>
 <td class="left">0</td>
 <td class="left">0</td>
@@ -845,7 +822,7 @@
 </tr>
 </tbody>
 </table>
-<p id="rfc.section.A.p.4">Next, assume there are two hosts advertising the same service type (different service types will have different owner names). We will use _ipp._tcp.example.com as an example.</p>
+<p id="rfc.section.A.p.4">Next, assume there are two hosts advertising the same service type (different service types will have different owner names). We will use _ipp._tcp.exmpl.com as an example.</p>
 <p id="rfc.section.A.p.5">Host A sends an UPDATE at time Ta with lease life La for PTR, SRV, A, AAAA, and TXT records. Host B sends an UPDATE at time Tb with lease life Lb for PTR, SRV, A, and TXT records.</p>
 <div id="rfc.table.4"></div>
 <div id="ipp_host_a"></div>
@@ -858,27 +835,27 @@
 </tr></thead>
 <tbody>
 <tr>
-<td class="left">_ipp._tcp.example.com.</td>
+<td class="left">_ipp._tcp.exmpl.com.</td>
 <td class="left">PTR</td>
-<td class="left">p1._ipp._tcp.example.com.</td>
+<td class="left">p1._ipp._tcp.exmpl.com.</td>
 </tr>
 <tr>
-<td class="left">p1._ipp._tcp.example.com.</td>
+<td class="left">p1._ipp._tcp.exmpl.com.</td>
 <td class="left">SRV</td>
-<td class="left">0 0 631 p1.example.com.</td>
+<td class="left">0 0 631 p1.exmpl.com.</td>
 </tr>
 <tr>
-<td class="left">p1._ipp._tcp.example.com.</td>
+<td class="left">p1._ipp._tcp.exmpl.com.</td>
 <td class="left">TXT</td>
 <td class="left">paper=A4</td>
 </tr>
 <tr>
-<td class="left">p1.example.com.</td>
+<td class="left">p1.exmpl.com.</td>
 <td class="left">A</td>
 <td class="left">192.0.2.1</td>
 </tr>
 <tr>
-<td class="left">p1.example.com.</td>
+<td class="left">p1.exmpl.com.</td>
 <td class="left">AAAA</td>
 <td class="left">2001:db8::1</td>
 </tr>
@@ -895,22 +872,22 @@
 </tr></thead>
 <tbody>
 <tr>
-<td class="left">_ipp._tcp.example.com.</td>
+<td class="left">_ipp._tcp.exmpl.com.</td>
 <td class="left">PTR</td>
-<td class="left">p2._ipp._tcp.example.com.</td>
+<td class="left">p2._ipp._tcp.exmpl.com.</td>
 </tr>
 <tr>
-<td class="left">p2._ipp._tcp.example.com.</td>
+<td class="left">p2._ipp._tcp.exmpl.com.</td>
 <td class="left">SRV</td>
-<td class="left">0 0 631 p2.example.com.</td>
+<td class="left">0 0 631 p2.exmpl.com.</td>
 </tr>
 <tr>
-<td class="left">p2._ipp._tcp.example.com.</td>
+<td class="left">p2._ipp._tcp.exmpl.com.</td>
 <td class="left">TXT</td>
 <td class="left">paper=B4</td>
 </tr>
 <tr>
-<td class="left">p2.example.com.</td>
+<td class="left">p2.exmpl.com.</td>
 <td class="left">A</td>
 <td class="left">192.0.2.2</td>
 </tr>
@@ -925,68 +902,68 @@
 <th class="left">Owner Name</th>
 <th class="left">For Type</th>
 <th class="left">Count</th>
-<th class="left">Alg</th>
-<th class="left">Expire /       Hash List</th>
+<th class="left">Method</th>
+<th class="left">Expire /          RDLEN RDATA</th>
 </tr></thead>
 <tbody>
 <tr>
-<td class="left">_ipp.tcp.example.com.</td>
+<td class="left">_ipp.tcp.exmpl.com.</td>
 <td class="left">PTR</td>
 <td class="left">1</td>
 <td class="left">1</td>
-<td class="left">Ta + La&#160;           7ba17d11f8d96bb5 4b7ca675bebaf1b6</td>
+<td class="left">Ta + La 25 p1._ipp._tcp.exmpl.com.</td>
 </tr>
 <tr>
 <td class="left"></td>
 <td class="left"></td>
 <td class="left">1</td>
 <td class="left">1</td>
-<td class="left">Tb + Lb&#160;           644685a489ad3bd4 350c1230c7643745</td>
+<td class="left">Tb + Lb 25 p2._ipp._tcp.exmpl.com.</td>
 </tr>
 <tr>
-<td class="left">p1._ipp._tcp.example.com.</td>
+<td class="left">p1._ipp._tcp.exmpl.com.</td>
 <td class="left">SRV</td>
 <td class="left">0</td>
 <td class="left">0</td>
 <td class="left">Ta + La</td>
 </tr>
 <tr>
-<td class="left">p1._ipp._tcp.example.com.</td>
+<td class="left">p1._ipp._tcp.exmpl.com.</td>
 <td class="left">TXT</td>
 <td class="left">0</td>
 <td class="left">0</td>
 <td class="left">Ta + La</td>
 </tr>
 <tr>
-<td class="left">p2._ipp._tcp.example.com.</td>
+<td class="left">p2._ipp._tcp.exmpl.com.</td>
 <td class="left">SRV</td>
 <td class="left">0</td>
 <td class="left">0</td>
 <td class="left">Tb + Lb</td>
 </tr>
 <tr>
-<td class="left">p2._ipp._tcp.example.com.</td>
+<td class="left">p2._ipp._tcp.exmpl.com.</td>
 <td class="left">TXT</td>
 <td class="left">0</td>
 <td class="left">0</td>
 <td class="left">Tb + Lb</td>
 </tr>
 <tr>
-<td class="left">p1.example.com.</td>
+<td class="left">p1.exmpl.com.</td>
 <td class="left">A</td>
 <td class="left">0</td>
 <td class="left">0</td>
 <td class="left">Ta + La</td>
 </tr>
 <tr>
-<td class="left">p1.example.com.</td>
+<td class="left">p1.exmpl.com.</td>
 <td class="left">AAAA</td>
 <td class="left">0</td>
 <td class="left">0</td>
 <td class="left">Ta + La</td>
 </tr>
 <tr>
-<td class="left">p2.example.com.</td>
+<td class="left">p2.exmpl.com.</td>
 <td class="left">A</td>
 <td class="left">0</td>
 <td class="left">0</td>

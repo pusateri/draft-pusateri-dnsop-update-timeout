@@ -5,7 +5,7 @@
 Internet Engineering Task Force                              T. Pusateri
 Internet-Draft                                             T. Wattenberg
 Intended status: Standards Track                            Unaffiliated
-Expires: September 3, 2019                                 March 2, 2019
+Expires: September 4, 2019                                 March 3, 2019
 
 
                       DNS TIMEOUT Resource Record
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 3, 2019.
+   This Internet-Draft will expire on September 4, 2019.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Pusateri & Wattenberg   Expires September 3, 2019               [Page 1]
+Pusateri & Wattenberg   Expires September 4, 2019               [Page 1]
 
 Internet-Draft           TIMEOUT Resource Record              March 2019
 
@@ -67,25 +67,24 @@ Table of Contents
    2.  Requirements Language . . . . . . . . . . . . . . . . . . . .   3
    3.  Sources of TIMEOUT Expiry Time  . . . . . . . . . . . . . . .   3
    4.  Resource Record Composition . . . . . . . . . . . . . . . . .   3
-     4.1.  Record Type . . . . . . . . . . . . . . . . . . . . . . .   4
-     4.2.  Hash Count  . . . . . . . . . . . . . . . . . . . . . . .   4
-     4.3.  Hash Algorithm Index  . . . . . . . . . . . . . . . . . .   4
+     4.1.  Represented Record Type . . . . . . . . . . . . . . . . .   4
+     4.2.  Represented Record Count  . . . . . . . . . . . . . . . .   4
+     4.3.  Method Identifiers  . . . . . . . . . . . . . . . . . . .   4
+       4.3.1.  NO METHOD . . . . . . . . . . . . . . . . . . . . . .   5
+       4.3.2.  RDATA . . . . . . . . . . . . . . . . . . . . . . . .   5
      4.4.  Expiry Time . . . . . . . . . . . . . . . . . . . . . . .   5
-     4.5.  Cryptographic Hashes  . . . . . . . . . . . . . . . . . .   5
-   5.  Cryptographic Hash Requirements . . . . . . . . . . . . . . .   5
-     5.1.  REQUIRED Cryptographic Hash Algorithm . . . . . . . . . .   6
-   6.  TIMEOUT RR RDATA Wire Format  . . . . . . . . . . . . . . . .   6
-   7.  Primary Server Behavior . . . . . . . . . . . . . . . . . . .   8
-   8.  Secondary Server Behavior . . . . . . . . . . . . . . . . . .   8
-   9.  TIMEOUT RR RDATA Presentation Format  . . . . . . . . . . . .   8
-   10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .   9
-   11. Security Considerations . . . . . . . . . . . . . . . . . . .   9
-   12. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  10
-   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
-     13.1.  Normative References . . . . . . . . . . . . . . . . . .  11
-     13.2.  Informative References . . . . . . . . . . . . . . . . .  11
-   Appendix A.  Example TIMEOUT resource records . . . . . . . . . .  12
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  14
+   5.  TIMEOUT RDATA Wire Format . . . . . . . . . . . . . . . . . .   5
+   6.  Primary Server Behavior . . . . . . . . . . . . . . . . . . .   7
+   7.  Secondary Server Behavior . . . . . . . . . . . . . . . . . .   7
+   8.  TIMEOUT RDATA Presentation Format . . . . . . . . . . . . . .   7
+   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   9
+   10. Security Considerations . . . . . . . . . . . . . . . . . . .   9
+   11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .   9
+   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  10
+     12.1.  Normative References . . . . . . . . . . . . . . . . . .  10
+     12.2.  Informative References . . . . . . . . . . . . . . . . .  10
+   Appendix A.  Example TIMEOUT resource records . . . . . . . . . .  11
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  13
 
 1.  Introduction
 
@@ -109,7 +108,8 @@ Table of Contents
 
 
 
-Pusateri & Wattenberg   Expires September 3, 2019               [Page 2]
+
+Pusateri & Wattenberg   Expires September 4, 2019               [Page 2]
 
 Internet-Draft           TIMEOUT Resource Record              March 2019
 
@@ -139,8 +139,8 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
 
 4.  Resource Record Composition
 
-   The TIMEOUT resource record provides expiry times for a mixed variety
-   of resource record types with the same owner name, type, and class.
+   TIMEOUT resource records provide expiry times for a mixed variety of
+   resource record types with the same owner name, type, and class.
    Since there could exist multiple records of the same record type with
    the same owner name and class, the TIMEOUT resource record must be
    able to identify each of these records individually with only
@@ -151,92 +151,94 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
    RDATA often exist.
 
    In order to distinguish each individual record with potentially
-   different expiry times, the TIMEOUT resource record is made up of
-   multiple lists of hashes of the records for which they are
-   applicable.  Each list has an expiry time associated with it and each
-   hash corresponds to a resource record for which that expiry time
-   applies.  Each resource record represented by a hash in the list uses
-   the same expiry time associated with the list.  There is also a hash
-   algorithm index associated with each list.  All hashes in the list
-   MUST use the same hash algorithm.
-
-   Since each TIMEOUT resource record is actually a collection of state
-   from different sources over different time periods, there is a
+   different expiry times, the TIMEOUT resource record contains an
+   exipry time, the record type, a method to identify the actual records
+   for which the expiry time applies, and a count of the number of
+   records represented.  Multiple TIMEOUT records with the same owner
+   name and class are created for each expiry time, record type, and
+   resource record representation.  If the expiry time is the same,
+   multiple records can be combined into a single TIMEOUT record with
+   the same owner name, class, and record type but this is NOT REQUIRED.
 
 
 
-Pusateri & Wattenberg   Expires September 3, 2019               [Page 3]
+
+
+
+Pusateri & Wattenberg   Expires September 4, 2019               [Page 3]
 
 Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
-   potential for default algorithm changes to occur on a single server
-   or due to unavailability of an UPDATE server for a period of time to
-   merge records between failover servers with different default
-   algorithms.  Therefore, the ability to have different hash algorithms
-   in the same TIMEOUT resource record is accounted for.  While this
-   won't be a common scenario, it could occur during failure and restart
-   scenarios.  All hashes for the same expiry time MUST use the same
-   hash algorithm.  This is not likely to cause any problems with
-   merging since the same server will be using the same default hash
-   algorithm at a particular second resolution in time.
+   The fields and their values in a TIMEOUT record are defined as:
 
-   Within the TIMEOUT resource record there can exist an arbitrary
-   number of combinations of applicable Record Type, Hash Algorithm
-   Index, Hash Count, Expiry Time, and list of zero or more
-   cryptographic hashes.  The specific fields and their values are
-   defined as:
-
-4.1.  Record Type
+4.1.  Represented Record Type
 
    A 16-bit field containing the resource record type to which the
    TIMEOUT record applies.  Multiple TIMEOUT records for the same owner
-   name can exist (one for each record type, class combination).
+   name, class, and represented type can exist.
 
-4.2.  Hash Count
+4.2.  Represented Record Count
 
-   The Hash Count is a 8-bit value that specifies the number of hash
-   values for the instance.  All hashes within the instance MUST use the
-   same Hash Algorithm specified by the Hash Algorithm Index.
+   The Represented Record Count is a 8-bit value that specifies the
+   number of records of the specified record type with this expiry time.
 
-   A Hash Count of 0 indicates that no hashes are contained in the list.
-   This is a shortcut notation meaning all resource records with the
-   same owner name, record type, and class use the same Expiry Time.
-   There MUST be only one instance of Hash Count and Hash Algorithm
-   Index in this case.  When the Hash Count is 0, the Hash Algorithm
-   Index is set to NOHASH (0) on transmission and ignored on reception.
+   An RR Count of zero indicates that it is not necessary to represent
+   any records in the list.  This is a shortcut notation meaning all
+   resource records with the same owner name, class, and record type use
+   the same Expiry Time.  There MUST be only one TIMEOUT record for the
+   same owner name, class, and record type if the Represented Record
+   Count is zero.  If an additional TIMEOUT record exists with the same
+   owner name, class, and record type, it MUST be ignored and SHOULD be
+   removed.  When the Represented Record Count is 0, the Method
+   Identifer is set to NO METHOD (0) on transmission and ignored on
+   reception.
 
-   In the unlikely event that the Hash Count exceeds 255 which is the
-   largest number representable in 8 bits, multiple instances of the
-   same Expiry Time can exist.
+   In the unlikely event that the Represented Record Count exceeds 255
+   which is the largest number representable in 8 bits, multiple
+   instances of the same Expiry Time can exist.
 
-4.3.  Hash Algorithm Index
+4.3.  Method Identifiers
 
-   The Hash Algorithm Index is a 8-bit value that specifies an
-   identifier for the hash algorithm used.  The indexes are declared in
-   a registry maintained by IANA for the purpose of listing acceptable
-   hash algorithms for this purpose.  In addition to the algorithm and
-   the index, the registry will contain the output length in bits of the
-   algorithm to be used.  It is conceivable, though not likely, that the
+   The Method Identifier is a 8-bit value that specifies an identifier
+   for the algorithm used to distinguish between resource records.  The
+   identifiers are declared in a registry maintained by IANA for the
+   purpose of listing acceptable methods for this purpose.  In addition
+   to the method and the index, the registry MAY contain a fixed output
+   length in bits of the method to be used or the term variable to
+   denote a variable length output per record.  It is conceivable,
+   though not likely, that the same method could be used with different
+   fixed output lengths.  In this case, each fixed output length would
+   require a different identifier in the registry.  Additions to this
+   registry will be approved with additional documentation under expert
+   review.  At the time that the registry is created by IANA, a group of
+   expert reviewers will be established.
+
+   Additional methods of representing records such as hashes or other
+   algorithms may be defined in the future.
 
 
 
-Pusateri & Wattenberg   Expires September 3, 2019               [Page 4]
+
+
+Pusateri & Wattenberg   Expires September 4, 2019               [Page 4]
 
 Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
-   same algorithm could be used with different output lengths.  In this
-   case, each output length would require a different index in the
-   registry.  Additions to this registry will be approved with
-   additional documentation under expert review.  At the time that the
-   registry is created by IANA, a group of expert reviewers will be
-   established.
+4.3.1.  NO METHOD
 
-   The Hash Algorithm Index of 0 is defined as NOHASH and MUST NOT be
-   used if any hash values are present in the instance.  The index value
-   of 0 is to be included in the IANA registry of Hash Algorithm Index
-   values.
+   The method identifier of 0 is defined as "NO METHOD" and MUST NOT be
+   used if the represented record count is greater than 0.  The value of
+   0 is to be included in the IANA registry of method identifier values.
+
+4.3.2.  RDATA
+
+   The method identifier of 1 is defined as "RDATA".  It begins with the
+   RDATA length as a 16-bit value containing the length of the RDATA in
+   bytes followed by the number of bytes of RDATA as appears in the
+   record being represented.  The record MUST be in canonical DNSSEC
+   form as described in Section 6 of [RFC4034].
 
 4.4.  Expiry Time
 
@@ -245,66 +247,14 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
    is an absolute time at which the record will expire.  Lease times
    must be converted to an absolute expiry time when received.
 
-4.5.  Cryptographic Hashes
-
-   The hash of each resource record is calculated using the entire
-   length of the resource record as input.  The output value of the hash
-   is always a fixed pre-defined length specified with the hash
-   algorithm registry.  Before calculating the hash, the record MUST be
-   in canonical DNSSEC form as described in Section 6 of [RFC4034].
-
-5.  Cryptographic Hash Requirements
-
-   The cryptographic hash algorithm used SHOULD provide the following
-   properties:
-
-   1.  Well known algorithm with implementations easily available.
-
-   2.  Trusted algorithm with resistance to collision attacks.
-
-   3.  Minimize output length for efficient storage in the TIMEOUT
-       resource record.
-
-   While computational complexity is always a consideration when
-   selecting algorithms, the frequency of this calculation is intended
-   to be low volume and, therefore, this property is of reduced
-   importance.
-
-
-
-
-
-
-
-
-Pusateri & Wattenberg   Expires September 3, 2019               [Page 5]
-
-Internet-Draft           TIMEOUT Resource Record              March 2019
-
-
-5.1.  REQUIRED Cryptographic Hash Algorithm
-
-   The initial algorithm selected to meet this criteria is SHAKE128.  It
-   is part of the SHA-3 [SHA3] family of cryptographic hash algorithms.
-   The output length of the hash used is 128 bits or 16 bytes.  SHAKE128
-   is implemented in the OpenSSL Library version 1.1.1 [OPENSSL].  In
-   order to be in compliance with this specification, the SHAKE128
-   algorithm MUST be implemented.  SHAKE128 is to be assigned an
-   algorithm index of 1 in the IANA registry.
-
-   Additional algorithms may be defined in the future that can be used
-   in place of SHAKE128.
-
-6.  TIMEOUT RR RDATA Wire Format
+5.  TIMEOUT RDATA Wire Format
 
    The TIMEOUT resource record follows the same pattern as other DNS
-   resource records as defined in Section 3.2.1 of [RFC1035].
+   resource records as defined in Section 3.2.1 of [RFC1035] including
+   owner name, type, class, TTL, RDATA length, and RDATA.
 
-   The RDATA section of the resource record is illustrated in Figure 1:
-
-
-
-
+   The RDATA section of the resource record with method identifier RDATA
+   (1) is illustrated in Figure 1:
 
 
 
@@ -327,13 +277,7 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
 
-
-
-
-
-
-
-Pusateri & Wattenberg   Expires September 3, 2019               [Page 6]
+Pusateri & Wattenberg   Expires September 4, 2019               [Page 5]
 
 Internet-Draft           TIMEOUT Resource Record              March 2019
 
@@ -341,63 +285,63 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
       0                   1                   2                   3
       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |             RR Type           |  Count A (n)  |  Algorithm A  |
+     |      Represented RR Type      |   Count (n)   |   Method (1)  |
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |                      Expiry Time A (64-bit)                   |
+     |                       Expiry Time (64-bit)                    |
      |                                                               |
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     .    Represented RDATA LEN 1    |                               .
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               .
      .                                                               .
-     .                            Hash A-1                           .
-     .                                                               .
-     .                                                               .
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     .                                                               .
-     .                            Hash A-n                           .
+     .                     Represented RDATA 1                       .
      .                                                               .
      .                                                               .
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |             RR Type           |  Count B (m)  |  Algorithm B  |
+     .    Represented RDATA LEN n    |                               .
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               .
+     .                                                               .
+     .                     Represented RDATA n                       .
+     .                                                               .
+     .                                                               .
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |                      Expiry Time B (64-bit)                   |
+
+
+                  Figure 1: Method (1) RDATA Wire Format
+
+   Figure 1 represents an arbitrary number of represented records with
+   the same owner name, class, and represented type.  For each expiry
+   time, a list of RDATA length and RDATA pairs are attached.  The
+   overall RDATA length of the TIMEOUT record indicates when the last
+   represented record is contained in the record.
+
+   The RDATA section of the resource record with method identifier NO
+   METHOD (0) is illustrated in Figure 2:
+
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     |      Represented RR Type      |   Count (0)   |   Method (0)  |
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     |                       Expiry Time (64-bit)                    |
      |                                                               |
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     .                                                               .
-     .                            Hash B-1                           .
-     .                                                               .
-     .                                                               .
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     .                                                               .
-     .                            Hash B-m                           .
-     .                                                               .
-     .                                                               .
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 
-                        Figure 1: RDATA Wire Format
-
-   Figure 1 represents an arbitrary number of combinations of applicable
-   Record Type, Hash Count, Hash Algorithm Index, Expiry Time, and list
-   of zero or more cryptographic hashes.  The figure entries containing
-   "A" in the name represent one instance while the figure entries
-   containing "B" in the name represent a second instance.  There can be
-   an arbitrary number of instances whose byte counts are accumulated by
-   the RDLEN field in the resource record header.
-
-   The letter "n" represents the Hash Count in the first instance where
-   there exists 0..n cryptographic hashes in the list.  The letter "m"
-   represents the Hash Count in the second instance where there exists
+                  Figure 2: Method (0) RDATA Wire Format
 
 
 
-Pusateri & Wattenberg   Expires September 3, 2019               [Page 7]
+
+Pusateri & Wattenberg   Expires September 4, 2019               [Page 6]
 
 Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
-   0..m cryptographic hashes in the second list.  Either "n" or "m"
-   could be zero.
+   Figure 2 represents the TIMEOUT RDATA field of all matching records
+   of the represented type for the same owner name and class.
 
-7.  Primary Server Behavior
+6.  Primary Server Behavior
 
    A TIMEOUT resource record MUST be removed when the last resource
    record it covers has been removed.  This may be due to the record
@@ -405,9 +349,9 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
    or administrative action.
 
    Upon receiving any DNS UPDATE deleting resource records that might
-   have been covered by a TIMEOUT RR, a primary server MUST go through
-   all instances within the TIMEOUT RR and delete all hashes matching
-   the relevant resource records.
+   have been covered by a TIMEOUT RR, a primary server MUST remove all
+   represented records in all of the TIMEOUT records with the same owner
+   name, class, and represented type.
 
    As a reminder from Section 3.3.13 of [RFC1035], the MINIMUM field of
    the SOA for the zone is used as a lower bound of the TTL for all
@@ -421,7 +365,7 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
    records that might get removed while still in a remote resolver
    cache.
 
-8.  Secondary Server Behavior
+7.  Secondary Server Behavior
 
    A secondary server may or may not understand TIMEOUT resource
    records.  If a secondary server does not understand them, they are
@@ -434,24 +378,24 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
    expired.  The secondary server MUST always wait for the records to be
    removed or updated by the primary server.
 
-9.  TIMEOUT RR RDATA Presentation Format
+8.  TIMEOUT RDATA Presentation Format
 
    Record Type:
          resource record type mnemonics.  When the mnemonic is unknown,
          the TYPE representation described in Section 5 of [RFC3597]
 
-   Hash Count:
-         unsigned decimal integer
+   Represented Record Count:
+         unsigned decimal integer (0-255)
 
 
 
-Pusateri & Wattenberg   Expires September 3, 2019               [Page 8]
+Pusateri & Wattenberg   Expires September 4, 2019               [Page 7]
 
 Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
-   Hash Algorithm index:
-         unsigned decimal integer
+   Method Identifier:
+         unsigned decimal integer (0-255)
 
    Expiry Time:
          The Expiry Time is displayed as a compact numeric-only
@@ -468,10 +412,45 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
          mm is the minute (00-59); and
          SS is the second (00-59).
 
-   Hash:
-         Base64 encoding (whitespace allowed), Section 4 of [RFC4648]
+   RDATA Length:
+         unsigned decimal integer
 
-10.  IANA Considerations
+   RDATA:
+         record type specific
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Pusateri & Wattenberg   Expires September 4, 2019               [Page 8]
+
+Internet-Draft           TIMEOUT Resource Record              March 2019
+
+
+9.  IANA Considerations
 
    This document defines a new DNS Resource Record Type named TIMEOUT to
    be exchanged between authoritative primary and secondary DNS servers.
@@ -479,43 +458,42 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
    registry.  The value for the TIMEOUT resource record type is TBA.
 
    This document establishes a new registry of DNS TIMEOUT Resource
-   Record Cryptographic Hash Algorithm Index values.  The registry shall
-   include an index, an index name, the name of the algorithm, and the
-   length of the output function in bits.  The index is to be used in
-   the RDATA section of the TIMEOUT resource record.
+   Record Method Identifier values.  The registry shall include a
+   numeric identifier, a method name, a description of the method, and
+   the length of the output function in bits or the keyword "variable".
+   The identifier is to be used in the RDATA section of the TIMEOUT
+   resource record.
 
-      +-------+----------+-----------+---------------+-------------+
-      | Index | Name     | Algorithm | Length (bits) | Definition  |
-      +-------+----------+-----------+---------------+-------------+
-      |   0   | NOHASH   |           |       0       | Section 4.3 |
-      |   1   | SHAKE128 | SHAKE128  |      128      | Section 5.1 |
-      +-------+----------+-----------+---------------+-------------+
+   +-------+------------+----------------+-------------+---------------+
+   |   ID  | Method     | Description    |    Length   | Definition    |
+   |       | Name       |                |    (bits)   |               |
+   +-------+------------+----------------+-------------+---------------+
+   |   0   | NO METHOD  | All records    |      0      | Section 4.3.1 |
+   |       |            | match          |             |               |
+   |   1   | RDATA      | Actual RDATA   |   variable  | Section 4.3.2 |
+   |       |            | of represented |             |               |
+   |       |            | records        |             |               |
+   +-------+------------+----------------+-------------+---------------+
 
-              Table 1: TIMEOUT RR Hash Algorithm Index values
+               Table 1: TIMEOUT RR Method Identifier values
 
-11.  Security Considerations
+10.  Security Considerations
 
-   Vulnerabilities in cryptographic hash algorithms may become known
-   over time.  This specification only defines one well respected
-   algorithm (SHAKE128) for hashing resource records to maximize
+   There is no secure relationship between a TIMEOUT resource record and
+   the represented resource records it applies to.  TIMEOUT records
+   should typically only apply to resource records created through the
+   UPDATE mechanism.  Protection for permanent resource records in a
+   zone is advisable.
 
+   Authenticated UPDATE operations MUST be REQUIRED at authoritative
+   name servers supporting TIMEOUT resource records.
 
-
-Pusateri & Wattenberg   Expires September 3, 2019               [Page 9]
-
-Internet-Draft           TIMEOUT Resource Record              March 2019
-
-
-   interoperability.  The IANA registry is defined for the future when
-   vulnerabilities are found in this algorithm.  Until that point, there
-   likely will not exist a need to add new hash algorithms to the
-   registry.
-
-12.  Acknowledgments
+11.  Acknowledgments
 
    This idea was motivated through conversations with Mark Andrews.
-   Thanks to Mark as well as Paul Vixie, Joe Abley, and Ted Lemon for
-   their suggestions, review, and comments.
+   Thanks to Mark as well as Paul Vixie, Joe Abley, Ted Lemon, Tony
+   Finch, Robert Story, Paul Wouters, and Dick Franks for their
+   suggestions, review, and comments.
 
 
 
@@ -523,48 +501,14 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Pusateri & Wattenberg   Expires September 3, 2019              [Page 10]
+Pusateri & Wattenberg   Expires September 4, 2019               [Page 9]
 
 Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
-13.  References
+12.  References
 
-13.1.  Normative References
+12.1.  Normative References
 
    [RFC1035]  Mockapetris, P., "Domain names - implementation and
               specification", STD 13, RFC 1035, DOI 10.17487/RFC1035,
@@ -588,35 +532,15 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
               RFC 4034, DOI 10.17487/RFC4034, March 2005,
               <https://www.rfc-editor.org/info/rfc4034>.
 
-   [RFC4648]  Josefsson, S., "The Base16, Base32, and Base64 Data
-              Encodings", RFC 4648, DOI 10.17487/RFC4648, October 2006,
-              <https://www.rfc-editor.org/info/rfc4648>.
-
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
-   [SHA3]     National Institute of Standards and Technology, "SHA-3
-              Standard - Permutation-Based Hash and Extendable-Output
-              Functions FIPS PUB 202", August 2015,
-              <https://www.nist.gov/publications/sha-3-standard-
-              permutation-based-hash-and-extendable-output-functions>.
-
-13.2.  Informative References
+12.2.  Informative References
 
    [I-D.sekar-dns-ul]
               Cheshire, S. and T. Lemon, "Dynamic DNS Update Leases",
               draft-sekar-dns-ul-02 (work in progress), August 2018.
-
-   [OPENSSL]  OpenSSL Software Foundation, "OpenSSL: Cryptography and
-              SSL/TLS Toolkit", October 2017, <https://www.openssl.org>.
-
-
-
-Pusateri & Wattenberg   Expires September 3, 2019              [Page 11]
-
-Internet-Draft           TIMEOUT Resource Record              March 2019
-
 
    [RFC1995]  Ohta, M., "Incremental Zone Transfer in DNS", RFC 1995,
               DOI 10.17487/RFC1995, August 1996,
@@ -630,6 +554,13 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
    [RFC5936]  Lewis, E. and A. Hoenes, Ed., "DNS Zone Transfer Protocol
               (AXFR)", RFC 5936, DOI 10.17487/RFC5936, June 2010,
               <https://www.rfc-editor.org/info/rfc5936>.
+
+
+
+Pusateri & Wattenberg   Expires September 4, 2019              [Page 10]
+
+Internet-Draft           TIMEOUT Resource Record              March 2019
+
 
    [RFC6763]  Cheshire, S. and M. Krochmal, "DNS-Based Service
               Discovery", RFC 6763, DOI 10.17487/RFC6763, February 2013,
@@ -645,16 +576,16 @@ Appendix A.  Example TIMEOUT resource records
    records with lease lifetime Ln would have a series of UPDATEs (one
    for each zone) that contain:
 
-   +----------------------------------------+------+-------------------+
-   | Name                                   | RR   | Value             |
-   |                                        | Type |                   |
-   +----------------------------------------+------+-------------------+
-   | name.example.com.                      | A    | 192.0.2.5         |
-   | name.example.com.                      | AAAA | 12001:db8::5      |
-   | 5.2.0.192.in-addr.arpa.                | PTR  | name.example.com. |
-   | 5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.01.20.ip | PTR  | name.example.com. |
-   | 6.arpa. (bytes)                        |      |                   |
-   +----------------------------------------+------+-------------------+
+   +------------------------------------------+------+-----------------+
+   | Name                                     | RR   | Value           |
+   |                                          | Type |                 |
+   +------------------------------------------+------+-----------------+
+   | name.exmpl.com.                          | A    | 192.0.2.5       |
+   | name.exmpl.com.                          | AAAA | 12001:db8::5    |
+   | 5.2.0.192.in-addr.arpa.                  | PTR  | name.exmpl.com. |
+   | 5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.01.20.ip6. | PTR  | name.exmpl.com. |
+   | arpa. (bytes)                            |      |                 |
+   +------------------------------------------+------+-----------------+
 
                   Table 2: Example Address Records Update
 
@@ -662,61 +593,57 @@ Appendix A.  Example TIMEOUT resource records
    for the records in Table 2.  Notice that none of the 4 TIMEOUT
    records on the server would require a hash:
 
-
-
-
-
-
-
-
-Pusateri & Wattenberg   Expires September 3, 2019              [Page 12]
-
-Internet-Draft           TIMEOUT Resource Record              March 2019
-
-
-   +---------------------------------+------+-------+-----+------------+
-   | Owner Name                      | For  | Count | Alg | Expiration |
-   |                                 | Type |       |     |            |
-   +---------------------------------+------+-------+-----+------------+
-   | name.example.com.               | A    | 0     | 0   | Tn + Ln    |
-   | name.example.com.               | AAAA | 0     | 0   | Tn + Ln    |
-   | 5.2.0.192.in-addr.arpa.         | PTR  | 0     | 0   | Tn + Ln    |
-   | 5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.0 | PTR  | 0     | 0   | Tn + Ln    |
-   | 1.20.ip6.arpa. (bytes)          |      |       |     |            |
-   +---------------------------------+------+-------+-----+------------+
+   +------------------------------+------+-------+--------+------------+
+   | Owner Name                   | For  | Count | Method | Expiration |
+   |                              | Type |       |        |            |
+   +------------------------------+------+-------+--------+------------+
+   | name.exmpl.com.              | A    | 0     | 0      | Tn + Ln    |
+   | name.exmpl.com.              | AAAA | 0     | 0      | Tn + Ln    |
+   | 5.2.0.192.in-addr.arpa.      | PTR  | 0     | 0      | Tn + Ln    |
+   | 5.0.0.0.0.0.0.0.0.0.0.0.b8.0 | PTR  | 0     | 0      | Tn + Ln    |
+   | d.01.20.ip6.arpa. (bytes)    |      |       |        |            |
+   +------------------------------+------+-------+--------+------------+
 
                      Table 3: Address TIMEOUT records
 
    Next, assume there are two hosts advertising the same service type
    (different service types will have different owner names).  We will
-   use _ipp._tcp.example.com as an example.
+   use _ipp._tcp.exmpl.com as an example.
+
+
+
+
+Pusateri & Wattenberg   Expires September 4, 2019              [Page 11]
+
+Internet-Draft           TIMEOUT Resource Record              March 2019
+
 
    Host A sends an UPDATE at time Ta with lease life La for PTR, SRV, A,
    AAAA, and TXT records.  Host B sends an UPDATE at time Tb with lease
    life Lb for PTR, SRV, A, and TXT records.
 
-   +--------------------------------+------+---------------------------+
-   | Owner name                     | RR   | Value                     |
-   |                                | Type |                           |
-   +--------------------------------+------+---------------------------+
-   | _ipp._tcp.example.com.         | PTR  | p1._ipp._tcp.example.com. |
-   | p1._ipp._tcp.example.com.      | SRV  | 0 0 631 p1.example.com.   |
-   | p1._ipp._tcp.example.com.      | TXT  | paper=A4                  |
-   | p1.example.com.                | A    | 192.0.2.1                 |
-   | p1.example.com.                | AAAA | 2001:db8::1               |
-   +--------------------------------+------+---------------------------+
+   +--------------------------------+--------+-------------------------+
+   | Owner name                     | RR     | Value                   |
+   |                                | Type   |                         |
+   +--------------------------------+--------+-------------------------+
+   | _ipp._tcp.exmpl.com.           | PTR    | p1._ipp._tcp.exmpl.com. |
+   | p1._ipp._tcp.exmpl.com.        | SRV    | 0 0 631 p1.exmpl.com.   |
+   | p1._ipp._tcp.exmpl.com.        | TXT    | paper=A4                |
+   | p1.exmpl.com.                  | A      | 192.0.2.1               |
+   | p1.exmpl.com.                  | AAAA   | 2001:db8::1             |
+   +--------------------------------+--------+-------------------------+
 
                       Table 4: DNS UPDATE from Host A
 
-   +--------------------------------+------+---------------------------+
-   | Owner name                     | RR   | Value                     |
-   |                                | Type |                           |
-   +--------------------------------+------+---------------------------+
-   | _ipp._tcp.example.com.         | PTR  | p2._ipp._tcp.example.com. |
-   | p2._ipp._tcp.example.com.      | SRV  | 0 0 631 p2.example.com.   |
-   | p2._ipp._tcp.example.com.      | TXT  | paper=B4                  |
-   | p2.example.com.                | A    | 192.0.2.2                 |
-   +--------------------------------+------+---------------------------+
+   +--------------------------------+--------+-------------------------+
+   | Owner name                     | RR     | Value                   |
+   |                                | Type   |                         |
+   +--------------------------------+--------+-------------------------+
+   | _ipp._tcp.exmpl.com.           | PTR    | p2._ipp._tcp.exmpl.com. |
+   | p2._ipp._tcp.exmpl.com.        | SRV    | 0 0 631 p2.exmpl.com.   |
+   | p2._ipp._tcp.exmpl.com.        | TXT    | paper=B4                |
+   | p2.exmpl.com.                  | A      | 192.0.2.2               |
+   +--------------------------------+--------+-------------------------+
 
                       Table 5: DNS UPDATE from Host B
 
@@ -725,29 +652,44 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
 
-Pusateri & Wattenberg   Expires September 3, 2019              [Page 13]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Pusateri & Wattenberg   Expires September 4, 2019              [Page 12]
 
 Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
-   +---------------------------+------+-------+-----+------------------+
-   | Owner Name                | For  | Count | Alg | Expire /         |
-   |                           | Type |       |     | Hash List        |
-   +---------------------------+------+-------+-----+------------------+
-   | _ipp.tcp.example.com.     | PTR  | 1     | 1   | Ta + La          |
-   |                           |      |       |     | 7ba17d11f8d96bb5 |
-   |                           |      |       |     | 4b7ca675bebaf1b6 |
-   |                           |      | 1     | 1   | Tb + Lb          |
-   |                           |      |       |     | 644685a489ad3bd4 |
-   |                           |      |       |     | 350c1230c7643745 |
-   | p1._ipp._tcp.example.com. | SRV  | 0     | 0   | Ta + La          |
-   | p1._ipp._tcp.example.com. | TXT  | 0     | 0   | Ta + La          |
-   | p2._ipp._tcp.example.com. | SRV  | 0     | 0   | Tb + Lb          |
-   | p2._ipp._tcp.example.com. | TXT  | 0     | 0   | Tb + Lb          |
-   | p1.example.com.           | A    | 0     | 0   | Ta + La          |
-   | p1.example.com.           | AAAA | 0     | 0   | Ta + La          |
-   | p2.example.com.           | A    | 0     | 0   | Tb + Lb          |
-   +---------------------------+------+-------+-----+------------------+
+   +-------------------------+------+-----+-----+----------------------+
+   | Owner Name              | For  | Cou | Met | Expire /             |
+   |                         | Type | nt  | hod | RDLEN RDATA          |
+   +-------------------------+------+-----+-----+----------------------+
+   | _ipp.tcp.exmpl.com.     | PTR  | 1   | 1   | Ta + La 25 p1._ipp._ |
+   |                         |      |     |     | tcp.exmpl.com.       |
+   |                         |      | 1   | 1   | Tb + Lb 25 p2._ipp._ |
+   |                         |      |     |     | tcp.exmpl.com.       |
+   | p1._ipp._tcp.exmpl.com. | SRV  | 0   | 0   | Ta + La              |
+   | p1._ipp._tcp.exmpl.com. | TXT  | 0   | 0   | Ta + La              |
+   | p2._ipp._tcp.exmpl.com. | SRV  | 0   | 0   | Tb + Lb              |
+   | p2._ipp._tcp.exmpl.com. | TXT  | 0   | 0   | Tb + Lb              |
+   | p1.exmpl.com.           | A    | 0   | 0   | Ta + La              |
+   | p1.exmpl.com.           | AAAA | 0   | 0   | Ta + La              |
+   | p2.exmpl.com.           | A    | 0   | 0   | Tb + Lb              |
+   +-------------------------+------+-----+-----+----------------------+
 
                      Table 6: Service TIMEOUT records
 
@@ -781,4 +723,6 @@ Authors' Addresses
 
 
 
-Pusateri & Wattenberg   Expires September 3, 2019              [Page 14]
+
+
+Pusateri & Wattenberg   Expires September 4, 2019              [Page 13]
