@@ -67,24 +67,24 @@ Table of Contents
    2.  Requirements Language . . . . . . . . . . . . . . . . . . . .   3
    3.  Sources of TIMEOUT Expiry Time  . . . . . . . . . . . . . . .   3
    4.  Resource Record Composition . . . . . . . . . . . . . . . . .   3
-     4.1.  Represented Record Type . . . . . . . . . . . . . . . . .   5
-     4.2.  Represented Record Count  . . . . . . . . . . . . . . . .   5
-     4.3.  Method Identifiers  . . . . . . . . . . . . . . . . . . .   5
-       4.3.1.  NO METHOD . . . . . . . . . . . . . . . . . . . . . .   6
-       4.3.2.  RDATA . . . . . . . . . . . . . . . . . . . . . . . .   6
-     4.4.  Expiry Time . . . . . . . . . . . . . . . . . . . . . . .   6
-   5.  TIMEOUT RDATA Wire Format . . . . . . . . . . . . . . . . . .   6
-   6.  Primary Server Behavior . . . . . . . . . . . . . . . . . . .   8
-   7.  Secondary Server Behavior . . . . . . . . . . . . . . . . . .   8
-   8.  TIMEOUT RDATA Presentation Format . . . . . . . . . . . . . .   8
-   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  10
-   10. Security Considerations . . . . . . . . . . . . . . . . . . .  10
-   11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  10
-   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
-     12.1.  Normative References . . . . . . . . . . . . . . . . . .  11
-     12.2.  Informative References . . . . . . . . . . . . . . . . .  11
-   Appendix A.  Example TIMEOUT resource records . . . . . . . . . .  12
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  14
+     4.1.  Represented Record Type . . . . . . . . . . . . . . . . .   4
+     4.2.  Represented Record Count  . . . . . . . . . . . . . . . .   4
+     4.3.  Method Identifiers  . . . . . . . . . . . . . . . . . . .   4
+       4.3.1.  NO METHOD . . . . . . . . . . . . . . . . . . . . . .   5
+       4.3.2.  RDATA . . . . . . . . . . . . . . . . . . . . . . . .   5
+     4.4.  Expiry Time . . . . . . . . . . . . . . . . . . . . . . .   5
+   5.  TIMEOUT RDATA Wire Format . . . . . . . . . . . . . . . . . .   5
+   6.  Primary Server Behavior . . . . . . . . . . . . . . . . . . .   7
+   7.  Secondary Server Behavior . . . . . . . . . . . . . . . . . .   7
+   8.  TIMEOUT RDATA Presentation Format . . . . . . . . . . . . . .   7
+   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   9
+   10. Security Considerations . . . . . . . . . . . . . . . . . . .   9
+   11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .   9
+   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  10
+     12.1.  Normative References . . . . . . . . . . . . . . . . . .  10
+     12.2.  Informative References . . . . . . . . . . . . . . . . .  10
+   Appendix A.  Example TIMEOUT resource records . . . . . . . . . .  11
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  13
 
 1.  Introduction
 
@@ -174,58 +174,6 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
    multiple records can be combined into a single TIMEOUT record with
    the same owner name, class, and record type but this is NOT REQUIRED.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Pusateri & Wattenberg   Expires September 5, 2019               [Page 4]
-
-Internet-Draft           TIMEOUT Resource Record              March 2019
-
-
    The fields and their values in a TIMEOUT record are defined as:
 
 4.1.  Represented Record Type
@@ -270,17 +218,16 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
    review.  At the time that the registry is created by IANA, a group of
    expert reviewers will be established.
 
-   Additional methods of representing records such as hashes or other
-   algorithms may be defined in the future.
 
 
 
-
-
-Pusateri & Wattenberg   Expires September 5, 2019               [Page 5]
+Pusateri & Wattenberg   Expires September 5, 2019               [Page 4]
 
 Internet-Draft           TIMEOUT Resource Record              March 2019
 
+
+   Additional methods of representing records such as hashes or other
+   algorithms may be defined in the future.
 
 4.3.1.  NO METHOD
 
@@ -330,10 +277,7 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
 
-
-
-
-Pusateri & Wattenberg   Expires September 5, 2019               [Page 6]
+Pusateri & Wattenberg   Expires September 5, 2019               [Page 5]
 
 Internet-Draft           TIMEOUT Resource Record              March 2019
 
@@ -389,7 +333,7 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
 
-Pusateri & Wattenberg   Expires September 5, 2019               [Page 7]
+Pusateri & Wattenberg   Expires September 5, 2019               [Page 6]
 
 Internet-Draft           TIMEOUT Resource Record              March 2019
 
@@ -445,7 +389,7 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
 
-Pusateri & Wattenberg   Expires September 5, 2019               [Page 8]
+Pusateri & Wattenberg   Expires September 5, 2019               [Page 7]
 
 Internet-Draft           TIMEOUT Resource Record              March 2019
 
@@ -501,7 +445,7 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
 
-Pusateri & Wattenberg   Expires September 5, 2019               [Page 9]
+Pusateri & Wattenberg   Expires September 5, 2019               [Page 8]
 
 Internet-Draft           TIMEOUT Resource Record              March 2019
 
@@ -557,7 +501,7 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
 
-Pusateri & Wattenberg   Expires September 5, 2019              [Page 10]
+Pusateri & Wattenberg   Expires September 5, 2019               [Page 9]
 
 Internet-Draft           TIMEOUT Resource Record              March 2019
 
@@ -613,7 +557,7 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
 
-Pusateri & Wattenberg   Expires September 5, 2019              [Page 11]
+Pusateri & Wattenberg   Expires September 5, 2019              [Page 10]
 
 Internet-Draft           TIMEOUT Resource Record              March 2019
 
@@ -669,7 +613,7 @@ Appendix A.  Example TIMEOUT resource records
 
 
 
-Pusateri & Wattenberg   Expires September 5, 2019              [Page 12]
+Pusateri & Wattenberg   Expires September 5, 2019              [Page 11]
 
 Internet-Draft           TIMEOUT Resource Record              March 2019
 
@@ -725,7 +669,7 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
 
-Pusateri & Wattenberg   Expires September 5, 2019              [Page 13]
+Pusateri & Wattenberg   Expires September 5, 2019              [Page 12]
 
 Internet-Draft           TIMEOUT Resource Record              March 2019
 
@@ -781,4 +725,4 @@ Authors' Addresses
 
 
 
-Pusateri & Wattenberg   Expires September 5, 2019              [Page 14]
+Pusateri & Wattenberg   Expires September 5, 2019              [Page 13]

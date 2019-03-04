@@ -524,8 +524,7 @@
 <a href="#rfc.section.4">4.</a> Resource Record Composition</h1>
 <p id="rfc.section.4.p.1">TIMEOUT resource records provide expiry times for a mixed variety of resource record types with the same owner name, type, and class. Since there could exist multiple records of the same record type with the same owner name and class, the TIMEOUT resource record must be able to identify each of these records individually with only different RDATA. As an example, PTR records for service discovery <a href="#RFC6763" class="xref">[RFC6763]</a> provide a level of indirection to SRV and TXT records by instance name. The instance name is stored in the PTR RDATA and multiple PTR records with the same owner name but only differing RDATA often exist.</p>
 <p id="rfc.section.4.p.2">In order to distinguish each individual record with potentially different expiry times, the TIMEOUT resource record contains an exipry time, the record type, a method to identify the actual records for which the expiry time applies, and a count of the number of records represented. Multiple TIMEOUT records with the same owner name and class are created for each expiry time, record type, and resource record representation. If the expiry time is the same, multiple records can be combined into a single TIMEOUT record with the same owner name, class, and record type but this is NOT REQUIRED.</p>
-<p></p>
-<p id="rfc.section.4.p.4">The fields and their values in a TIMEOUT record are defined as:</p>
+<p id="rfc.section.4.p.3">The fields and their values in a TIMEOUT record are defined as:</p>
 <h1 id="rfc.section.4.1">
 <a href="#rfc.section.4.1">4.1.</a> Represented Record Type</h1>
 <p id="rfc.section.4.1.p.1">A 16-bit field containing the resource record type to which the TIMEOUT record applies. Multiple TIMEOUT records for the same owner name, class, and represented type can exist.</p>
