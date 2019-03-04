@@ -166,10 +166,10 @@
      <section title="Method Identifiers">
        <t>The Method Identifier is a 8-bit value that specifies an identifier for the algorithm used to distinguish between resource records. The identifiers are declared in a registry maintained by IANA for the purpose of listing acceptable methods for this purpose. In addition to the method and the index, the registry MAY contain a fixed output length in bits of the method to be used or the term variable to denote a variable length output per record. It is conceivable, though not likely, that the same method could be used with different fixed output lengths. In this case, each fixed output length would require a different identifier in the registry. Additions to this registry will be approved with additional documentation under expert review. At the time that the registry is created by IANA, a group of expert reviewers will be established.</t>
        <t>Additional methods of representing records such as hashes or other algorithms may be defined in the future.</t>
-       <section title="NO METHOD" anchor="nomethod">
+       <section title="Method Identifier 0: NO METHOD" anchor="nomethod">
          <t>The method identifier of 0 is defined as <spanx style="verb">NO METHOD</spanx> and MUST NOT be used if the represented record count is greater than 0. The value of 0 is to be included in the IANA registry of method identifier values.</t>
        </section>
-       <section title="RDATA" anchor="rdatamethod">
+       <section title="Method Identifier 1: RDATA" anchor="rdatamethod">
          <t>The method identifier of 1 is defined as <spanx style="verb">RDATA</spanx>. It begins with the RDATA length as a 16-bit value containing the length of the RDATA in bytes followed by the number of bytes of RDATA as appears in the record being represented. The record MUST be in canonical DNSSEC form as described in Section 6 of <xref target="RFC4034"/>.</t>
        </section>
      </section>
@@ -333,18 +333,18 @@
          <ttcol align='left' width='50%'>Name</ttcol>
          <ttcol align='left'>RR Type</ttcol>
          <ttcol align='left'>Value</ttcol>
-         <c>name.exmpl.com.</c>
+         <c>s.example.com.</c>
          <c>A</c>
          <c>192.0.2.5</c>
-         <c>name.exmpl.com.</c>
+         <c>s.example.com.</c>
          <c>AAAA</c>
          <c>12001:db8::5</c>
          <c>5.2.0.192.in-addr.arpa.</c>
          <c>PTR</c>
-         <c>name.exmpl.com.</c>
+         <c>s.example.com.</c>
          <c>5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.01.20.ip6.arpa. (bytes)</c>
          <c>PTR</c>
-         <c>name.exmpl.com.</c>
+         <c>s.example.com.</c>
      </texttable>
      <t>Next, consider the TIMEOUT resource records that would be generated for the records in <xref target="address_update"/>. Notice that none of the 4 TIMEOUT records on the server would require a hash:</t>
      <texttable anchor="address_timeout" title="Address TIMEOUT records">
@@ -353,12 +353,12 @@
          <ttcol align='left'>Count</ttcol>
          <ttcol align='left'>Method</ttcol>
          <ttcol align='left'>Expiration</ttcol>
-         <c>name.exmpl.com.</c>
+         <c>s.example.com.</c>
          <c>A</c>
          <c>0</c>
          <c>0</c>
          <c>Tn + Ln</c>
-         <c>name.exmpl.com.</c>
+         <c>s.example.com.</c>
          <c>AAAA</c>
          <c>0</c>
          <c>0</c>
@@ -374,25 +374,25 @@
          <c>0</c>
          <c>Tn + Ln</c>
      </texttable>
-     <t>Next, assume there are two hosts advertising the same service type (different service types will have different owner names). We will use _ipp._tcp.exmpl.com as an example.</t>
+     <t>Next, assume there are two hosts advertising the same service type (different service types will have different owner names). We will use _ipp._tcp.example.com as an example.</t>
      <t>Host A sends an UPDATE at time Ta with lease life La for PTR, SRV, A, AAAA, and TXT records. Host B sends an UPDATE at time Tb with lease life Lb for PTR, SRV, A, and TXT records.</t>
       <texttable anchor="ipp_host_a" title="DNS UPDATE from Host A">
           <ttcol align='left' width='50%'>Owner name</ttcol>
           <ttcol align='left'>RR Type</ttcol>
           <ttcol align='left'>Value</ttcol>
-          <c>_ipp._tcp.exmpl.com.</c>
+          <c>_ipp._tcp.example.com.</c>
           <c>PTR</c>
-          <c>p1._ipp._tcp.exmpl.com.</c>
-          <c>p1._ipp._tcp.exmpl.com.</c>
+          <c>p1._ipp._tcp.example.com.</c>
+          <c>p1._ipp._tcp.example.com.</c>
           <c>SRV</c>
-          <c>0 0 631 p1.exmpl.com.</c>
-          <c>p1._ipp._tcp.exmpl.com.</c>
+          <c>0 0 631 p1.example.com.</c>
+          <c>p1._ipp._tcp.example.com.</c>
           <c>TXT</c>
           <c>paper=A4</c>
-          <c>p1.exmpl.com.</c>
+          <c>p1.example.com.</c>
           <c>A</c>
           <c>192.0.2.1</c>
-          <c>p1.exmpl.com.</c>
+          <c>p1.example.com.</c>
           <c>AAAA</c>
           <c>2001:db8::1</c>
       </texttable>
@@ -400,16 +400,16 @@
           <ttcol align='left' width='50%'>Owner name</ttcol>
           <ttcol align='left'>RR Type</ttcol>
           <ttcol align='left'>Value</ttcol>
-          <c>_ipp._tcp.exmpl.com.</c>
+          <c>_ipp._tcp.example.com.</c>
           <c>PTR</c>
-          <c>p2._ipp._tcp.exmpl.com.</c>
-          <c>p2._ipp._tcp.exmpl.com.</c>
+          <c>p2._ipp._tcp.example.com.</c>
+          <c>p2._ipp._tcp.example.com.</c>
           <c>SRV</c>
-          <c>0 0 631 p2.exmpl.com.</c>
-          <c>p2._ipp._tcp.exmpl.com.</c>
+          <c>0 0 631 p2.example.com.</c>
+          <c>p2._ipp._tcp.example.com.</c>
           <c>TXT</c>
           <c>paper=B4</c>
-          <c>p2.exmpl.com.</c>
+          <c>p2.example.com.</c>
           <c>A</c>
           <c>192.0.2.2</c>
       </texttable>
@@ -420,47 +420,47 @@
           <ttcol align='left'>Count</ttcol>
           <ttcol align='left' width='5%'>Method</ttcol>
           <ttcol align='left' width='36%'>Expire /          RDLEN RDATA</ttcol>
-          <c>_ipp.tcp.exmpl.com.</c>
+          <c>_ipp.tcp.example.com.</c>
           <c>PTR</c>
           <c>1</c>
           <c>1</c>
-          <c>Ta + La 25 p1._ipp._tcp.exmpl.com.</c>
-          <c></c>
-          <c></c>
+          <c>Ta + La 25 p1._ipp._tcp.example.com.</c>
+          <c>_ipp.tcp.example.com.</c>
+          <c>PTR</c>
           <c>1</c>
           <c>1</c>
-          <c>Tb + Lb 25 p2._ipp._tcp.exmpl.com.</c>
-          <c>p1._ipp._tcp.exmpl.com.</c>
+          <c>Tb + Lb 25 p2._ipp._tcp.example.com.</c>
+          <c>p1._ipp._tcp.example.com.</c>
           <c>SRV</c>
           <c>0</c>
           <c>0</c>
           <c>Ta + La</c>
-          <c>p1._ipp._tcp.exmpl.com.</c>
+          <c>p1._ipp._tcp.example.com.</c>
           <c>TXT</c>
           <c>0</c>
           <c>0</c>
           <c>Ta + La</c>
-          <c>p2._ipp._tcp.exmpl.com.</c>
+          <c>p2._ipp._tcp.example.com.</c>
           <c>SRV</c>
           <c>0</c>
           <c>0</c>
           <c>Tb + Lb</c>
-          <c>p2._ipp._tcp.exmpl.com.</c>
+          <c>p2._ipp._tcp.example.com.</c>
           <c>TXT</c>
           <c>0</c>
           <c>0</c>
           <c>Tb + Lb</c>
-          <c>p1.exmpl.com.</c>
+          <c>p1.example.com.</c>
           <c>A</c>
           <c>0</c>
           <c>0</c>
           <c>Ta + La</c>
-          <c>p1.exmpl.com.</c>
+          <c>p1.example.com.</c>
           <c>AAAA</c>
           <c>0</c>
           <c>0</c>
           <c>Ta + La</c>
-          <c>p2.exmpl.com.</c>
+          <c>p2.example.com.</c>
           <c>A</c>
           <c>0</c>
           <c>0</c>

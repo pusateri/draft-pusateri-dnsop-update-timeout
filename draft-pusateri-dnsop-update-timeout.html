@@ -381,8 +381,8 @@
 <link href="#rfc.section.4.1" rel="Chapter" title="4.1 Represented Record Type">
 <link href="#rfc.section.4.2" rel="Chapter" title="4.2 Represented Record Count">
 <link href="#rfc.section.4.3" rel="Chapter" title="4.3 Method Identifiers">
-<link href="#rfc.section.4.3.1" rel="Chapter" title="4.3.1 NO METHOD">
-<link href="#rfc.section.4.3.2" rel="Chapter" title="4.3.2 RDATA">
+<link href="#rfc.section.4.3.1" rel="Chapter" title="4.3.1 Method Identifier 0: NO METHOD">
+<link href="#rfc.section.4.3.2" rel="Chapter" title="4.3.2 Method Identifier 1: RDATA">
 <link href="#rfc.section.4.4" rel="Chapter" title="4.4 Expiry Time">
 <link href="#rfc.section.5" rel="Chapter" title="5 TIMEOUT RDATA Wire Format">
 <link href="#rfc.section.6" rel="Chapter" title="6 Primary Server Behavior">
@@ -468,9 +468,9 @@
 </li>
 <li>4.3.   <a href="#rfc.section.4.3">Method Identifiers</a>
 </li>
-<ul><li>4.3.1.   <a href="#rfc.section.4.3.1">NO METHOD</a>
+<ul><li>4.3.1.   <a href="#rfc.section.4.3.1">Method Identifier 0: NO METHOD</a>
 </li>
-<li>4.3.2.   <a href="#rfc.section.4.3.2">RDATA</a>
+<li>4.3.2.   <a href="#rfc.section.4.3.2">Method Identifier 1: RDATA</a>
 </li>
 </ul><li>4.4.   <a href="#rfc.section.4.4">Expiry Time</a>
 </li>
@@ -538,11 +538,11 @@
 <p id="rfc.section.4.3.p.1">The Method Identifier is a 8-bit value that specifies an identifier for the algorithm used to distinguish between resource records. The identifiers are declared in a registry maintained by IANA for the purpose of listing acceptable methods for this purpose. In addition to the method and the index, the registry MAY contain a fixed output length in bits of the method to be used or the term variable to denote a variable length output per record. It is conceivable, though not likely, that the same method could be used with different fixed output lengths. In this case, each fixed output length would require a different identifier in the registry. Additions to this registry will be approved with additional documentation under expert review. At the time that the registry is created by IANA, a group of expert reviewers will be established.</p>
 <p id="rfc.section.4.3.p.2">Additional methods of representing records such as hashes or other algorithms may be defined in the future.</p>
 <h1 id="rfc.section.4.3.1">
-<a href="#rfc.section.4.3.1">4.3.1.</a> <a href="#nomethod" id="nomethod">NO METHOD</a>
+<a href="#rfc.section.4.3.1">4.3.1.</a> <a href="#nomethod" id="nomethod">Method Identifier 0: NO METHOD</a>
 </h1>
 <p id="rfc.section.4.3.1.p.1">The method identifier of 0 is defined as <samp>NO METHOD</samp> and MUST NOT be used if the represented record count is greater than 0. The value of 0 is to be included in the IANA registry of method identifier values.</p>
 <h1 id="rfc.section.4.3.2">
-<a href="#rfc.section.4.3.2">4.3.2.</a> <a href="#rdatamethod" id="rdatamethod">RDATA</a>
+<a href="#rfc.section.4.3.2">4.3.2.</a> <a href="#rdatamethod" id="rdatamethod">Method Identifier 1: RDATA</a>
 </h1>
 <p id="rfc.section.4.3.2.p.1">The method identifier of 1 is defined as <samp>RDATA</samp>. It begins with the RDATA length as a 16-bit value containing the length of the RDATA in bytes followed by the number of bytes of RDATA as appears in the record being represented. The record MUST be in canonical DNSSEC form as described in Section 6 of <a href="#RFC4034" class="xref">[RFC4034]</a>.</p>
 <h1 id="rfc.section.4.4">
@@ -758,24 +758,24 @@
 </tr></thead>
 <tbody>
 <tr>
-<td class="left">name.exmpl.com.</td>
+<td class="left">s.example.com.</td>
 <td class="left">A</td>
 <td class="left">192.0.2.5</td>
 </tr>
 <tr>
-<td class="left">name.exmpl.com.</td>
+<td class="left">s.example.com.</td>
 <td class="left">AAAA</td>
 <td class="left">12001:db8::5</td>
 </tr>
 <tr>
 <td class="left">5.2.0.192.in-addr.arpa.</td>
 <td class="left">PTR</td>
-<td class="left">name.exmpl.com.</td>
+<td class="left">s.example.com.</td>
 </tr>
 <tr>
 <td class="left">5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.01.20.ip6.arpa. (bytes)</td>
 <td class="left">PTR</td>
-<td class="left">name.exmpl.com.</td>
+<td class="left">s.example.com.</td>
 </tr>
 </tbody>
 </table>
@@ -793,14 +793,14 @@
 </tr></thead>
 <tbody>
 <tr>
-<td class="left">name.exmpl.com.</td>
+<td class="left">s.example.com.</td>
 <td class="left">A</td>
 <td class="left">0</td>
 <td class="left">0</td>
 <td class="left">Tn + Ln</td>
 </tr>
 <tr>
-<td class="left">name.exmpl.com.</td>
+<td class="left">s.example.com.</td>
 <td class="left">AAAA</td>
 <td class="left">0</td>
 <td class="left">0</td>
@@ -822,7 +822,7 @@
 </tr>
 </tbody>
 </table>
-<p id="rfc.section.A.p.4">Next, assume there are two hosts advertising the same service type (different service types will have different owner names). We will use _ipp._tcp.exmpl.com as an example.</p>
+<p id="rfc.section.A.p.4">Next, assume there are two hosts advertising the same service type (different service types will have different owner names). We will use _ipp._tcp.example.com as an example.</p>
 <p id="rfc.section.A.p.5">Host A sends an UPDATE at time Ta with lease life La for PTR, SRV, A, AAAA, and TXT records. Host B sends an UPDATE at time Tb with lease life Lb for PTR, SRV, A, and TXT records.</p>
 <div id="rfc.table.4"></div>
 <div id="ipp_host_a"></div>
@@ -835,27 +835,27 @@
 </tr></thead>
 <tbody>
 <tr>
-<td class="left">_ipp._tcp.exmpl.com.</td>
+<td class="left">_ipp._tcp.example.com.</td>
 <td class="left">PTR</td>
-<td class="left">p1._ipp._tcp.exmpl.com.</td>
+<td class="left">p1._ipp._tcp.example.com.</td>
 </tr>
 <tr>
-<td class="left">p1._ipp._tcp.exmpl.com.</td>
+<td class="left">p1._ipp._tcp.example.com.</td>
 <td class="left">SRV</td>
-<td class="left">0 0 631 p1.exmpl.com.</td>
+<td class="left">0 0 631 p1.example.com.</td>
 </tr>
 <tr>
-<td class="left">p1._ipp._tcp.exmpl.com.</td>
+<td class="left">p1._ipp._tcp.example.com.</td>
 <td class="left">TXT</td>
 <td class="left">paper=A4</td>
 </tr>
 <tr>
-<td class="left">p1.exmpl.com.</td>
+<td class="left">p1.example.com.</td>
 <td class="left">A</td>
 <td class="left">192.0.2.1</td>
 </tr>
 <tr>
-<td class="left">p1.exmpl.com.</td>
+<td class="left">p1.example.com.</td>
 <td class="left">AAAA</td>
 <td class="left">2001:db8::1</td>
 </tr>
@@ -872,22 +872,22 @@
 </tr></thead>
 <tbody>
 <tr>
-<td class="left">_ipp._tcp.exmpl.com.</td>
+<td class="left">_ipp._tcp.example.com.</td>
 <td class="left">PTR</td>
-<td class="left">p2._ipp._tcp.exmpl.com.</td>
+<td class="left">p2._ipp._tcp.example.com.</td>
 </tr>
 <tr>
-<td class="left">p2._ipp._tcp.exmpl.com.</td>
+<td class="left">p2._ipp._tcp.example.com.</td>
 <td class="left">SRV</td>
-<td class="left">0 0 631 p2.exmpl.com.</td>
+<td class="left">0 0 631 p2.example.com.</td>
 </tr>
 <tr>
-<td class="left">p2._ipp._tcp.exmpl.com.</td>
+<td class="left">p2._ipp._tcp.example.com.</td>
 <td class="left">TXT</td>
 <td class="left">paper=B4</td>
 </tr>
 <tr>
-<td class="left">p2.exmpl.com.</td>
+<td class="left">p2.example.com.</td>
 <td class="left">A</td>
 <td class="left">192.0.2.2</td>
 </tr>
@@ -907,63 +907,63 @@
 </tr></thead>
 <tbody>
 <tr>
-<td class="left">_ipp.tcp.exmpl.com.</td>
+<td class="left">_ipp.tcp.example.com.</td>
 <td class="left">PTR</td>
 <td class="left">1</td>
 <td class="left">1</td>
-<td class="left">Ta + La 25 p1._ipp._tcp.exmpl.com.</td>
+<td class="left">Ta + La 25 p1._ipp._tcp.example.com.</td>
 </tr>
 <tr>
-<td class="left"></td>
-<td class="left"></td>
+<td class="left">_ipp.tcp.example.com.</td>
+<td class="left">PTR</td>
 <td class="left">1</td>
 <td class="left">1</td>
-<td class="left">Tb + Lb 25 p2._ipp._tcp.exmpl.com.</td>
+<td class="left">Tb + Lb 25 p2._ipp._tcp.example.com.</td>
 </tr>
 <tr>
-<td class="left">p1._ipp._tcp.exmpl.com.</td>
+<td class="left">p1._ipp._tcp.example.com.</td>
 <td class="left">SRV</td>
 <td class="left">0</td>
 <td class="left">0</td>
 <td class="left">Ta + La</td>
 </tr>
 <tr>
-<td class="left">p1._ipp._tcp.exmpl.com.</td>
+<td class="left">p1._ipp._tcp.example.com.</td>
 <td class="left">TXT</td>
 <td class="left">0</td>
 <td class="left">0</td>
 <td class="left">Ta + La</td>
 </tr>
 <tr>
-<td class="left">p2._ipp._tcp.exmpl.com.</td>
+<td class="left">p2._ipp._tcp.example.com.</td>
 <td class="left">SRV</td>
 <td class="left">0</td>
 <td class="left">0</td>
 <td class="left">Tb + Lb</td>
 </tr>
 <tr>
-<td class="left">p2._ipp._tcp.exmpl.com.</td>
+<td class="left">p2._ipp._tcp.example.com.</td>
 <td class="left">TXT</td>
 <td class="left">0</td>
 <td class="left">0</td>
 <td class="left">Tb + Lb</td>
 </tr>
 <tr>
-<td class="left">p1.exmpl.com.</td>
+<td class="left">p1.example.com.</td>
 <td class="left">A</td>
 <td class="left">0</td>
 <td class="left">0</td>
 <td class="left">Ta + La</td>
 </tr>
 <tr>
-<td class="left">p1.exmpl.com.</td>
+<td class="left">p1.example.com.</td>
 <td class="left">AAAA</td>
 <td class="left">0</td>
 <td class="left">0</td>
 <td class="left">Ta + La</td>
 </tr>
 <tr>
-<td class="left">p2.exmpl.com.</td>
+<td class="left">p2.example.com.</td>
 <td class="left">A</td>
 <td class="left">0</td>
 <td class="left">0</td>

@@ -70,8 +70,8 @@ Table of Contents
      4.1.  Represented Record Type . . . . . . . . . . . . . . . . .   4
      4.2.  Represented Record Count  . . . . . . . . . . . . . . . .   4
      4.3.  Method Identifiers  . . . . . . . . . . . . . . . . . . .   4
-       4.3.1.  NO METHOD . . . . . . . . . . . . . . . . . . . . . .   5
-       4.3.2.  RDATA . . . . . . . . . . . . . . . . . . . . . . . .   5
+       4.3.1.  Method Identifier 0: NO METHOD  . . . . . . . . . . .   5
+       4.3.2.  Method Identifier 1: RDATA  . . . . . . . . . . . . .   5
      4.4.  Expiry Time . . . . . . . . . . . . . . . . . . . . . . .   5
    5.  TIMEOUT RDATA Wire Format . . . . . . . . . . . . . . . . . .   5
    6.  Primary Server Behavior . . . . . . . . . . . . . . . . . . .   7
@@ -229,13 +229,13 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
    Additional methods of representing records such as hashes or other
    algorithms may be defined in the future.
 
-4.3.1.  NO METHOD
+4.3.1.  Method Identifier 0: NO METHOD
 
    The method identifier of 0 is defined as "NO METHOD" and MUST NOT be
    used if the represented record count is greater than 0.  The value of
    0 is to be included in the IANA registry of method identifier values.
 
-4.3.2.  RDATA
+4.3.2.  Method Identifier 1: RDATA
 
    The method identifier of 1 is defined as "RDATA".  It begins with the
    RDATA length as a 16-bit value containing the length of the RDATA in
@@ -576,16 +576,16 @@ Appendix A.  Example TIMEOUT resource records
    records with lease lifetime Ln would have a series of UPDATEs (one
    for each zone) that contain:
 
-   +------------------------------------------+------+-----------------+
-   | Name                                     | RR   | Value           |
-   |                                          | Type |                 |
-   +------------------------------------------+------+-----------------+
-   | name.exmpl.com.                          | A    | 192.0.2.5       |
-   | name.exmpl.com.                          | AAAA | 12001:db8::5    |
-   | 5.2.0.192.in-addr.arpa.                  | PTR  | name.exmpl.com. |
-   | 5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.01.20.ip6. | PTR  | name.exmpl.com. |
-   | arpa. (bytes)                            |      |                 |
-   +------------------------------------------+------+-----------------+
+   +-------------------------------------------+------+----------------+
+   | Name                                      | RR   | Value          |
+   |                                           | Type |                |
+   +-------------------------------------------+------+----------------+
+   | s.example.com.                            | A    | 192.0.2.5      |
+   | s.example.com.                            | AAAA | 12001:db8::5   |
+   | 5.2.0.192.in-addr.arpa.                   | PTR  | s.example.com. |
+   | 5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.01.20.ip6.a | PTR  | s.example.com. |
+   | rpa. (bytes)                              |      |                |
+   +-------------------------------------------+------+----------------+
 
                   Table 2: Example Address Records Update
 
@@ -597,8 +597,8 @@ Appendix A.  Example TIMEOUT resource records
    | Owner Name                   | For  | Count | Method | Expiration |
    |                              | Type |       |        |            |
    +------------------------------+------+-------+--------+------------+
-   | name.exmpl.com.              | A    | 0     | 0      | Tn + Ln    |
-   | name.exmpl.com.              | AAAA | 0     | 0      | Tn + Ln    |
+   | s.example.com.               | A    | 0     | 0      | Tn + Ln    |
+   | s.example.com.               | AAAA | 0     | 0      | Tn + Ln    |
    | 5.2.0.192.in-addr.arpa.      | PTR  | 0     | 0      | Tn + Ln    |
    | 5.0.0.0.0.0.0.0.0.0.0.0.b8.0 | PTR  | 0     | 0      | Tn + Ln    |
    | d.01.20.ip6.arpa. (bytes)    |      |       |        |            |
@@ -608,7 +608,7 @@ Appendix A.  Example TIMEOUT resource records
 
    Next, assume there are two hosts advertising the same service type
    (different service types will have different owner names).  We will
-   use _ipp._tcp.exmpl.com as an example.
+   use _ipp._tcp.example.com as an example.
 
 
 
@@ -622,28 +622,28 @@ Internet-Draft           TIMEOUT Resource Record              March 2019
    AAAA, and TXT records.  Host B sends an UPDATE at time Tb with lease
    life Lb for PTR, SRV, A, and TXT records.
 
-   +--------------------------------+--------+-------------------------+
-   | Owner name                     | RR     | Value                   |
-   |                                | Type   |                         |
-   +--------------------------------+--------+-------------------------+
-   | _ipp._tcp.exmpl.com.           | PTR    | p1._ipp._tcp.exmpl.com. |
-   | p1._ipp._tcp.exmpl.com.        | SRV    | 0 0 631 p1.exmpl.com.   |
-   | p1._ipp._tcp.exmpl.com.        | TXT    | paper=A4                |
-   | p1.exmpl.com.                  | A      | 192.0.2.1               |
-   | p1.exmpl.com.                  | AAAA   | 2001:db8::1             |
-   +--------------------------------+--------+-------------------------+
+   +--------------------------------+------+---------------------------+
+   | Owner name                     | RR   | Value                     |
+   |                                | Type |                           |
+   +--------------------------------+------+---------------------------+
+   | _ipp._tcp.example.com.         | PTR  | p1._ipp._tcp.example.com. |
+   | p1._ipp._tcp.example.com.      | SRV  | 0 0 631 p1.example.com.   |
+   | p1._ipp._tcp.example.com.      | TXT  | paper=A4                  |
+   | p1.example.com.                | A    | 192.0.2.1                 |
+   | p1.example.com.                | AAAA | 2001:db8::1               |
+   +--------------------------------+------+---------------------------+
 
                       Table 4: DNS UPDATE from Host A
 
-   +--------------------------------+--------+-------------------------+
-   | Owner name                     | RR     | Value                   |
-   |                                | Type   |                         |
-   +--------------------------------+--------+-------------------------+
-   | _ipp._tcp.exmpl.com.           | PTR    | p2._ipp._tcp.exmpl.com. |
-   | p2._ipp._tcp.exmpl.com.        | SRV    | 0 0 631 p2.exmpl.com.   |
-   | p2._ipp._tcp.exmpl.com.        | TXT    | paper=B4                |
-   | p2.exmpl.com.                  | A      | 192.0.2.2               |
-   +--------------------------------+--------+-------------------------+
+   +--------------------------------+------+---------------------------+
+   | Owner name                     | RR   | Value                     |
+   |                                | Type |                           |
+   +--------------------------------+------+---------------------------+
+   | _ipp._tcp.example.com.         | PTR  | p2._ipp._tcp.example.com. |
+   | p2._ipp._tcp.example.com.      | SRV  | 0 0 631 p2.example.com.   |
+   | p2._ipp._tcp.example.com.      | TXT  | paper=B4                  |
+   | p2.example.com.                | A    | 192.0.2.2                 |
+   +--------------------------------+------+---------------------------+
 
                       Table 5: DNS UPDATE from Host B
 
@@ -674,22 +674,25 @@ Pusateri & Wattenberg   Expires September 5, 2019              [Page 12]
 Internet-Draft           TIMEOUT Resource Record              March 2019
 
 
-   +-------------------------+------+-----+-----+----------------------+
-   | Owner Name              | For  | Cou | Met | Expire /             |
-   |                         | Type | nt  | hod | RDLEN RDATA          |
-   +-------------------------+------+-----+-----+----------------------+
-   | _ipp.tcp.exmpl.com.     | PTR  | 1   | 1   | Ta + La 25 p1._ipp._ |
-   |                         |      |     |     | tcp.exmpl.com.       |
-   |                         |      | 1   | 1   | Tb + Lb 25 p2._ipp._ |
-   |                         |      |     |     | tcp.exmpl.com.       |
-   | p1._ipp._tcp.exmpl.com. | SRV  | 0   | 0   | Ta + La              |
-   | p1._ipp._tcp.exmpl.com. | TXT  | 0   | 0   | Ta + La              |
-   | p2._ipp._tcp.exmpl.com. | SRV  | 0   | 0   | Tb + Lb              |
-   | p2._ipp._tcp.exmpl.com. | TXT  | 0   | 0   | Tb + Lb              |
-   | p1.exmpl.com.           | A    | 0   | 0   | Ta + La              |
-   | p1.exmpl.com.           | AAAA | 0   | 0   | Ta + La              |
-   | p2.exmpl.com.           | A    | 0   | 0   | Tb + Lb              |
-   +-------------------------+------+-----+-----+----------------------+
+   +---------------------------+------+---+-----+----------------------+
+   | Owner Name                | For  | C | Met | Expire /             |
+   |                           | Type | o | hod | RDLEN RDATA          |
+   |                           |      | u |     |                      |
+   |                           |      | n |     |                      |
+   |                           |      | t |     |                      |
+   +---------------------------+------+---+-----+----------------------+
+   | _ipp.tcp.example.com.     | PTR  | 1 | 1   | Ta + La 25 p1._ipp._ |
+   |                           |      |   |     | tcp.example.com.     |
+   | _ipp.tcp.example.com.     | PTR  | 1 | 1   | Tb + Lb 25 p2._ipp._ |
+   |                           |      |   |     | tcp.example.com.     |
+   | p1._ipp._tcp.example.com. | SRV  | 0 | 0   | Ta + La              |
+   | p1._ipp._tcp.example.com. | TXT  | 0 | 0   | Ta + La              |
+   | p2._ipp._tcp.example.com. | SRV  | 0 | 0   | Tb + Lb              |
+   | p2._ipp._tcp.example.com. | TXT  | 0 | 0   | Tb + Lb              |
+   | p1.example.com.           | A    | 0 | 0   | Ta + La              |
+   | p1.example.com.           | AAAA | 0 | 0   | Ta + La              |
+   | p2.example.com.           | A    | 0 | 0   | Tb + Lb              |
+   +---------------------------+------+---+-----+----------------------+
 
                      Table 6: Service TIMEOUT records
 
@@ -709,9 +712,6 @@ Authors' Addresses
    Germany
 
    Email: mail@timwattenberg.de
-
-
-
 
 
 
