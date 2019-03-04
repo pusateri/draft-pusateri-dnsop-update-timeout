@@ -43,7 +43,7 @@
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of list of popular I-D processing instructions -->
-<rfc category="std" docName="draft-pusateri-dnsop-update-timeout-01" ipr="trust200902">
+<rfc category="std" docName="draft-pusateri-dnsop-update-timeout-02" ipr="trust200902">
  <!-- category values: std, bcp, info, exp, and historic
     ipr values: trust200902, noModificationTrust200902, noDerivativesTrust200902,
        or pre5378Trust200902
@@ -130,6 +130,7 @@
  <middle>
    <section title="Introduction">
 	   <t>DNS Update <xref target="RFC2136"/> provides a mechanism to dynamically add/remove DNS resource records to/from a zone. When a resource record is dynamically added, it remains in the zone until it is removed manually or via a subsequent DNS Update. A zone administrator may want to enforce a default lifetime for dynamic updates (such as the DHCP lease lifetime) or the DNS Update may contain a lifetime using an EDNS(0) Update Lease option <xref target="I-D.sekar-dns-ul"/>. However, this lease lifetime is not communicated to secondary servers and will not endure through server software restarts. Therefore, this specification defines a new DNS TIMEOUT resource record that associates a lifetime with one or more resource records with the same owner name, type, and class that can be transferred to secondary servers through normal AXFR <xref target="RFC5936"/>, IXFR <xref target="RFC1995"/> transfer mechanisms.</t>
+     <t>An UPDATE lifetime could be stored in a proprietary database on an authoritative primary server but there is an advantage to saving it as a resource record: redundant master servers and secondary servers capable of taking over as the primary server for a zone automatically can benefit from the existing database synchronization of resource records. In addition, primary and secondary servers from multiple vendors can synchronize the lifetimes through the open format provided by a resource record.</t>
    </section>
    <section title="Requirements Language">
      <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
