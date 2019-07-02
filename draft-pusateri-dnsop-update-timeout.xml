@@ -16,6 +16,7 @@
 <!ENTITY RFC5936 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5936.xml">
 <!ENTITY RFC6763 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6763.xml">
 <!ENTITY RFC8174 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.8174.xml">
+<!ENTITY RFC8555 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.8555.xml">
 <!ENTITY I-D.sekar-dns-ul SYSTEM  "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.sekar-dns-ul.xml">
 ]>
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
@@ -132,6 +133,7 @@
 	   <t>DNS Update <xref target="RFC2136"/> provides a mechanism to dynamically add/remove DNS resource records to/from a zone. When a resource record is dynamically added, it remains in the zone until it is removed manually or via a subsequent DNS Update. A zone administrator may want to enforce a default lifetime for dynamic updates (such as the DHCP lease lifetime) or the DNS Update may contain a lifetime using an EDNS(0) Update Lease option <xref target="I-D.sekar-dns-ul"/>. However, this lease lifetime is not communicated to secondary servers and will not endure through server software restarts. This specification defines a new DNS TIMEOUT resource record that associates a lifetime with one or more resource records with the same owner name, type, and class that can be transferred to secondary servers through normal AXFR <xref target="RFC5936"/>, IXFR <xref target="RFC1995"/> transfer mechanisms.</t>
      <t>An UPDATE lifetime could be stored in a proprietary database on an authoritative primary server but there is an advantage to saving it as a resource record: redundant master servers and secondary servers capable of taking over as the primary server for a zone automatically can benefit from the existing database synchronization of resource records. In addition, primary and secondary servers from multiple vendors can synchronize the lifetimes through the open format provided by a resource record.</t>
      <t>TIMEOUT records can be installed via policy by a primary server, manually, or via an external UPDATE from a client. If TIMEOUT records are being managed by an UPDATE client, the client should be aware of server software policy with respect to TIMEOUT records. The primary server has ultimate responsibility for the records in the database and the client must work within the restrictions of the policy of the primary server.</t>
+     <t>TIMEOUT records can be thought of as a universal method for removing stale dynamic DNS records. Clients such as DHCP lease servers who best know the lease lifetimes can include individual TIMEOUT records in the dynamic UPDATE messages specific for each lease lifetime. These TIMEOUT records can be refreshed when the lease is refreshed and will timeout the A, AAAA, and PTR records if they are not refreshed by the DHCP server. Additional use cases include service discovery records installed in unicast DNS servers via UPDATE, Active Directory Controllers publishing SRV records, and DNS validation records supporting ACME <xref target="RFC8555"/> certificate management.</t>
    </section>
    <section title="Requirements Language">
      <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -144,9 +146,9 @@
    meanings.</t>
    </section>
    <section title="Sources of TIMEOUT Expiry Time">
-     <t>The expire time may come from many different sources. A few are listed here however, this list is not considered complete.
+     <t>The expire time may come from many different sources. A few are listed here however, this list is not considered complete. TIMEOUT records may be included along side the records they represent in the UPDATE message or they be synthesized by the primary server receiving the UPDATE.
        <list style="numbers">
-         <t>Via DHCP Dynamic Lease Lifetime communicated out of band.</t>
+         <t>Via DHCP Dynamic Lease Lifetimes.</t>
          <t>Via EDNS(0) Update Lease option <xref target="I-D.sekar-dns-ul"/> communicated in DNS Update.</t>
          <t>Via an administrative default server value such as one day (86400 seconds).</t>
        </list>
@@ -263,7 +265,7 @@
            <vspace />
       mm is the minute (00-59); and
            <vspace />
-      SS is the second (00-59).
+      SS is the second (00-60) where 60 is only possible as a leap second.
 	       </t>
          <t hangText="RDATA Length:">
            <vspace />
@@ -303,7 +305,7 @@
    </section>
 
    <section anchor="Acknowledgments" title="Acknowledgments">
-     <t>This idea was motivated through conversations with Mark Andrews. Thanks to Mark as well as Paul Vixie, Joe Abley, Ted Lemon, Tony Finch, Robert Story, Paul Wouters, Dick Franks and JINMEI, Tatuya for their suggestions, review, and comments.</t>
+     <t>This idea was motivated through conversations with Mark Andrews. Thanks to Mark as well as Paul Vixie, Joe Abley, Ted Lemon, Tony Finch, Robert Story, Paul Wouters, Dick Franks, JINMEI, Tatuya, and Timothe Litt for their suggestions, review, and comments.</t>
    </section>
  </middle>
 
@@ -325,6 +327,7 @@
      &RFC2136;
      &RFC5936;
      &RFC6763;
+     &RFC8555;
      &I-D.sekar-dns-ul;
    </references>
    <section title="Example TIMEOUT resource records">
@@ -347,7 +350,7 @@
          <c>PTR</c>
          <c>s.example.com.</c>
      </texttable>
-     <t>Next, consider the TIMEOUT resource records that would be generated for the records in <xref target="address_update"/>. Notice that none of the 4 TIMEOUT records on the server would require a hash:</t>
+     <t>Next, consider the TIMEOUT resource records that would be generated for the records in <xref target="address_update"/>.</t>
      <texttable anchor="address_timeout" title="Address TIMEOUT records">
          <ttcol align='left' width='40%'>Owner Name</ttcol>
          <ttcol align='left'>For Type</ttcol>
