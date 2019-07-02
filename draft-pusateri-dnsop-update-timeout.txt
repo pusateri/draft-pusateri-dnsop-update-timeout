@@ -77,14 +77,14 @@ Table of Contents
    6.  Primary Server Behavior . . . . . . . . . . . . . . . . . . .   7
    7.  Secondary Server Behavior . . . . . . . . . . . . . . . . . .   8
    8.  TIMEOUT RDATA Presentation Format . . . . . . . . . . . . . .   8
-   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  10
-   10. Security Considerations . . . . . . . . . . . . . . . . . . .  10
-   11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  10
-   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
-     12.1.  Normative References . . . . . . . . . . . . . . . . . .  11
-     12.2.  Informative References . . . . . . . . . . . . . . . . .  11
-   Appendix A.  Example TIMEOUT resource records . . . . . . . . . .  12
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  14
+   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   9
+   10. Security Considerations . . . . . . . . . . . . . . . . . . .   9
+   11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .   9
+   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  10
+     12.1.  Normative References . . . . . . . . . . . . . . . . . .  10
+     12.2.  Informative References . . . . . . . . . . . . . . . . .  10
+   Appendix A.  Example TIMEOUT resource records . . . . . . . . . .  11
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  13
 
 1.  Introduction
 
@@ -134,9 +134,11 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
    These TIMEOUT records can be refreshed when the lease is refreshed
    and will timeout the A, AAAA, and PTR records if they are not
    refreshed by the DHCP server.  Additional use cases include service
-   discovery records installed in unicast DNS servers via UPDATE, Active
-   Directory Controllers publishing SRV records, and DNS validation
-   records supporting ACME [RFC8555] certificate management.
+   discovery resource records installed in unicast DNS servers via
+   UPDATE described in [RFC6763], Active Directory Controllers
+   publishing SRV records, and DNS TXT validation resourcxe records
+   supporting ACME certificate management as described in Section 8.4 of
+   [RFC8555].
 
 2.  Requirements Language
 
@@ -160,8 +162,6 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
    2.  Via EDNS(0) Update Lease option [I-D.sekar-dns-ul] communicated
        in DNS Update.
-
-
 
 
 
@@ -453,59 +453,6 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
    RDATA:
          record type specific
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Pusateri & Wattenberg    Expires January 3, 2020                [Page 9]
-
-Internet-Draft           TIMEOUT Resource Record               July 2019
-
-
 9.  IANA Considerations
 
    This document defines a new DNS Resource Record Type named TIMEOUT to
@@ -554,10 +501,7 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
 
-
-
-
-Pusateri & Wattenberg    Expires January 3, 2020               [Page 10]
+Pusateri & Wattenberg    Expires January 3, 2020                [Page 9]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -613,7 +557,7 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
 
-Pusateri & Wattenberg    Expires January 3, 2020               [Page 11]
+Pusateri & Wattenberg    Expires January 3, 2020               [Page 10]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -669,7 +613,7 @@ Appendix A.  Example TIMEOUT resource records
 
 
 
-Pusateri & Wattenberg    Expires January 3, 2020               [Page 12]
+Pusateri & Wattenberg    Expires January 3, 2020               [Page 11]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -725,7 +669,7 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
 
-Pusateri & Wattenberg    Expires January 3, 2020               [Page 13]
+Pusateri & Wattenberg    Expires January 3, 2020               [Page 12]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -781,4 +725,4 @@ Authors' Addresses
 
 
 
-Pusateri & Wattenberg    Expires January 3, 2020               [Page 14]
+Pusateri & Wattenberg    Expires January 3, 2020               [Page 13]
