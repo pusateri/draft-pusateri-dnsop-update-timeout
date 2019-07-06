@@ -642,6 +642,7 @@
 </h1>
 <p id="rfc.section.9.p.1">This document defines a new DNS Resource Record Type named TIMEOUT to be exchanged between authoritative primary and secondary DNS servers. It is assigned out of the DNS Parameters Resource Record (RR) Type registry. The value for the TIMEOUT resource record type is TBA.</p>
 <p id="rfc.section.9.p.2">This document establishes a new registry of DNS TIMEOUT Resource Record Method Identifier values. The registry shall include a numeric identifier, a method name, a description of the method, and the length of the output function in bits or the keyword <samp>variable</samp>. The identifier is to be used in the RDATA section of the TIMEOUT resource record.</p>
+<p id="rfc.section.9.p.3">Initially, there are two values defined in the registry. Values from 240 (0xF0) through 255 (0xFF) are reserved for experimental use.</p>
 <div id="rfc.table.1"></div>
 <div id="table_algs"></div>
 <table cellpadding="3" cellspacing="0" class="tt full center">
@@ -667,6 +668,13 @@
 <td class="left">Actual RDATA of represented records</td>
 <td class="center">variable</td>
 <td class="left"><a href="#rdatamethod" class="xref">Section 4.3.2</a></td>
+</tr>
+<tr>
+<td class="center">240-255</td>
+<td class="left">EXPERIMENTAL</td>
+<td class="left">Reserved for Experimental Use</td>
+<td class="center">variable</td>
+<td class="left"><a href="#IANA" class="xref">Section 9</a></td>
 </tr>
 </tbody>
 </table>

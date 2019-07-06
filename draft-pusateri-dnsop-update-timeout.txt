@@ -79,7 +79,7 @@ Table of Contents
    8.  TIMEOUT RDATA Presentation Format . . . . . . . . . . . . . .   8
    9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   9
    10. Security Considerations . . . . . . . . . . . . . . . . . . .   9
-   11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .   9
+   11. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  10
    12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  10
      12.1.  Normative References . . . . . . . . . . . . . . . . . .  10
      12.2.  Informative References . . . . . . . . . . . . . . . . .  10
@@ -467,16 +467,23 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
    The identifier is to be used in the RDATA section of the TIMEOUT
    resource record.
 
-   +-------+------------+----------------+-------------+---------------+
-   |   ID  | Method     | Description    |    Length   | Definition    |
-   |       | Name       |                |    (bits)   |               |
-   +-------+------------+----------------+-------------+---------------+
-   |   0   | NO METHOD  | All records    |      0      | Section 4.3.1 |
-   |       |            | match          |             |               |
-   |   1   | RDATA      | Actual RDATA   |   variable  | Section 4.3.2 |
-   |       |            | of represented |             |               |
-   |       |            | records        |             |               |
-   +-------+------------+----------------+-------------+---------------+
+   Initially, there are two values defined in the registry.  Values from
+   240 (0xF0) through 255 (0xFF) are reserved for experimental use.
+
+   +---------+--------------+---------------+----------+---------------+
+   |    ID   | Method Name  | Description   |  Length  | Definition    |
+   |         |              |               |  (bits)  |               |
+   +---------+--------------+---------------+----------+---------------+
+   |    0    | NO METHOD    | All records   |    0     | Section 4.3.1 |
+   |         |              | match         |          |               |
+   |    1    | RDATA        | Actual RDATA  | variable | Section 4.3.2 |
+   |         |              | of            |          |               |
+   |         |              | represented   |          |               |
+   |         |              | records       |          |               |
+   | 240-255 | EXPERIMENTAL | Reserved for  | variable | Section 9     |
+   |         |              | Experimental  |          |               |
+   |         |              | Use           |          |               |
+   +---------+--------------+---------------+----------+---------------+
 
                Table 1: TIMEOUT RR Method Identifier values
 
@@ -491,13 +498,6 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
    Authenticated UPDATE operations MUST be REQUIRED at authoritative
    name servers supporting TIMEOUT resource records.
 
-11.  Acknowledgments
-
-   This idea was motivated through conversations with Mark Andrews.
-   Thanks to Mark as well as Paul Vixie, Joe Abley, Ted Lemon, Tony
-   Finch, Robert Story, Paul Wouters, Dick Franks, JINMEI, Tatuya, and
-   Timothe Litt for their suggestions, review, and comments.
-
 
 
 
@@ -505,6 +505,13 @@ Pusateri & Wattenberg    Expires January 7, 2020                [Page 9]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
+
+11.  Acknowledgments
+
+   This idea was motivated through conversations with Mark Andrews.
+   Thanks to Mark as well as Paul Vixie, Joe Abley, Ted Lemon, Tony
+   Finch, Robert Story, Paul Wouters, Dick Franks, JINMEI, Tatuya, and
+   Timothe Litt for their suggestions, review, and comments.
 
 12.  References
 
@@ -546,6 +553,15 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
               DOI 10.17487/RFC1995, August 1996,
               <https://www.rfc-editor.org/info/rfc1995>.
 
+
+
+
+
+Pusateri & Wattenberg    Expires January 7, 2020               [Page 10]
+
+Internet-Draft           TIMEOUT Resource Record               July 2019
+
+
    [RFC2136]  Vixie, P., Ed., Thomson, S., Rekhter, Y., and J. Bound,
               "Dynamic Updates in the Domain Name System (DNS UPDATE)",
               RFC 2136, DOI 10.17487/RFC2136, April 1997,
@@ -554,13 +570,6 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
    [RFC5936]  Lewis, E. and A. Hoenes, Ed., "DNS Zone Transfer Protocol
               (AXFR)", RFC 5936, DOI 10.17487/RFC5936, June 2010,
               <https://www.rfc-editor.org/info/rfc5936>.
-
-
-
-Pusateri & Wattenberg    Expires January 7, 2020               [Page 10]
-
-Internet-Draft           TIMEOUT Resource Record               July 2019
-
 
    [RFC6763]  Cheshire, S. and M. Krochmal, "DNS-Based Service
               Discovery", RFC 6763, DOI 10.17487/RFC6763, February 2013,
@@ -597,6 +606,18 @@ Appendix A.  Example TIMEOUT resource records
    Next, consider the TIMEOUT resource records that would be generated
    for the records in Table 2.
 
+
+
+
+
+
+
+
+Pusateri & Wattenberg    Expires January 7, 2020               [Page 11]
+
+Internet-Draft           TIMEOUT Resource Record               July 2019
+
+
    +------------------------------+------+-------+--------+------------+
    | Owner Name                   | For  | Count | Method | Expiration |
    |                              | Type |       |        |            |
@@ -609,14 +630,6 @@ Appendix A.  Example TIMEOUT resource records
    +------------------------------+------+-------+--------+------------+
 
                      Table 3: Address TIMEOUT records
-
-
-
-
-Pusateri & Wattenberg    Expires January 7, 2020               [Page 11]
-
-Internet-Draft           TIMEOUT Resource Record               July 2019
-
 
    Next, assume there are two hosts advertising the same service type
    (different service types will have different owner names).  We will
@@ -653,19 +666,6 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
    For these printer registrations, the TIMEOUT records on the server
    would look like the following:
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

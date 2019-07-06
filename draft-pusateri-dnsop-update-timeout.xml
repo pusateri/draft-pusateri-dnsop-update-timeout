@@ -279,11 +279,12 @@
    <section anchor="IANA" title="IANA Considerations">
        <t>This document defines a new DNS Resource Record Type named TIMEOUT to be exchanged between authoritative primary and secondary DNS servers. It is assigned out of the DNS Parameters Resource Record (RR) Type registry. The value for the TIMEOUT resource record type is TBA.</t>
        <t>This document establishes a new registry of DNS TIMEOUT Resource Record Method Identifier values. The registry shall include a numeric identifier, a method name, a description of the method, and the length of the output function in bits or the keyword <spanx style="verb">variable</spanx>. The identifier is to be used in the RDATA section of the TIMEOUT resource record.</t>
+       <t>Initially, there are two values defined in the registry. Values from 240 (0xF0) through 255 (0xFF) are reserved for experimental use.</t>
        <texttable anchor="table_algs" title="TIMEOUT RR Method Identifier values">
            <ttcol align='center' width='8%'>ID</ttcol>
            <ttcol align='left' width='18%'>Method Name</ttcol>
            <ttcol align='left' width='20%'>Description</ttcol>
-           <ttcol align='center' width='20%'>Length (bits)</ttcol>
+           <ttcol align='center' width='15%'>Length (bits)</ttcol>
            <ttcol align='left'>Definition</ttcol>
            <c>0</c>
            <c>NO METHOD</c>
@@ -295,6 +296,11 @@
            <c>Actual RDATA of represented records</c>
            <c>variable</c>
            <c><xref target="rdatamethod"/></c>
+           <c>240-255</c>
+           <c>EXPERIMENTAL</c>
+           <c>Reserved for Experimental Use</c>
+           <c>variable</c>
+           <c><xref target="IANA"/></c>
        </texttable>
    </section>
 
