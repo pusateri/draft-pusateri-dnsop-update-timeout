@@ -5,7 +5,7 @@
 Internet Engineering Task Force                              T. Pusateri
 Internet-Draft                                             T. Wattenberg
 Intended status: Standards Track                            Unaffiliated
-Expires: January 3, 2020                                    July 2, 2019
+Expires: January 7, 2020                                    July 6, 2019
 
 
                       DNS TIMEOUT Resource Record
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on January 3, 2020.
+   This Internet-Draft will expire on January 7, 2020.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Pusateri & Wattenberg    Expires January 3, 2020                [Page 1]
+Pusateri & Wattenberg    Expires January 7, 2020                [Page 1]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -91,30 +91,29 @@ Table of Contents
    DNS Update [RFC2136] provides a mechanism to dynamically add/remove
    DNS resource records to/from a zone.  When a resource record is
    dynamically added, it remains in the zone until it is removed
-   manually or via a subsequent DNS Update.  A zone administrator may
-   want to enforce a default lifetime for dynamic updates (such as the
-   DHCP lease lifetime) or the DNS Update may contain a lifetime using
-   an EDNS(0) Update Lease option [I-D.sekar-dns-ul].  However, this
-   lease lifetime is not communicated to secondary servers and will not
-   endure through server software restarts.  This specification defines
-   a new DNS TIMEOUT resource record that associates a lifetime with one
-   or more resource records with the same owner name, type, and class
-   that can be transferred to secondary servers through normal AXFR
+   manually or via a subsequent DNS Update.  The context of a dynamic
+   update may provide lifetime hints for the updated records (such as
+   the EDNS(0) Update Lease option [I-D.sekar-dns-ul]), however, this
+   lifetime is not communicated to secondary servers and will not endure
+   through server software restarts.  This specification defines a new
+   DNS TIMEOUT resource record that associates lifetimes with one or
+   more resource records with the same owner name, type, and class that
+   can be transferred to secondary servers through normal AXFR
    [RFC5936], IXFR [RFC1995] transfer mechanisms.
 
    An UPDATE lifetime could be stored in a proprietary database on an
    authoritative primary server but there is an advantage to saving it
    as a resource record: redundant master servers and secondary servers
    capable of taking over as the primary server for a zone automatically
+   can benefit from the existing database synchronization of resource
 
 
 
-Pusateri & Wattenberg    Expires January 3, 2020                [Page 2]
+Pusateri & Wattenberg    Expires January 7, 2020                [Page 2]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
-   can benefit from the existing database synchronization of resource
    records.  In addition, primary and secondary servers from multiple
    vendors can synchronize the lifetimes through the open format
    provided by a resource record.
@@ -122,10 +121,11 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
    TIMEOUT records can be installed via policy by a primary server,
    manually, or via an external UPDATE from a client.  If TIMEOUT
    records are being managed by an UPDATE client, the client should be
-   aware of server software policy with respect to TIMEOUT records.  The
-   primary server has ultimate responsibility for the records in the
-   database and the client must work within the restrictions of the
-   policy of the primary server.
+   aware of server software policy with respect to TIMEOUT records to
+   prevent the TIMEOUT records from being rejected.  The primary server
+   has ultimate responsibility for the records in the database and the
+   client must work within the restrictions of the policy of the primary
+   server.
 
    TIMEOUT records can be thought of as a universal method for removing
    stale dynamic DNS records.  Clients such as DHCP lease servers who
@@ -136,7 +136,7 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
    refreshed by the DHCP server.  Additional use cases include service
    discovery resource records installed in unicast DNS servers via
    UPDATE described in [RFC6763], Active Directory Controllers
-   publishing SRV records, and DNS TXT validation resourcxe records
+   publishing SRV records, and DNS TXT validation resource records
    supporting ACME certificate management as described in Section 8.4 of
    [RFC8555].
 
@@ -165,12 +165,12 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
 
-Pusateri & Wattenberg    Expires January 3, 2020                [Page 3]
+Pusateri & Wattenberg    Expires January 7, 2020                [Page 3]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
-   3.  Via an administrative default server value such as one day (86400
+   3.  Via an administrative default value such as one day (86400
        seconds).
 
 4.  Resource Record Composition
@@ -221,7 +221,7 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
 
-Pusateri & Wattenberg    Expires January 3, 2020                [Page 4]
+Pusateri & Wattenberg    Expires January 7, 2020                [Page 4]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -277,7 +277,7 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
 
-Pusateri & Wattenberg    Expires January 3, 2020                [Page 5]
+Pusateri & Wattenberg    Expires January 7, 2020                [Page 5]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -333,7 +333,7 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
 
-Pusateri & Wattenberg    Expires January 3, 2020                [Page 6]
+Pusateri & Wattenberg    Expires January 7, 2020                [Page 6]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -389,7 +389,7 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
 
-Pusateri & Wattenberg    Expires January 3, 2020                [Page 7]
+Pusateri & Wattenberg    Expires January 7, 2020                [Page 7]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -445,7 +445,7 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
 
-Pusateri & Wattenberg    Expires January 3, 2020                [Page 8]
+Pusateri & Wattenberg    Expires January 7, 2020                [Page 8]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -501,7 +501,7 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
 
-Pusateri & Wattenberg    Expires January 3, 2020                [Page 9]
+Pusateri & Wattenberg    Expires January 7, 2020                [Page 9]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -557,7 +557,7 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
 
-Pusateri & Wattenberg    Expires January 3, 2020               [Page 10]
+Pusateri & Wattenberg    Expires January 7, 2020               [Page 10]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -613,7 +613,7 @@ Appendix A.  Example TIMEOUT resource records
 
 
 
-Pusateri & Wattenberg    Expires January 3, 2020               [Page 11]
+Pusateri & Wattenberg    Expires January 7, 2020               [Page 11]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -669,7 +669,7 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
 
-Pusateri & Wattenberg    Expires January 3, 2020               [Page 12]
+Pusateri & Wattenberg    Expires January 7, 2020               [Page 12]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -725,4 +725,4 @@ Authors' Addresses
 
 
 
-Pusateri & Wattenberg    Expires January 3, 2020               [Page 13]
+Pusateri & Wattenberg    Expires January 7, 2020               [Page 13]
