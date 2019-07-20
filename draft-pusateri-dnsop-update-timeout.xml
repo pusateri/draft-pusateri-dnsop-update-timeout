@@ -347,7 +347,7 @@
          <c>192.0.2.5</c>
          <c>s.example.com.</c>
          <c>AAAA</c>
-         <c>12001:db8::5</c>
+         <c>2001:db8::5</c>
          <c>5.2.0.192.in-addr.arpa.</c>
          <c>PTR</c>
          <c>s.example.com.</c>

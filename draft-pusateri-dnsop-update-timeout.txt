@@ -5,7 +5,7 @@
 Internet Engineering Task Force                              T. Pusateri
 Internet-Draft                                             T. Wattenberg
 Intended status: Standards Track                            Unaffiliated
-Expires: January 7, 2020                                    July 6, 2019
+Expires: January 21, 2020                                  July 20, 2019
 
 
                       DNS TIMEOUT Resource Record
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on January 7, 2020.
+   This Internet-Draft will expire on January 21, 2020.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Pusateri & Wattenberg    Expires January 7, 2020                [Page 1]
+Pusateri & Wattenberg   Expires January 21, 2020                [Page 1]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Pusateri & Wattenberg    Expires January 7, 2020                [Page 2]
+Pusateri & Wattenberg   Expires January 21, 2020                [Page 2]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -165,7 +165,7 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
 
-Pusateri & Wattenberg    Expires January 7, 2020                [Page 3]
+Pusateri & Wattenberg   Expires January 21, 2020                [Page 3]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -221,7 +221,7 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
 
-Pusateri & Wattenberg    Expires January 7, 2020                [Page 4]
+Pusateri & Wattenberg   Expires January 21, 2020                [Page 4]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -277,7 +277,7 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
 
-Pusateri & Wattenberg    Expires January 7, 2020                [Page 5]
+Pusateri & Wattenberg   Expires January 21, 2020                [Page 5]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -333,7 +333,7 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
 
-Pusateri & Wattenberg    Expires January 7, 2020                [Page 6]
+Pusateri & Wattenberg   Expires January 21, 2020                [Page 6]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -389,7 +389,7 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
 
-Pusateri & Wattenberg    Expires January 7, 2020                [Page 7]
+Pusateri & Wattenberg   Expires January 21, 2020                [Page 7]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -445,7 +445,7 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
 
-Pusateri & Wattenberg    Expires January 7, 2020                [Page 8]
+Pusateri & Wattenberg   Expires January 21, 2020                [Page 8]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -501,7 +501,7 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
 
-Pusateri & Wattenberg    Expires January 7, 2020                [Page 9]
+Pusateri & Wattenberg   Expires January 21, 2020                [Page 9]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -557,7 +557,7 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
 
-Pusateri & Wattenberg    Expires January 7, 2020               [Page 10]
+Pusateri & Wattenberg   Expires January 21, 2020               [Page 10]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -595,7 +595,7 @@ Appendix A.  Example TIMEOUT resource records
    |                                           | Type |                |
    +-------------------------------------------+------+----------------+
    | s.example.com.                            | A    | 192.0.2.5      |
-   | s.example.com.                            | AAAA | 12001:db8::5   |
+   | s.example.com.                            | AAAA | 2001:db8::5    |
    | 5.2.0.192.in-addr.arpa.                   | PTR  | s.example.com. |
    | 5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.01.20.ip6.a | PTR  | s.example.com. |
    | rpa. (bytes)                              |      |                |
@@ -613,7 +613,7 @@ Appendix A.  Example TIMEOUT resource records
 
 
 
-Pusateri & Wattenberg    Expires January 7, 2020               [Page 11]
+Pusateri & Wattenberg   Expires January 21, 2020               [Page 11]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -669,7 +669,7 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
 
-Pusateri & Wattenberg    Expires January 7, 2020               [Page 12]
+Pusateri & Wattenberg   Expires January 21, 2020               [Page 12]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
@@ -725,4 +725,4 @@ Authors' Addresses
 
 
 
-Pusateri & Wattenberg    Expires January 7, 2020               [Page 13]
+Pusateri & Wattenberg   Expires January 21, 2020               [Page 13]
