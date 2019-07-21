@@ -160,7 +160,7 @@
      <t>The fields and their values in a TIMEOUT record are defined as:</t>
      <section title="Represented Record Type">
        <t>A 16-bit field containing the resource record type to which the TIMEOUT record applies. Multiple TIMEOUT records for the same owner name, class, and represented type can exist. Any resource record type can be specified in the Represented Record Type including another TIMEOUT record. This specification does not put any restrictions on the record type but implementations in authoritative servers will likely do so for policy and security reasons.</t>
-       <t>If the represented record is of type ANY, the TIMEOUT instance is valid for all types under the same owner name and class.</t>
+       <t>If the represented record is of type ANY, the TIMEOUT instance is valid for all types under the same owner name and class. In this case, NO METHOD (see <xref target="nomethod"/>) SHALL be used as method identifier.</t>
      </section>
      <section title="Represented Record Count">
        <t>The Represented Record Count is a 8-bit value that specifies the number of records of the specified record type with this expiry time.</t>

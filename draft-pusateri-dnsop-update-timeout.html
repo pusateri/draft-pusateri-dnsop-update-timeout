@@ -536,7 +536,7 @@
 <h1 id="rfc.section.4.1">
 <a href="#rfc.section.4.1">4.1.</a> Represented Record Type</h1>
 <p id="rfc.section.4.1.p.1">A 16-bit field containing the resource record type to which the TIMEOUT record applies. Multiple TIMEOUT records for the same owner name, class, and represented type can exist. Any resource record type can be specified in the Represented Record Type including another TIMEOUT record. This specification does not put any restrictions on the record type but implementations in authoritative servers will likely do so for policy and security reasons.</p>
-<p id="rfc.section.4.1.p.2">If the represented record is of type ANY, the TIMEOUT instance is valid for all types under the same owner name and class.</p>
+<p id="rfc.section.4.1.p.2">If the represented record is of type ANY, the TIMEOUT instance is valid for all types under the same owner name and class. In this case, NO METHOD (see <a href="#nomethod" class="xref">Section 4.3.1</a>) SHALL be used as method identifier.</p>
 <h1 id="rfc.section.4.2">
 <a href="#rfc.section.4.2">4.2.</a> Represented Record Count</h1>
 <p id="rfc.section.4.2.p.1">The Represented Record Count is a 8-bit value that specifies the number of records of the specified record type with this expiry time.</p>

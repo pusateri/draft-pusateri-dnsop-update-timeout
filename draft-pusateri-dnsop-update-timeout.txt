@@ -212,9 +212,9 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
    servers will likely do so for policy and security reasons.
 
    If the represented record is of type ANY, the TIMEOUT instance is
-   valid for all types under the same owner name and class.
-
-
+   valid for all types under the same owner name and class.  In this
+   case, NO METHOD (see Section 4.3.1) SHALL be used as method
+   identifier.
 
 
 
