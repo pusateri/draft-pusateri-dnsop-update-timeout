@@ -160,7 +160,7 @@
      <t>The fields and their values in a TIMEOUT record are defined as:</t>
      <section title="Represented Record Type">
        <t>A 16-bit field containing the resource record type to which the TIMEOUT record applies. Multiple TIMEOUT records for the same owner name, class, and represented type can exist. Any resource record type can be specified in the Represented Record Type including another TIMEOUT record. This specification does not put any restrictions on the record type but implementations in authoritative servers will likely do so for policy and security reasons.</t>
-       <t>If the represented record is of type ANY, the TIMEOUT instance is valid for all types under the owner name.</t>
+       <t>If the represented record is of type ANY, the TIMEOUT instance is valid for all types under the same owner name and class.</t>
      </section>
      <section title="Represented Record Count">
        <t>The Represented Record Count is a 8-bit value that specifies the number of records of the specified record type with this expiry time.</t>
@@ -233,8 +233,13 @@
    </section>
    <section title="Server Behavior">
     <t>A server may or may not understand TIMEOUT resource records. If a server does not understand them, they are treated like any other resource record that the server may not understand <xref target="RFC3597"/>.</t>
+    <section title="TIMEOUT-ACTIVE option">
+     <t>A server responding to an UPDATE with a TIMEOUT included signals back to the client that it's capable of timing out records by setting an EDNS option with OPTION-CODE [TBD]. OPTION-LENGTH MUST be zero and OPTION-DATA MUST be empty.</t>
+    </section>
     <section title="Primary Server Behavior">
-     <t>A TIMEOUT resource record MUST be removed when the last resource record it covers has been removed. This may be due to the record expiring (reaching the expiry time) or due to a subsequent DNS Update or administrative action. If the TIMEOUT record is being managed by the primary server, it has the responsibility to remove it. If the TIMEOUT record was installed by an external UPDATE client, the UPDATE client has the responsibility to remove it. The primary server is the ultimate source of the database and policy established by the server may overrule the actions of external clients. The primary server is ultimately responsible for ensuring the database is consistent but until TIMEOUT record management is built-in to authoritative server software, external UPDATE clients will likely manage the records.</t>
+     <t>If the primary server signaled TIMEOUT-ACTIVE, the TIMEOUT record is fully managed by the primary server and it has the responsibility to handle it as described in this section. If the primary server is not capable of timing out records, the UPDATE client has the responsibility to remove the TIMEOUT records as well as all records it covers.</t>
+     <t>A TIMEOUT resource record MUST be removed when the last resource record it covers has been removed. This may be due to the record expiring (reaching the expiry time) or due to a subsequent DNS Update or administrative action.</t>
+     <t>The primary server is the ultimate source of the database and policy established by the server may overrule the actions of external clients. The primary server is ultimately responsible for ensuring the database is consistent but until TIMEOUT record management is built-in to authoritative server software, external UPDATE clients will likely manage the records.</t>
      <t>Upon receiving any DNS UPDATE deleting resource records that might have been covered by a TIMEOUT RR, a primary server MUST remove all represented records in all of the TIMEOUT records with the same owner name, class, and represented type.</t>
      <t>The TIMEOUT record TTL should use the default TTL for the zone like any other record. The TTL values of the records covered by a TIMEOUT are not affected by the TIMEOUT expiry time and may be longer than the expiry time. The TIMEOUT RR is mostly for the benefit of the authoritative server to know when to remove the records. The fact that some records might live longer in the cache of a resolver is no different than other records that might get removed while still in a remote resolver cache.</t>
     </section>
@@ -306,6 +311,7 @@
            <c>variable</c>
            <c><xref target="IANA"/></c>
        </texttable>
+       <t>IANA is requested to assign an EDNS option code to the TIMEOUT-ACTIVE option. The option-code is TBA.</t>
    </section>
 
    <section anchor="Security" title="Security Considerations">
