@@ -75,15 +75,15 @@ Table of Contents
      4.4.  Expiry Time . . . . . . . . . . . . . . . . . . . . . . .   6
    5.  TIMEOUT RDATA Wire Format . . . . . . . . . . . . . . . . . .   6
    6.  Server Behavior . . . . . . . . . . . . . . . . . . . . . . .   7
-     6.1.  TIMEOUT-ACTIVE option . . . . . . . . . . . . . . . . . .   7
+     6.1.  TIMEOUT-ACTIVE option . . . . . . . . . . . . . . . . . .   8
      6.2.  Primary Server Behavior . . . . . . . . . . . . . . . . .   8
      6.3.  Secondary Server Behavior . . . . . . . . . . . . . . . .   8
-   7.  TIMEOUT RDATA Presentation Format . . . . . . . . . . . . . .   8
+   7.  TIMEOUT RDATA Presentation Format . . . . . . . . . . . . . .   9
    8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   9
    9.  Security Considerations . . . . . . . . . . . . . . . . . . .  10
    10. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  10
-   11. References  . . . . . . . . . . . . . . . . . . . . . . . . .  10
-     11.1.  Normative References . . . . . . . . . . . . . . . . . .  10
+   11. References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
+     11.1.  Normative References . . . . . . . . . . . . . . . . . .  11
      11.2.  Informative References . . . . . . . . . . . . . . . . .  11
    Appendix A.  Example TIMEOUT resource records . . . . . . . . . .  12
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  14
@@ -303,8 +303,11 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
    The expiry time is a 64-bit number expressed as the number of seconds
    since the UNIX epoch (00:00:00 UTC on January 1, 1970).  This value
-   is an absolute time at which the record will expire.  Lease times
-   must be converted to an absolute expiry time when received.
+   is an absolute time at which the record will expire.
+
+   Relative expiry times are not possible, because of zone transfers.
+   However, relative lease times [I-D.sekar-dns-ul] could be converted
+   to an absolute expiry time when received.
 
 5.  TIMEOUT RDATA Wire Format
 
@@ -328,15 +331,15 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
                   Figure 1: Method (0) RDATA Wire Format
 
-   Figure 1 represents the TIMEOUT RDATA field of all matching records
-   of the represented type for the same owner name and class.
-
 
 
 Pusateri & Wattenberg   Expires January 22, 2020                [Page 6]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
+
+   Figure 1 represents the TIMEOUT RDATA field of all matching records
+   of the represented type for the same owner name and class.
 
    The RDATA section of the resource record with method identifier RDATA
    (1) is illustrated in Figure 2:
@@ -380,12 +383,9 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
    server does not understand them, they are treated like any other
    resource record that the server may not understand [RFC3597].
 
-6.1.  TIMEOUT-ACTIVE option
 
-   A server responding to an UPDATE with a TIMEOUT included signals back
-   to the client that it's capable of timing out records by setting an
-   EDNS option with OPTION-CODE [TBD].  OPTION-LENGTH MUST be zero and
-   OPTION-DATA MUST be empty.
+
+
 
 
 
@@ -393,6 +393,13 @@ Pusateri & Wattenberg   Expires January 22, 2020                [Page 7]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
+
+6.1.  TIMEOUT-ACTIVE option
+
+   A server responding to an UPDATE with a TIMEOUT included signals back
+   to the client that it's capable of timing out records by setting an
+   EDNS option with OPTION-CODE [TBD].  OPTION-LENGTH MUST be zero and
+   OPTION-DATA MUST be empty.
 
 6.2.  Primary Server Behavior
 
@@ -434,6 +441,15 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
    A secondary server MUST NOT expire the records in a zone it maintains
    covered by the TIMEOUT resource record and it MUST NOT expire the
    TIMEOUT resource record itself when the last record it covers has
+
+
+
+
+Pusateri & Wattenberg   Expires January 22, 2020                [Page 8]
+
+Internet-Draft           TIMEOUT Resource Record               July 2019
+
+
    expired.  The secondary server MUST always wait for the records to be
    removed or updated by the primary server.
 
@@ -442,13 +458,6 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
    Record Type:
          resource record type mnemonics.  When the mnemonic is unknown,
          the TYPE representation described in Section 5 of [RFC3597]
-
-
-
-Pusateri & Wattenberg   Expires January 22, 2020                [Page 8]
-
-Internet-Draft           TIMEOUT Resource Record               July 2019
-
 
    Represented Record Count:
          unsigned decimal integer (0-255)
@@ -489,15 +498,6 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
    Record Method Identifier values.  The registry shall include a
    numeric identifier, a method name, a description of the method, and
    the length of the output function in bits or the keyword "variable".
-   The identifier is to be used in the RDATA section of the TIMEOUT
-   resource record.
-
-   Initially, there are two values defined in the registry.  Values from
-   240 (0xF0) through 255 (0xFF) are reserved for experimental use.
-
-
-
-
 
 
 
@@ -505,6 +505,12 @@ Pusateri & Wattenberg   Expires January 22, 2020                [Page 9]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
+
+   The identifier is to be used in the RDATA section of the TIMEOUT
+   resource record.
+
+   Initially, there are two values defined in the registry.  Values from
+   240 (0xF0) through 255 (0xFF) are reserved for experimental use.
 
    +---------+--------------+---------------+----------+---------------+
    |    ID   | Method Name  | Description   |  Length  | Definition    |
@@ -544,13 +550,7 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
    Finch, Robert Story, Paul Wouters, Dick Franks, JINMEI, Tatuya, and
    Timothe Litt for their suggestions, review, and comments.
 
-11.  References
 
-11.1.  Normative References
-
-   [RFC1035]  Mockapetris, P., "Domain names - implementation and
-              specification", STD 13, RFC 1035, DOI 10.17487/RFC1035,
-              November 1987, <https://www.rfc-editor.org/info/rfc1035>.
 
 
 
@@ -561,6 +561,14 @@ Pusateri & Wattenberg   Expires January 22, 2020               [Page 10]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
+
+11.  References
+
+11.1.  Normative References
+
+   [RFC1035]  Mockapetris, P., "Domain names - implementation and
+              specification", STD 13, RFC 1035, DOI 10.17487/RFC1035,
+              November 1987, <https://www.rfc-editor.org/info/rfc1035>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -603,20 +611,16 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
               (AXFR)", RFC 5936, DOI 10.17487/RFC5936, June 2010,
               <https://www.rfc-editor.org/info/rfc5936>.
 
-   [RFC6763]  Cheshire, S. and M. Krochmal, "DNS-Based Service
-              Discovery", RFC 6763, DOI 10.17487/RFC6763, February 2013,
-              <https://www.rfc-editor.org/info/rfc6763>.
-
-
-
-
-
 
 
 Pusateri & Wattenberg   Expires January 22, 2020               [Page 11]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
+
+   [RFC6763]  Cheshire, S. and M. Krochmal, "DNS-Based Service
+              Discovery", RFC 6763, DOI 10.17487/RFC6763, February 2013,
+              <https://www.rfc-editor.org/info/rfc6763>.
 
    [RFC8555]  Barnes, R., Hoffman-Andrews, J., McCarney, D., and J.
               Kasten, "Automatic Certificate Management Environment
@@ -662,10 +666,6 @@ Appendix A.  Example TIMEOUT resource records
 
                      Table 3: Address TIMEOUT records
 
-   Next, assume there are two hosts advertising the same service type
-   (different service types will have different owner names).  We will
-   use _ipp._tcp.example.com as an example.
-
 
 
 
@@ -673,6 +673,10 @@ Pusateri & Wattenberg   Expires January 22, 2020               [Page 12]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
+
+   Next, assume there are two hosts advertising the same service type
+   (different service types will have different owner names).  We will
+   use _ipp._tcp.example.com as an example.
 
    Host A sends an UPDATE at time Ta with lease life La for PTR, SRV, A,
    AAAA, and TXT records.  Host B sends an UPDATE at time Tb with lease
@@ -705,10 +709,6 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
    For these printer registrations, the TIMEOUT records on the server
    would look like the following:
-
-
-
-
 
 
 

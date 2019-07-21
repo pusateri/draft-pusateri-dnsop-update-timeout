@@ -179,7 +179,8 @@
        </section>
      </section>
      <section title="Expiry Time">
-       <t>The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire. Lease times must be converted to an absolute expiry time when received.</t>
+       <t>The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire.</t>
+       <t>Relative expiry times are not possible, because of zone transfers. However, relative lease times <xref target="I-D.sekar-dns-ul"/> could be converted to an absolute expiry time when received.</t>
      </section>
    </section>
    <section title="TIMEOUT RDATA Wire Format">

@@ -557,7 +557,8 @@
 <p id="rfc.section.4.3.2.p.2">If the RDATA of the resource record to be identified has maximum record length, the server MUST NOT truncate the original RDATA in order to let it fit into the TIMEOUT record. If coming through an UPDATE, the server SHOULD NOT process the UPDATE operation and instead respond with RCODE FORMERR.</p>
 <h1 id="rfc.section.4.4">
 <a href="#rfc.section.4.4">4.4.</a> Expiry Time</h1>
-<p id="rfc.section.4.4.p.1">The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire. Lease times must be converted to an absolute expiry time when received.</p>
+<p id="rfc.section.4.4.p.1">The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire.</p>
+<p id="rfc.section.4.4.p.2">Relative expiry times are not possible, because of zone transfers. However, relative lease times <a href="#I-D.sekar-dns-ul" class="xref">[I-D.sekar-dns-ul]</a> could be converted to an absolute expiry time when received.</p>
 <h1 id="rfc.section.5">
 <a href="#rfc.section.5">5.</a> TIMEOUT RDATA Wire Format</h1>
 <p id="rfc.section.5.p.1">The TIMEOUT resource record follows the same pattern as other DNS resource records as defined in Section 3.2.1 of <a href="#RFC1035" class="xref">[RFC1035]</a> including owner name, type, class, TTL, RDATA length, and RDATA.</p>
