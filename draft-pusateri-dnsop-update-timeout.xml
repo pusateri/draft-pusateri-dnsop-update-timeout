@@ -156,7 +156,7 @@
    </section>
    <section title="Resource Record Composition">
 	   <t>TIMEOUT resource records provide expiry times for a mixed variety of resource record types with the same owner name, type, and class. Since there could exist multiple records of the same record type with the same owner name and class, the TIMEOUT resource record must be able to identify each of these records individually with only different RDATA. As an example, PTR records for service discovery <xref target="RFC6763"/> provide a level of indirection to SRV and TXT records by instance name. The instance name is stored in the PTR RDATA and multiple PTR records with the same owner name but only differing RDATA often exist.</t>
-	   <t>In order to distinguish each individual record with potentially different expiry times, the TIMEOUT resource record contains an exipry time, the record type, a method to identify the actual records for which the expiry time applies, and a count of the number of records represented. Multiple TIMEOUT records with the same owner name and class are created for each expiry time, record type, and resource record representation. If the expiry time is the same, multiple records can be combined into a single TIMEOUT record with the same owner name, class, and record type but this is not required.</t>
+	   <t>In order to distinguish each individual record with potentially different expiry times, the TIMEOUT resource record contains an expiry time, the record type, a method to identify the actual records for which the expiry time applies, and a count of the number of records represented. Multiple TIMEOUT records with the same owner name and class are created for each expiry time, record type, and resource record representation. If the expiry time is the same, multiple records can be combined into a single TIMEOUT record with the same owner name, class, and record type but this is not required.</t>
      <t>The fields and their values in a TIMEOUT record are defined as:</t>
      <section title="Represented Record Type">
        <t>A 16-bit field containing the resource record type to which the TIMEOUT record applies. Multiple TIMEOUT records for the same owner name, class, and represented type can exist. Any resource record type can be specified in the Represented Record Type including another TIMEOUT record. This specification does not put any restrictions on the record type but implementations in authoritative servers will likely do so for policy and security reasons.</t>
@@ -184,8 +184,24 @@
    </section>
    <section title="TIMEOUT RDATA Wire Format">
      <t>The TIMEOUT resource record follows the same pattern as other DNS resource records as defined in Section 3.2.1 of <xref target="RFC1035"/> including owner name, type, class, TTL, RDATA length, and RDATA.</t>
-     <t>The RDATA section of the resource record with method identifier RDATA (1) is illustrated in <xref target="rr_art"/>:</t>
-     <figure align="center" anchor="rr_art" title="Method (1) RDATA Wire Format">
+     <t>The RDATA section of the resource record with method identifier NO METHOD (0) is illustrated in <xref target="rr_art_nomethod"/>:</t>
+     <figure align="center" anchor="rr_art_nomethod" title="Method (0) RDATA Wire Format">
+       <artwork align="center">
+       <![CDATA[
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|      Represented RR Type      |   Count (0)   |   Method (0)  |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                       Expiry Time (64-bit)                    |
+|                                                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       ]]>
+       </artwork>
+     </figure>
+     <t><xref target="rr_art_nomethod"/> represents the TIMEOUT RDATA field of all matching records of the represented type for the same owner name and class.</t>
+     <t>The RDATA section of the resource record with method identifier RDATA (1) is illustrated in <xref target="rr_art_rdata"/>:</t>
+     <figure align="center" anchor="rr_art_rdata" title="Method (1) RDATA Wire Format">
         <artwork align="center">
         <![CDATA[
  0                   1                   2                   3
@@ -213,32 +229,18 @@
         ]]>
         </artwork>
       </figure>
-      <t><xref target="rr_art"/> represents an arbitrary number of represented records with the same owner name, class, and represented type. For each expiry time, a list of RDATA length and RDATA pairs are attached. The overall RDATA length of the TIMEOUT record indicates when the last represented record is contained in the record.</t>
-      <t>The RDATA section of the resource record with method identifier NO METHOD (0) is illustrated in <xref target="rr_art2"/>:</t>
-      <figure align="center" anchor="rr_art2" title="Method (0) RDATA Wire Format">
-         <artwork align="center">
-         <![CDATA[
-  0                   1                   2                   3
-  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
- +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- |      Represented RR Type      |   Count (0)   |   Method (0)  |
- +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- |                       Expiry Time (64-bit)                    |
- |                                                               |
- +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-         ]]>
-         </artwork>
-       </figure>
-       <t><xref target="rr_art2"/> represents the TIMEOUT RDATA field of all matching records of the represented type for the same owner name and class.</t>
+      <t><xref target="rr_art_rdata"/> represents an arbitrary number of represented records with the same owner name, class, and represented type. For each expiry time, a list of RDATA length and RDATA pairs are attached. The overall RDATA length of the TIMEOUT record indicates when the last represented record is contained in the record.</t>
    </section>
-   <section title="Primary Server Behavior">
+   <section title="Server Behavior">
+    <t>A server may or may not understand TIMEOUT resource records. If a server does not understand them, they are treated like any other resource record that the server may not understand <xref target="RFC3597"/>.</t>
+    <section title="Primary Server Behavior">
      <t>A TIMEOUT resource record MUST be removed when the last resource record it covers has been removed. This may be due to the record expiring (reaching the expiry time) or due to a subsequent DNS Update or administrative action. If the TIMEOUT record is being managed by the primary server, it has the responsibility to remove it. If the TIMEOUT record was installed by an external UPDATE client, the UPDATE client has the responsibility to remove it. The primary server is the ultimate source of the database and policy established by the server may overrule the actions of external clients. The primary server is ultimately responsible for ensuring the database is consistent but until TIMEOUT record management is built-in to authoritative server software, external UPDATE clients will likely manage the records.</t>
      <t>Upon receiving any DNS UPDATE deleting resource records that might have been covered by a TIMEOUT RR, a primary server MUST remove all represented records in all of the TIMEOUT records with the same owner name, class, and represented type.</t>
-     <t>The TIMEOUT record TTL should use the default TTL for the zone like any other record. The TTL values of the records covered by a TIMEOUT are not affected by the TIMEOUT expiry time and may be longer than the expirey time. The TIMEOUT RR is mostly for the benefit of the authoritative server to know when to remove the records. The fact that some records might live longer in the cache of a resolver is no different than other records that might get removed while still in a remote resolver cache.</t>
-   </section>
-   <section title="Secondary Server Behavior">
-     <t>A secondary server may or may not understand TIMEOUT resource records. If a secondary server does not understand them, they are treated like any other resource record that the server may not understand <xref target="RFC3597"/>.</t>
+     <t>The TIMEOUT record TTL should use the default TTL for the zone like any other record. The TTL values of the records covered by a TIMEOUT are not affected by the TIMEOUT expiry time and may be longer than the expiry time. The TIMEOUT RR is mostly for the benefit of the authoritative server to know when to remove the records. The fact that some records might live longer in the cache of a resolver is no different than other records that might get removed while still in a remote resolver cache.</t>
+    </section>
+    <section title="Secondary Server Behavior">
      <t>A secondary server MUST NOT expire the records in a zone it maintains covered by the TIMEOUT resource record and it MUST NOT expire the TIMEOUT resource record itself when the last record it covers has expired. The secondary server MUST always wait for the records to be removed or updated by the primary server.</t>
+    </section>
    </section>
    <section title="TIMEOUT RDATA Presentation Format">
      <t>

@@ -385,15 +385,16 @@
 <link href="#rfc.section.4.3.2" rel="Chapter" title="4.3.2 Method Identifier 1: RDATA">
 <link href="#rfc.section.4.4" rel="Chapter" title="4.4 Expiry Time">
 <link href="#rfc.section.5" rel="Chapter" title="5 TIMEOUT RDATA Wire Format">
-<link href="#rfc.section.6" rel="Chapter" title="6 Primary Server Behavior">
-<link href="#rfc.section.7" rel="Chapter" title="7 Secondary Server Behavior">
-<link href="#rfc.section.8" rel="Chapter" title="8 TIMEOUT RDATA Presentation Format">
-<link href="#rfc.section.9" rel="Chapter" title="9 IANA Considerations">
-<link href="#rfc.section.10" rel="Chapter" title="10 Security Considerations">
-<link href="#rfc.section.11" rel="Chapter" title="11 Acknowledgments">
-<link href="#rfc.references" rel="Chapter" title="12 References">
-<link href="#rfc.references.1" rel="Chapter" title="12.1 Normative References">
-<link href="#rfc.references.2" rel="Chapter" title="12.2 Informative References">
+<link href="#rfc.section.6" rel="Chapter" title="6 Server Behavior">
+<link href="#rfc.section.6.1" rel="Chapter" title="6.1 Primary Server Behavior">
+<link href="#rfc.section.6.2" rel="Chapter" title="6.2 Secondary Server Behavior">
+<link href="#rfc.section.7" rel="Chapter" title="7 TIMEOUT RDATA Presentation Format">
+<link href="#rfc.section.8" rel="Chapter" title="8 IANA Considerations">
+<link href="#rfc.section.9" rel="Chapter" title="9 Security Considerations">
+<link href="#rfc.section.10" rel="Chapter" title="10 Acknowledgments">
+<link href="#rfc.references" rel="Chapter" title="11 References">
+<link href="#rfc.references.1" rel="Chapter" title="11.1 Normative References">
+<link href="#rfc.references.2" rel="Chapter" title="11.2 Informative References">
 <link href="#rfc.appendix.A" rel="Chapter" title="A Example TIMEOUT resource records">
 <link href="#rfc.authors" rel="Chapter">
 
@@ -476,23 +477,25 @@
 </li>
 </ul><li>5.   <a href="#rfc.section.5">TIMEOUT RDATA Wire Format</a>
 </li>
-<li>6.   <a href="#rfc.section.6">Primary Server Behavior</a>
+<li>6.   <a href="#rfc.section.6">Server Behavior</a>
 </li>
-<li>7.   <a href="#rfc.section.7">Secondary Server Behavior</a>
+<ul><li>6.1.   <a href="#rfc.section.6.1">Primary Server Behavior</a>
 </li>
-<li>8.   <a href="#rfc.section.8">TIMEOUT RDATA Presentation Format</a>
+<li>6.2.   <a href="#rfc.section.6.2">Secondary Server Behavior</a>
 </li>
-<li>9.   <a href="#rfc.section.9">IANA Considerations</a>
+</ul><li>7.   <a href="#rfc.section.7">TIMEOUT RDATA Presentation Format</a>
 </li>
-<li>10.   <a href="#rfc.section.10">Security Considerations</a>
+<li>8.   <a href="#rfc.section.8">IANA Considerations</a>
 </li>
-<li>11.   <a href="#rfc.section.11">Acknowledgments</a>
+<li>9.   <a href="#rfc.section.9">Security Considerations</a>
 </li>
-<li>12.   <a href="#rfc.references">References</a>
+<li>10.   <a href="#rfc.section.10">Acknowledgments</a>
 </li>
-<ul><li>12.1.   <a href="#rfc.references.1">Normative References</a>
+<li>11.   <a href="#rfc.references">References</a>
 </li>
-<li>12.2.   <a href="#rfc.references.2">Informative References</a>
+<ul><li>11.1.   <a href="#rfc.references.1">Normative References</a>
+</li>
+<li>11.2.   <a href="#rfc.references.2">Informative References</a>
 </li>
 </ul><li>Appendix A.   <a href="#rfc.appendix.A">Example TIMEOUT resource records</a>
 </li>
@@ -525,7 +528,7 @@
 <h1 id="rfc.section.4">
 <a href="#rfc.section.4">4.</a> Resource Record Composition</h1>
 <p id="rfc.section.4.p.1">TIMEOUT resource records provide expiry times for a mixed variety of resource record types with the same owner name, type, and class. Since there could exist multiple records of the same record type with the same owner name and class, the TIMEOUT resource record must be able to identify each of these records individually with only different RDATA. As an example, PTR records for service discovery <a href="#RFC6763" class="xref">[RFC6763]</a> provide a level of indirection to SRV and TXT records by instance name. The instance name is stored in the PTR RDATA and multiple PTR records with the same owner name but only differing RDATA often exist.</p>
-<p id="rfc.section.4.p.2">In order to distinguish each individual record with potentially different expiry times, the TIMEOUT resource record contains an exipry time, the record type, a method to identify the actual records for which the expiry time applies, and a count of the number of records represented. Multiple TIMEOUT records with the same owner name and class are created for each expiry time, record type, and resource record representation. If the expiry time is the same, multiple records can be combined into a single TIMEOUT record with the same owner name, class, and record type but this is not required.</p>
+<p id="rfc.section.4.p.2">In order to distinguish each individual record with potentially different expiry times, the TIMEOUT resource record contains an expiry time, the record type, a method to identify the actual records for which the expiry time applies, and a count of the number of records represented. Multiple TIMEOUT records with the same owner name and class are created for each expiry time, record type, and resource record representation. If the expiry time is the same, multiple records can be combined into a single TIMEOUT record with the same owner name, class, and record type but this is not required.</p>
 <p id="rfc.section.4.p.3">The fields and their values in a TIMEOUT record are defined as:</p>
 <h1 id="rfc.section.4.1">
 <a href="#rfc.section.4.1">4.1.</a> Represented Record Type</h1>
@@ -555,9 +558,26 @@
 <h1 id="rfc.section.5">
 <a href="#rfc.section.5">5.</a> TIMEOUT RDATA Wire Format</h1>
 <p id="rfc.section.5.p.1">The TIMEOUT resource record follows the same pattern as other DNS resource records as defined in Section 3.2.1 of <a href="#RFC1035" class="xref">[RFC1035]</a> including owner name, type, class, TTL, RDATA length, and RDATA.</p>
-<p id="rfc.section.5.p.2">The RDATA section of the resource record with method identifier RDATA (1) is illustrated in <a href="#rr_art" class="xref">Figure 1</a>:</p>
+<p id="rfc.section.5.p.2">The RDATA section of the resource record with method identifier NO METHOD (0) is illustrated in <a href="#rr_art_nomethod" class="xref">Figure 1</a>:</p>
 <div id="rfc.figure.1"></div>
-<div id="rr_art"></div>
+<div id="rr_art_nomethod"></div>
+<pre>
+       
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|      Represented RR Type      |   Count (0)   |   Method (0)  |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                       Expiry Time (64-bit)                    |
+|                                                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       
+       </pre>
+<p class="figure">Figure 1: Method (0) RDATA Wire Format</p>
+<p><a href="#rr_art_nomethod" class="xref">Figure 1</a> represents the TIMEOUT RDATA field of all matching records of the represented type for the same owner name and class.</p>
+<p id="rfc.section.5.p.4">The RDATA section of the resource record with method identifier RDATA (1) is illustrated in <a href="#rr_art_rdata" class="xref">Figure 2</a>:</p>
+<div id="rfc.figure.2"></div>
+<div id="rr_art_rdata"></div>
 <pre>
         
  0                   1                   2                   3
@@ -584,36 +604,21 @@
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
         
         </pre>
-<p class="figure">Figure 1: Method (1) RDATA Wire Format</p>
-<p><a href="#rr_art" class="xref">Figure 1</a> represents an arbitrary number of represented records with the same owner name, class, and represented type. For each expiry time, a list of RDATA length and RDATA pairs are attached. The overall RDATA length of the TIMEOUT record indicates when the last represented record is contained in the record.</p>
-<p id="rfc.section.5.p.4">The RDATA section of the resource record with method identifier NO METHOD (0) is illustrated in <a href="#rr_art2" class="xref">Figure 2</a>:</p>
-<div id="rfc.figure.2"></div>
-<div id="rr_art2"></div>
-<pre>
-         
-  0                   1                   2                   3
-  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
- +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- |      Represented RR Type      |   Count (0)   |   Method (0)  |
- +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- |                       Expiry Time (64-bit)                    |
- |                                                               |
- +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-         
-         </pre>
-<p class="figure">Figure 2: Method (0) RDATA Wire Format</p>
-<p><a href="#rr_art2" class="xref">Figure 2</a> represents the TIMEOUT RDATA field of all matching records of the represented type for the same owner name and class.</p>
+<p class="figure">Figure 2: Method (1) RDATA Wire Format</p>
+<p><a href="#rr_art_rdata" class="xref">Figure 2</a> represents an arbitrary number of represented records with the same owner name, class, and represented type. For each expiry time, a list of RDATA length and RDATA pairs are attached. The overall RDATA length of the TIMEOUT record indicates when the last represented record is contained in the record.</p>
 <h1 id="rfc.section.6">
-<a href="#rfc.section.6">6.</a> Primary Server Behavior</h1>
-<p id="rfc.section.6.p.1">A TIMEOUT resource record MUST be removed when the last resource record it covers has been removed. This may be due to the record expiring (reaching the expiry time) or due to a subsequent DNS Update or administrative action. If the TIMEOUT record is being managed by the primary server, it has the responsibility to remove it. If the TIMEOUT record was installed by an external UPDATE client, the UPDATE client has the responsibility to remove it. The primary server is the ultimate source of the database and policy established by the server may overrule the actions of external clients. The primary server is ultimately responsible for ensuring the database is consistent but until TIMEOUT record management is built-in to authoritative server software, external UPDATE clients will likely manage the records.</p>
-<p id="rfc.section.6.p.2">Upon receiving any DNS UPDATE deleting resource records that might have been covered by a TIMEOUT RR, a primary server MUST remove all represented records in all of the TIMEOUT records with the same owner name, class, and represented type.</p>
-<p id="rfc.section.6.p.3">The TIMEOUT record TTL should use the default TTL for the zone like any other record. The TTL values of the records covered by a TIMEOUT are not affected by the TIMEOUT expiry time and may be longer than the expirey time. The TIMEOUT RR is mostly for the benefit of the authoritative server to know when to remove the records. The fact that some records might live longer in the cache of a resolver is no different than other records that might get removed while still in a remote resolver cache.</p>
+<a href="#rfc.section.6">6.</a> Server Behavior</h1>
+<p id="rfc.section.6.p.1">A server may or may not understand TIMEOUT resource records. If a server does not understand them, they are treated like any other resource record that the server may not understand <a href="#RFC3597" class="xref">[RFC3597]</a>.</p>
+<h1 id="rfc.section.6.1">
+<a href="#rfc.section.6.1">6.1.</a> Primary Server Behavior</h1>
+<p id="rfc.section.6.1.p.1">A TIMEOUT resource record MUST be removed when the last resource record it covers has been removed. This may be due to the record expiring (reaching the expiry time) or due to a subsequent DNS Update or administrative action. If the TIMEOUT record is being managed by the primary server, it has the responsibility to remove it. If the TIMEOUT record was installed by an external UPDATE client, the UPDATE client has the responsibility to remove it. The primary server is the ultimate source of the database and policy established by the server may overrule the actions of external clients. The primary server is ultimately responsible for ensuring the database is consistent but until TIMEOUT record management is built-in to authoritative server software, external UPDATE clients will likely manage the records.</p>
+<p id="rfc.section.6.1.p.2">Upon receiving any DNS UPDATE deleting resource records that might have been covered by a TIMEOUT RR, a primary server MUST remove all represented records in all of the TIMEOUT records with the same owner name, class, and represented type.</p>
+<p id="rfc.section.6.1.p.3">The TIMEOUT record TTL should use the default TTL for the zone like any other record. The TTL values of the records covered by a TIMEOUT are not affected by the TIMEOUT expiry time and may be longer than the expiry time. The TIMEOUT RR is mostly for the benefit of the authoritative server to know when to remove the records. The fact that some records might live longer in the cache of a resolver is no different than other records that might get removed while still in a remote resolver cache.</p>
+<h1 id="rfc.section.6.2">
+<a href="#rfc.section.6.2">6.2.</a> Secondary Server Behavior</h1>
+<p id="rfc.section.6.2.p.1">A secondary server MUST NOT expire the records in a zone it maintains covered by the TIMEOUT resource record and it MUST NOT expire the TIMEOUT resource record itself when the last record it covers has expired. The secondary server MUST always wait for the records to be removed or updated by the primary server.</p>
 <h1 id="rfc.section.7">
-<a href="#rfc.section.7">7.</a> Secondary Server Behavior</h1>
-<p id="rfc.section.7.p.1">A secondary server may or may not understand TIMEOUT resource records. If a secondary server does not understand them, they are treated like any other resource record that the server may not understand <a href="#RFC3597" class="xref">[RFC3597]</a>.</p>
-<p id="rfc.section.7.p.2">A secondary server MUST NOT expire the records in a zone it maintains covered by the TIMEOUT resource record and it MUST NOT expire the TIMEOUT resource record itself when the last record it covers has expired. The secondary server MUST always wait for the records to be removed or updated by the primary server.</p>
-<h1 id="rfc.section.8">
-<a href="#rfc.section.8">8.</a> TIMEOUT RDATA Presentation Format</h1>
+<a href="#rfc.section.7">7.</a> TIMEOUT RDATA Presentation Format</h1>
 <p></p>
 
 <dl>
@@ -639,12 +644,12 @@
 </dl>
 
 <p> </p>
-<h1 id="rfc.section.9">
-<a href="#rfc.section.9">9.</a> <a href="#IANA" id="IANA">IANA Considerations</a>
+<h1 id="rfc.section.8">
+<a href="#rfc.section.8">8.</a> <a href="#IANA" id="IANA">IANA Considerations</a>
 </h1>
-<p id="rfc.section.9.p.1">This document defines a new DNS Resource Record Type named TIMEOUT to be exchanged between authoritative primary and secondary DNS servers. It is assigned out of the DNS Parameters Resource Record (RR) Type registry. The value for the TIMEOUT resource record type is TBA.</p>
-<p id="rfc.section.9.p.2">This document establishes a new registry of DNS TIMEOUT Resource Record Method Identifier values. The registry shall include a numeric identifier, a method name, a description of the method, and the length of the output function in bits or the keyword <samp>variable</samp>. The identifier is to be used in the RDATA section of the TIMEOUT resource record.</p>
-<p id="rfc.section.9.p.3">Initially, there are two values defined in the registry. Values from 240 (0xF0) through 255 (0xFF) are reserved for experimental use.</p>
+<p id="rfc.section.8.p.1">This document defines a new DNS Resource Record Type named TIMEOUT to be exchanged between authoritative primary and secondary DNS servers. It is assigned out of the DNS Parameters Resource Record (RR) Type registry. The value for the TIMEOUT resource record type is TBA.</p>
+<p id="rfc.section.8.p.2">This document establishes a new registry of DNS TIMEOUT Resource Record Method Identifier values. The registry shall include a numeric identifier, a method name, a description of the method, and the length of the output function in bits or the keyword <samp>variable</samp>. The identifier is to be used in the RDATA section of the TIMEOUT resource record.</p>
+<p id="rfc.section.8.p.3">Initially, there are two values defined in the registry. Values from 240 (0xF0) through 255 (0xFF) are reserved for experimental use.</p>
 <div id="rfc.table.1"></div>
 <div id="table_algs"></div>
 <table cellpadding="3" cellspacing="0" class="tt full center">
@@ -676,23 +681,23 @@
 <td class="left">EXPERIMENTAL</td>
 <td class="left">Reserved for Experimental Use</td>
 <td class="center">variable</td>
-<td class="left"><a href="#IANA" class="xref">Section 9</a></td>
+<td class="left"><a href="#IANA" class="xref">Section 8</a></td>
 </tr>
 </tbody>
 </table>
+<h1 id="rfc.section.9">
+<a href="#rfc.section.9">9.</a> <a href="#Security" id="Security">Security Considerations</a>
+</h1>
+<p id="rfc.section.9.p.1">There is no secure relationship between a TIMEOUT resource record and the represented resource records it applies to. TIMEOUT records should typically only apply to resource records created through the UPDATE mechanism. Protection for permanent resource records in a zone is advisable.</p>
+<p id="rfc.section.9.p.2">Authenticated UPDATE operations MUST be REQUIRED at authoritative name servers supporting TIMEOUT resource records.</p>
 <h1 id="rfc.section.10">
-<a href="#rfc.section.10">10.</a> <a href="#Security" id="Security">Security Considerations</a>
+<a href="#rfc.section.10">10.</a> <a href="#Acknowledgments" id="Acknowledgments">Acknowledgments</a>
 </h1>
-<p id="rfc.section.10.p.1">There is no secure relationship between a TIMEOUT resource record and the represented resource records it applies to. TIMEOUT records should typically only apply to resource records created through the UPDATE mechanism. Protection for permanent resource records in a zone is advisable.</p>
-<p id="rfc.section.10.p.2">Authenticated UPDATE operations MUST be REQUIRED at authoritative name servers supporting TIMEOUT resource records.</p>
-<h1 id="rfc.section.11">
-<a href="#rfc.section.11">11.</a> <a href="#Acknowledgments" id="Acknowledgments">Acknowledgments</a>
-</h1>
-<p id="rfc.section.11.p.1">This idea was motivated through conversations with Mark Andrews. Thanks to Mark as well as Paul Vixie, Joe Abley, Ted Lemon, Tony Finch, Robert Story, Paul Wouters, Dick Franks, JINMEI, Tatuya, and Timothe Litt for their suggestions, review, and comments.</p>
+<p id="rfc.section.10.p.1">This idea was motivated through conversations with Mark Andrews. Thanks to Mark as well as Paul Vixie, Joe Abley, Ted Lemon, Tony Finch, Robert Story, Paul Wouters, Dick Franks, JINMEI, Tatuya, and Timothe Litt for their suggestions, review, and comments.</p>
 <h1 id="rfc.references">
-<a href="#rfc.references">12.</a> References</h1>
+<a href="#rfc.references">11.</a> References</h1>
 <h1 id="rfc.references.1">
-<a href="#rfc.references.1">12.1.</a> Normative References</h1>
+<a href="#rfc.references.1">11.1.</a> Normative References</h1>
 <table><tbody>
 <tr>
 <td class="reference"><b id="RFC1035">[RFC1035]</b></td>
@@ -726,7 +731,7 @@
 </tr>
 </tbody></table>
 <h1 id="rfc.references.2">
-<a href="#rfc.references.2">12.2.</a> Informative References</h1>
+<a href="#rfc.references.2">11.2.</a> Informative References</h1>
 <table><tbody>
 <tr>
 <td class="reference"><b id="I-D.sekar-dns-ul">[I-D.sekar-dns-ul]</b></td>
