@@ -9,7 +9,7 @@ Expires: January 22, 2020                                  July 21, 2019
 
 
                       DNS TIMEOUT Resource Record
-                 draft-pusateri-dnsop-update-timeout-03
+                 draft-pusateri-dnsop-update-timeout-04
 
 Abstract
 
