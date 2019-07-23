@@ -15,6 +15,7 @@
 <!ENTITY RFC4034 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4034.xml">
 <!ENTITY RFC5936 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5936.xml">
 <!ENTITY RFC6763 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6763.xml">
+<!ENTITY RFC6891 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6891.xml">
 <!ENTITY RFC8174 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.8174.xml">
 <!ENTITY RFC8555 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.8555.xml">
 <!ENTITY I-D.sekar-dns-ul SYSTEM  "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.sekar-dns-ul.xml">
@@ -154,7 +155,7 @@
        </list>
      </t>
    </section>
-   <section title="Resource Record Composition">
+   <section title="Resource Record Composition" anchor="definition">
 	   <t>TIMEOUT resource records provide expiry times for a mixed variety of resource record types with the same owner name, type, and class. Since there could exist multiple records of the same record type with the same owner name and class, the TIMEOUT resource record must be able to identify each of these records individually with only different RDATA. As an example, PTR records for service discovery <xref target="RFC6763"/> provide a level of indirection to SRV and TXT records by instance name. The instance name is stored in the PTR RDATA and multiple PTR records with the same owner name but only differing RDATA often exist.</t>
 	   <t>In order to distinguish each individual record with potentially different expiry times, the TIMEOUT resource record contains an expiry time, the record type, a method to identify the actual records for which the expiry time applies, and a count of the number of records represented. Multiple TIMEOUT records with the same owner name and class are created for each expiry time, record type, and resource record representation. If the expiry time is the same, multiple records can be combined into a single TIMEOUT record with the same owner name, class, and record type but this is not required.</t>
      <t>The fields and their values in a TIMEOUT record are defined as:</t>
@@ -175,12 +176,12 @@
        </section>
        <section title="Method Identifier 1: RDATA" anchor="rdatamethod">
          <t>The method identifier of 1 is defined as <spanx style="verb">RDATA</spanx>. It begins with the RDATA length as a 16-bit value containing the length of the RDATA in bytes followed by the number of bytes of RDATA as appears in the record being represented. The record MUST be in canonical DNSSEC form as described in Section 6 of <xref target="RFC4034"/>. Any comparisons of RDATA in an actual record covered by the TIMEOUT against  the Represented RDATA contained in a TIMEOUT record must be compared in canonical form.</t>
-         <t>If the RDATA of the resource record to be identified has maximum record length, the server MUST NOT truncate the original RDATA in order to let it fit into the TIMEOUT record. If coming through an UPDATE, the server SHOULD NOT process the UPDATE operation and instead respond with RCODE FORMERR.</t>
+         <t>If the RDATA of the resource record represented plus the fixed values of the TIMEOUT resource record RDATA fields is greater than the maximum 16-bit length value of 65535, the record cannot be represented in a TIMEOUT record using the RDATA method identifier. If a TIMEOUT record is received in an UPDATE with truncated RDATA because the represented record is too large, the server SHOULD NOT process the UPDATE operation and instead respond with RCODE FORMERR.</t>
        </section>
      </section>
      <section title="Expiry Time">
-       <t>The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire.</t>
-       <t>Relative expiry times are not possible, because of zone transfers. However, relative lease times <xref target="I-D.sekar-dns-ul"/> could be converted to an absolute expiry time when received.</t>
+       <t>The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire. An absolute time is necessary so the TIMEOUT records do not have to change during zone transfers.</t>
+       <t>There are circumstances when a relative expiry time would be convenient due to limited resources for clock synchronization in constrained devices. In this case, DNS UPDATE messages should not contain precomputed TIMEOUT records but convey the relative expiry time using the EDNS(0) Lease Lifetime Option <xref target="I-D.sekar-dns-ul"/>. The relative time is then converted to an absolute expiry time when received by the primary server which will create the TIMEOUT resource records.</t>
      </section>
    </section>
    <section title="TIMEOUT RDATA Wire Format">
@@ -234,11 +235,12 @@
    </section>
    <section title="Server Behavior">
     <t>A server may or may not understand TIMEOUT resource records. If a server does not understand them, they are treated like any other resource record that the server may not understand <xref target="RFC3597"/>.</t>
-    <section title="TIMEOUT-ACTIVE option">
-     <t>A server responding to an UPDATE with a TIMEOUT included signals back to the client that it's capable of timing out records by setting an EDNS option with OPTION-CODE [TBD]. OPTION-LENGTH MUST be zero and OPTION-DATA MUST be empty.</t>
+    <section title="TIMEOUT-MANAGED EDNS(0) option" anchor="timeout-managed">
+     <t>Initially, not all primary authoritative servers will manage TIMEOUT resource records internally requiring external management of the TIMEOUT records and the resource records they represent. The client may do the external management since it created the records through an UPDATE or a third party with appropriate permission may manage the records. As an alternative to polling, the server SHOULD send back an acknowledgment in the response to the client if it plans to manage the included records. The takes the form of an EDNS(0) <xref target="RFC6891"/> TIMEOUT-MANAGED option in the additional records section of the response to an UPDATE.</t>
+     <t>The EDNS(0) OPTION-CODE TIMEOUT-MANAGED is [TBA]. The OPTION-LENGTH MUST be zero and OPTION-DATA MUST be empty.</t>
     </section>
     <section title="Primary Server Behavior">
-     <t>If the primary server signaled TIMEOUT-ACTIVE, the TIMEOUT record is fully managed by the primary server and it has the responsibility to handle it as described in this section. If the primary server is not capable of timing out records, the UPDATE client has the responsibility to remove the TIMEOUT records as well as all records it covers.</t>
+     <t>If the primary server signaled the client with a TIMEOUT-MANAGED EDNS(0) option, the TIMEOUT record is fully managed by the primary server and it has the responsibility of updating/removing records as described in this section. If the primary server has not claimed mananagement of the records, then either the client or a third party is responsible for updating/removing the records as described here.</t>
      <t>A TIMEOUT resource record MUST be removed when the last resource record it covers has been removed. This may be due to the record expiring (reaching the expiry time) or due to a subsequent DNS Update or administrative action.</t>
      <t>The primary server is the ultimate source of the database and policy established by the server may overrule the actions of external clients. The primary server is ultimately responsible for ensuring the database is consistent but until TIMEOUT record management is built-in to authoritative server software, external UPDATE clients will likely manage the records.</t>
      <t>Upon receiving any DNS UPDATE deleting resource records that might have been covered by a TIMEOUT RR, a primary server MUST remove all represented records in all of the TIMEOUT records with the same owner name, class, and represented type.</t>
@@ -288,6 +290,16 @@
    </section>
    <section anchor="IANA" title="IANA Considerations">
        <t>This document defines a new DNS Resource Record Type named TIMEOUT to be exchanged between authoritative primary and secondary DNS servers. It is assigned out of the DNS Parameters Resource Record (RR) Type registry. The value for the TIMEOUT resource record type is TBA.</t>
+       <texttable anchor="table_new_rr" title="DNS Parameters Resource Record Registry">
+           <ttcol align='center' width='8%'>Type</ttcol>
+           <ttcol align='left' width='18%'>Value</ttcol>
+           <ttcol align='left' width='20%'>Meaning</ttcol>
+           <ttcol align='left'>Definition</ttcol>
+           <c>TIMEOUT</c>
+           <c>TBA</c>
+           <c>expire represented records</c>
+           <c><xref target="definition"/></c>
+       </texttable>
        <t>This document establishes a new registry of DNS TIMEOUT Resource Record Method Identifier values. The registry shall include a numeric identifier, a method name, a description of the method, and the length of the output function in bits or the keyword <spanx style="verb">variable</spanx>. The identifier is to be used in the RDATA section of the TIMEOUT resource record.</t>
        <t>Initially, there are two values defined in the registry. Values from 240 (0xF0) through 255 (0xFF) are reserved for experimental use.</t>
        <texttable anchor="table_algs" title="TIMEOUT RR Method Identifier values">
@@ -312,7 +324,17 @@
            <c>variable</c>
            <c><xref target="IANA"/></c>
        </texttable>
-       <t>IANA is requested to assign an EDNS option code to the TIMEOUT-ACTIVE option. The option-code is TBA.</t>
+       <t>This document defines the EDNS(0) option code for the TIMEOUT-MANAGED option to be included in the DNS EDNS0 Option Codes (OPT) registry. It is only defined for the server response to a DNS UPDATE message and it's use is optional. The option-code is TBA.</t>
+       <texttable anchor="table_new_edns0" title="DNS EDNS0 Option Codes (OPT) Registry">
+           <ttcol align='center'>Value</ttcol>
+           <ttcol align='center'>Name</ttcol>
+           <ttcol align='center'>Status</ttcol>
+           <ttcol align='center'>Definition</ttcol>
+           <c>TBA</c>
+           <c>TIMEOUT-MANAGED</c>
+           <c>Optional</c>
+           <c><xref target="timeout-managed"/></c>
+       </texttable>
    </section>
 
    <section anchor="Security" title="Security Considerations">
@@ -335,6 +357,7 @@
      &RFC3339;
      &RFC3597;
      &RFC4034;
+     &RFC6891;
      &RFC8174;
    </references>
    <references title="Informative References">

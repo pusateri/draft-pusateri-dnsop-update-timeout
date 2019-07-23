@@ -386,7 +386,7 @@
 <link href="#rfc.section.4.4" rel="Chapter" title="4.4 Expiry Time">
 <link href="#rfc.section.5" rel="Chapter" title="5 TIMEOUT RDATA Wire Format">
 <link href="#rfc.section.6" rel="Chapter" title="6 Server Behavior">
-<link href="#rfc.section.6.1" rel="Chapter" title="6.1 TIMEOUT-ACTIVE option">
+<link href="#rfc.section.6.1" rel="Chapter" title="6.1 TIMEOUT-MANAGED EDNS(0) option">
 <link href="#rfc.section.6.2" rel="Chapter" title="6.2 Primary Server Behavior">
 <link href="#rfc.section.6.3" rel="Chapter" title="6.3 Secondary Server Behavior">
 <link href="#rfc.section.7" rel="Chapter" title="7 TIMEOUT RDATA Presentation Format">
@@ -405,7 +405,7 @@
 
   <meta name="dct.creator" content="Pusateri, T. and T. Wattenberg" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-pusateri-dnsop-update-timeout-04" />
-  <meta name="dct.issued" scheme="ISO8601" content="2019-21" />
+  <meta name="dct.issued" scheme="ISO8601" content="2019-23" />
   <meta name="dct.abstract" content="This specification defines a new DNS TIMEOUT resource record (RR) that associates a lifetime with one or more zone resource records with the same owner name, type, and class. It is intended to be used to transfer resource record lifetime state between a zone's primary and secondary servers and to store lifetime state during server software restarts." />
   <meta name="description" content="This specification defines a new DNS TIMEOUT resource record (RR) that associates a lifetime with one or more zone resource records with the same owner name, type, and class. It is intended to be used to transfer resource record lifetime state between a zone's primary and secondary servers and to store lifetime state during server software restarts." />
 
@@ -429,8 +429,8 @@
 <td class="right">Unaffiliated</td>
 </tr>
 <tr>
-<td class="left">Expires: January 22, 2020</td>
-<td class="right">July 21, 2019</td>
+<td class="left">Expires: January 24, 2020</td>
+<td class="right">July 23, 2019</td>
 </tr>
 
     	
@@ -446,7 +446,7 @@
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on January 22, 2020.</p>
+<p>This Internet-Draft will expire on January 24, 2020.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2019 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -480,7 +480,7 @@
 </li>
 <li>6.   <a href="#rfc.section.6">Server Behavior</a>
 </li>
-<ul><li>6.1.   <a href="#rfc.section.6.1">TIMEOUT-ACTIVE option</a>
+<ul><li>6.1.   <a href="#rfc.section.6.1">TIMEOUT-MANAGED EDNS(0) option</a>
 </li>
 <li>6.2.   <a href="#rfc.section.6.2">Primary Server Behavior</a>
 </li>
@@ -529,7 +529,8 @@
 
 <p> </p>
 <h1 id="rfc.section.4">
-<a href="#rfc.section.4">4.</a> Resource Record Composition</h1>
+<a href="#rfc.section.4">4.</a> <a href="#definition" id="definition">Resource Record Composition</a>
+</h1>
 <p id="rfc.section.4.p.1">TIMEOUT resource records provide expiry times for a mixed variety of resource record types with the same owner name, type, and class. Since there could exist multiple records of the same record type with the same owner name and class, the TIMEOUT resource record must be able to identify each of these records individually with only different RDATA. As an example, PTR records for service discovery <a href="#RFC6763" class="xref">[RFC6763]</a> provide a level of indirection to SRV and TXT records by instance name. The instance name is stored in the PTR RDATA and multiple PTR records with the same owner name but only differing RDATA often exist.</p>
 <p id="rfc.section.4.p.2">In order to distinguish each individual record with potentially different expiry times, the TIMEOUT resource record contains an expiry time, the record type, a method to identify the actual records for which the expiry time applies, and a count of the number of records represented. Multiple TIMEOUT records with the same owner name and class are created for each expiry time, record type, and resource record representation. If the expiry time is the same, multiple records can be combined into a single TIMEOUT record with the same owner name, class, and record type but this is not required.</p>
 <p id="rfc.section.4.p.3">The fields and their values in a TIMEOUT record are defined as:</p>
@@ -554,11 +555,11 @@
 <a href="#rfc.section.4.3.2">4.3.2.</a> <a href="#rdatamethod" id="rdatamethod">Method Identifier 1: RDATA</a>
 </h1>
 <p id="rfc.section.4.3.2.p.1">The method identifier of 1 is defined as <samp>RDATA</samp>. It begins with the RDATA length as a 16-bit value containing the length of the RDATA in bytes followed by the number of bytes of RDATA as appears in the record being represented. The record MUST be in canonical DNSSEC form as described in Section 6 of <a href="#RFC4034" class="xref">[RFC4034]</a>. Any comparisons of RDATA in an actual record covered by the TIMEOUT against  the Represented RDATA contained in a TIMEOUT record must be compared in canonical form.</p>
-<p id="rfc.section.4.3.2.p.2">If the RDATA of the resource record to be identified has maximum record length, the server MUST NOT truncate the original RDATA in order to let it fit into the TIMEOUT record. If coming through an UPDATE, the server SHOULD NOT process the UPDATE operation and instead respond with RCODE FORMERR.</p>
+<p id="rfc.section.4.3.2.p.2">If the RDATA of the resource record represented plus the fixed values of the TIMEOUT resource record RDATA fields is greater than the maximum 16-bit length value of 65535, the record cannot be represented in a TIMEOUT record using the RDATA method identifier. If a TIMEOUT record is received in an UPDATE with truncated RDATA because the represented record is too large, the server SHOULD NOT process the UPDATE operation and instead respond with RCODE FORMERR.</p>
 <h1 id="rfc.section.4.4">
 <a href="#rfc.section.4.4">4.4.</a> Expiry Time</h1>
-<p id="rfc.section.4.4.p.1">The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire.</p>
-<p id="rfc.section.4.4.p.2">Relative expiry times are not possible, because of zone transfers. However, relative lease times <a href="#I-D.sekar-dns-ul" class="xref">[I-D.sekar-dns-ul]</a> could be converted to an absolute expiry time when received.</p>
+<p id="rfc.section.4.4.p.1">The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire. An absolute time is necessary so the TIMEOUT records do not have to change during zone transfers.</p>
+<p id="rfc.section.4.4.p.2">There are circumstances when a relative expiry time would be convenient due to limited resources for clock synchronization in constrained devices. In this case, DNS UPDATE messages should not contain precomputed TIMEOUT records but convey the relative expiry time using the EDNS(0) Lease Lifetime Option <a href="#I-D.sekar-dns-ul" class="xref">[I-D.sekar-dns-ul]</a>. The relative time is then converted to an absolute expiry time when received by the primary server which will create the TIMEOUT resource records.</p>
 <h1 id="rfc.section.5">
 <a href="#rfc.section.5">5.</a> TIMEOUT RDATA Wire Format</h1>
 <p id="rfc.section.5.p.1">The TIMEOUT resource record follows the same pattern as other DNS resource records as defined in Section 3.2.1 of <a href="#RFC1035" class="xref">[RFC1035]</a> including owner name, type, class, TTL, RDATA length, and RDATA.</p>
@@ -614,11 +615,13 @@
 <a href="#rfc.section.6">6.</a> Server Behavior</h1>
 <p id="rfc.section.6.p.1">A server may or may not understand TIMEOUT resource records. If a server does not understand them, they are treated like any other resource record that the server may not understand <a href="#RFC3597" class="xref">[RFC3597]</a>.</p>
 <h1 id="rfc.section.6.1">
-<a href="#rfc.section.6.1">6.1.</a> TIMEOUT-ACTIVE option</h1>
-<p id="rfc.section.6.1.p.1">A server responding to an UPDATE with a TIMEOUT included signals back to the client that it's capable of timing out records by setting an EDNS option with OPTION-CODE [TBD]. OPTION-LENGTH MUST be zero and OPTION-DATA MUST be empty.</p>
+<a href="#rfc.section.6.1">6.1.</a> <a href="#timeout-managed" id="timeout-managed">TIMEOUT-MANAGED EDNS(0) option</a>
+</h1>
+<p id="rfc.section.6.1.p.1">Initially, not all primary authoritative servers will manage TIMEOUT resource records internally requiring external management of the TIMEOUT records and the resource records they represent. The client may do the external management since it created the records through an UPDATE or a third party with appropriate permission may manage the records. As an alternative to polling, the server SHOULD send back an acknowledgment in the response to the client if it plans to manage the included records. The takes the form of an EDNS(0) <a href="#RFC6891" class="xref">[RFC6891]</a> TIMEOUT-MANAGED option in the additional records section of the response to an UPDATE.</p>
+<p id="rfc.section.6.1.p.2">The EDNS(0) OPTION-CODE TIMEOUT-MANAGED is [TBA]. The OPTION-LENGTH MUST be zero and OPTION-DATA MUST be empty.</p>
 <h1 id="rfc.section.6.2">
 <a href="#rfc.section.6.2">6.2.</a> Primary Server Behavior</h1>
-<p id="rfc.section.6.2.p.1">If the primary server signaled TIMEOUT-ACTIVE, the TIMEOUT record is fully managed by the primary server and it has the responsibility to handle it as described in this section. If the primary server is not capable of timing out records, the UPDATE client has the responsibility to remove the TIMEOUT records as well as all records it covers.</p>
+<p id="rfc.section.6.2.p.1">If the primary server signaled the client with a TIMEOUT-MANAGED EDNS(0) option, the TIMEOUT record is fully managed by the primary server and it has the responsibility of updating/removing records as described in this section. If the primary server has not claimed mananagement of the records, then either the client or a third party is responsible for updating/removing the records as described here.</p>
 <p id="rfc.section.6.2.p.2">A TIMEOUT resource record MUST be removed when the last resource record it covers has been removed. This may be due to the record expiring (reaching the expiry time) or due to a subsequent DNS Update or administrative action.</p>
 <p id="rfc.section.6.2.p.3">The primary server is the ultimate source of the database and policy established by the server may overrule the actions of external clients. The primary server is ultimately responsible for ensuring the database is consistent but until TIMEOUT record management is built-in to authoritative server software, external UPDATE clients will likely manage the records.</p>
 <p id="rfc.section.6.2.p.4">Upon receiving any DNS UPDATE deleting resource records that might have been covered by a TIMEOUT RR, a primary server MUST remove all represented records in all of the TIMEOUT records with the same owner name, class, and represented type.</p>
@@ -657,9 +660,26 @@
 <a href="#rfc.section.8">8.</a> <a href="#IANA" id="IANA">IANA Considerations</a>
 </h1>
 <p id="rfc.section.8.p.1">This document defines a new DNS Resource Record Type named TIMEOUT to be exchanged between authoritative primary and secondary DNS servers. It is assigned out of the DNS Parameters Resource Record (RR) Type registry. The value for the TIMEOUT resource record type is TBA.</p>
+<div id="rfc.table.1"></div>
+<div id="table_new_rr"></div>
+<table cellpadding="3" cellspacing="0" class="tt full center">
+<caption>DNS Parameters Resource Record Registry</caption>
+<thead><tr>
+<th class="center">Type</th>
+<th class="left">Value</th>
+<th class="left">Meaning</th>
+<th class="left">Definition</th>
+</tr></thead>
+<tbody><tr>
+<td class="center">TIMEOUT</td>
+<td class="left">TBA</td>
+<td class="left">expire represented records</td>
+<td class="left"><a href="#definition" class="xref">Section 4</a></td>
+</tr></tbody>
+</table>
 <p id="rfc.section.8.p.2">This document establishes a new registry of DNS TIMEOUT Resource Record Method Identifier values. The registry shall include a numeric identifier, a method name, a description of the method, and the length of the output function in bits or the keyword <samp>variable</samp>. The identifier is to be used in the RDATA section of the TIMEOUT resource record.</p>
 <p id="rfc.section.8.p.3">Initially, there are two values defined in the registry. Values from 240 (0xF0) through 255 (0xFF) are reserved for experimental use.</p>
-<div id="rfc.table.1"></div>
+<div id="rfc.table.2"></div>
 <div id="table_algs"></div>
 <table cellpadding="3" cellspacing="0" class="tt full center">
 <caption>TIMEOUT RR Method Identifier values</caption>
@@ -694,7 +714,24 @@
 </tr>
 </tbody>
 </table>
-<p id="rfc.section.8.p.4">IANA is requested to assign an EDNS option code to the TIMEOUT-ACTIVE option. The option-code is TBA.</p>
+<p id="rfc.section.8.p.4">This document defines the EDNS(0) option code for the TIMEOUT-MANAGED option to be included in the DNS EDNS0 Option Codes (OPT) registry. It is only defined for the server response to a DNS UPDATE message and it's use is optional. The option-code is TBA.</p>
+<div id="rfc.table.3"></div>
+<div id="table_new_edns0"></div>
+<table cellpadding="3" cellspacing="0" class="tt full center">
+<caption>DNS EDNS0 Option Codes (OPT) Registry</caption>
+<thead><tr>
+<th class="center">Value</th>
+<th class="center">Name</th>
+<th class="center">Status</th>
+<th class="center">Definition</th>
+</tr></thead>
+<tbody><tr>
+<td class="center">TBA</td>
+<td class="center">TIMEOUT-MANAGED</td>
+<td class="center">Optional</td>
+<td class="center"><a href="#timeout-managed" class="xref">Section 6.1</a></td>
+</tr></tbody>
+</table>
 <h1 id="rfc.section.9">
 <a href="#rfc.section.9">9.</a> <a href="#Security" id="Security">Security Considerations</a>
 </h1>
@@ -733,6 +770,11 @@
 <td class="reference"><b id="RFC4034">[RFC4034]</b></td>
 <td class="top">
 <a>Arends, R.</a>, <a>Austein, R.</a>, <a>Larson, M.</a>, <a>Massey, D.</a> and <a>S. Rose</a>, "<a href="https://tools.ietf.org/html/rfc4034">Resource Records for the DNS Security Extensions</a>", RFC 4034, DOI 10.17487/RFC4034, March 2005.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6891">[RFC6891]</b></td>
+<td class="top">
+<a>Damas, J.</a>, <a>Graff, M.</a> and <a>P. Vixie</a>, "<a href="https://tools.ietf.org/html/rfc6891">Extension Mechanisms for DNS (EDNS(0))</a>", STD 75, RFC 6891, DOI 10.17487/RFC6891, April 2013.</td>
 </tr>
 <tr>
 <td class="reference"><b id="RFC8174">[RFC8174]</b></td>
@@ -778,7 +820,7 @@
 <a href="#rfc.appendix.A">Appendix A.</a> Example TIMEOUT resource records</h1>
 <p id="rfc.section.A.p.1">The following example shows sample TIMEOUT resource records based on DNS UPDATEs containing A and AAAA address records plus the corresponding PTR records.</p>
 <p id="rfc.section.A.p.2">A host sending a name registration at time Tn for <samp>A</samp> and <samp>AAAA</samp> records with lease lifetime Ln would have a series of UPDATEs (one for each zone) that contain:</p>
-<div id="rfc.table.2"></div>
+<div id="rfc.table.4"></div>
 <div id="address_update"></div>
 <table cellpadding="3" cellspacing="0" class="tt full center">
 <caption>Example Address Records Update</caption>
@@ -810,8 +852,8 @@
 </tr>
 </tbody>
 </table>
-<p id="rfc.section.A.p.3">Next, consider the TIMEOUT resource records that would be generated for the records in <a href="#address_update" class="xref">Table 2</a>.</p>
-<div id="rfc.table.3"></div>
+<p id="rfc.section.A.p.3">Next, consider the TIMEOUT resource records that would be generated for the records in <a href="#address_update" class="xref">Table 4</a>.</p>
+<div id="rfc.table.5"></div>
 <div id="address_timeout"></div>
 <table cellpadding="3" cellspacing="0" class="tt full center">
 <caption>Address TIMEOUT records</caption>
@@ -855,7 +897,7 @@
 </table>
 <p id="rfc.section.A.p.4">Next, assume there are two hosts advertising the same service type (different service types will have different owner names). We will use _ipp._tcp.example.com as an example.</p>
 <p id="rfc.section.A.p.5">Host A sends an UPDATE at time Ta with lease life La for PTR, SRV, A, AAAA, and TXT records. Host B sends an UPDATE at time Tb with lease life Lb for PTR, SRV, A, and TXT records.</p>
-<div id="rfc.table.4"></div>
+<div id="rfc.table.6"></div>
 <div id="ipp_host_a"></div>
 <table cellpadding="3" cellspacing="0" class="tt full center">
 <caption>DNS UPDATE from Host A</caption>
@@ -892,7 +934,7 @@
 </tr>
 </tbody>
 </table>
-<div id="rfc.table.5"></div>
+<div id="rfc.table.7"></div>
 <div id="ipp_host_b"></div>
 <table cellpadding="3" cellspacing="0" class="tt full center">
 <caption>DNS UPDATE from Host B</caption>
@@ -925,7 +967,7 @@
 </tbody>
 </table>
 <p id="rfc.section.A.p.6">For these printer registrations, the TIMEOUT records on the server would look like the following:</p>
-<div id="rfc.table.6"></div>
+<div id="rfc.table.8"></div>
 <div id="printer_timeout"></div>
 <table cellpadding="3" cellspacing="0" class="tt full center">
 <caption>Service TIMEOUT records</caption>
