@@ -510,5 +510,17 @@
           <c>Tb + Lb</c>
       </texttable>
    </section>
+   <section title="Changelog">
+      <t>[RFC Editor: Please remove this section before publication]</t>
+      <t>From -03 to -04:
+       <list style="symbols">
+        <t>Added text for ANY as represented record type.</t>
+        <t>Added text how to handle represented records which already have max RDATA length.</t>
+        <t>Clarified why TIMEOUT has absolute expriry times and made a better case to use <xref target="I-D.sekar-dns-ul"/> when relative time is needed.</t>
+        <t>Introduced TIMEOUT-MANAGED EDNS(0) option to signal whether or not an authoriative is capable of TIMEOUT.</t>
+        <t>Reworked IANA section.</t>
+       </list>
+      </t>
+    </section>
  </back>
 </rfc>
