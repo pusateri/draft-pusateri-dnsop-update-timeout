@@ -70,7 +70,7 @@ Table of Contents
      4.1.  Represented Record Type . . . . . . . . . . . . . . . . .   4
      4.2.  Represented Record Count  . . . . . . . . . . . . . . . .   5
      4.3.  Method Identifiers  . . . . . . . . . . . . . . . . . . .   5
-       4.3.1.  Method Identifier 0: NO METHOD  . . . . . . . . . . .   5
+       4.3.1.  Method Identifier 0: NO METHOD  . . . . . . . . . . .   6
        4.3.2.  Method Identifier 1: RDATA  . . . . . . . . . . . . .   6
      4.4.  Expiry Time . . . . . . . . . . . . . . . . . . . . . . .   6
    5.  TIMEOUT RDATA Wire Format . . . . . . . . . . . . . . . . . .   6
@@ -141,9 +141,11 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
    refreshed by the DHCP server.  Additional use cases include service
    discovery resource records installed in unicast DNS servers via
    UPDATE described in [RFC6763], Active Directory Controllers
-   publishing SRV records, and DNS TXT validation resource records
-   supporting ACME certificate management as described in Section 8.4 of
-   [RFC8555].
+   publishing SRV records, DNS TXT resource records supporting ACME
+   certificate management challenges as described in Section 8.4 of
+   [RFC8555], and the limited lifetime certificate representations
+   produced by ACME that are stored in DANE TLSA resource records
+   [RFC6698].
 
 2.  Requirements Language
 
@@ -160,8 +162,6 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
    The expire time may come from many different sources.  A few are
    listed here however, this list is not considered complete.  TIMEOUT
    records may be included along side the records they represent in the
-   UPDATE message or they be synthesized by the primary server receiving
-   the UPDATE.
 
 
 
@@ -169,6 +169,9 @@ Pusateri & Wattenberg   Expires January 24, 2020                [Page 3]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
+
+   UPDATE message or they be synthesized by the primary server receiving
+   the UPDATE.
 
    1.  Via DHCP Dynamic Lease Lifetimes.
 
@@ -215,9 +218,6 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
    If the represented record is of type ANY, the TIMEOUT instance is
    valid for all types under the same owner name and class.  In this
-   case, NO METHOD (see Section 4.3.1) SHALL be used as method
-   identifier.
-
 
 
 
@@ -225,6 +225,9 @@ Pusateri & Wattenberg   Expires January 24, 2020                [Page 4]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
+
+   case, NO METHOD (see Section 4.3.1) SHALL be used as method
+   identifier.
 
 4.2.  Represented Record Count
 
@@ -269,11 +272,8 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
    secondary servers in a position to become primary understand the
    TIMEOUT record methods of the primary server.
 
-4.3.1.  Method Identifier 0: NO METHOD
 
-   The method identifier of 0 is defined as "NO METHOD" and MUST NOT be
-   used if the represented record count is greater than 0.  The value of
-   0 is to be included in the IANA registry of method identifier values.
+
 
 
 
@@ -281,6 +281,12 @@ Pusateri & Wattenberg   Expires January 24, 2020                [Page 5]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
+
+4.3.1.  Method Identifier 0: NO METHOD
+
+   The method identifier of 0 is defined as "NO METHOD" and MUST NOT be
+   used if the represented record count is greater than 0.  The value of
+   0 is to be included in the IANA registry of method identifier values.
 
 4.3.2.  Method Identifier 1: RDATA
 
@@ -324,18 +330,16 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
    resource records as defined in Section 3.2.1 of [RFC1035] including
    owner name, type, class, TTL, RDATA length, and RDATA.
 
-   The RDATA section of the resource record with method identifier NO
-   METHOD (0) is illustrated in Figure 1:
-
-
-
-
 
 
 
 Pusateri & Wattenberg   Expires January 24, 2020                [Page 6]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
+
+
+   The RDATA section of the resource record with method identifier NO
+   METHOD (0) is illustrated in Figure 1:
 
 
       0                   1                   2                   3
@@ -383,10 +387,6 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
                   Figure 2: Method (1) RDATA Wire Format
 
-   Figure 2 represents an arbitrary number of represented records with
-   the same owner name, class, and represented type.  For each expiry
-   time, a list of RDATA length and RDATA pairs are attached.  The
-
 
 
 Pusateri & Wattenberg   Expires January 24, 2020                [Page 7]
@@ -394,6 +394,9 @@ Pusateri & Wattenberg   Expires January 24, 2020                [Page 7]
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
+   Figure 2 represents an arbitrary number of represented records with
+   the same owner name, class, and represented type.  For each expiry
+   time, a list of RDATA length and RDATA pairs are attached.  The
    overall RDATA length of the TIMEOUT record indicates when the last
    represented record is contained in the record.
 
@@ -439,9 +442,6 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
    established by the server may overrule the actions of external
    clients.  The primary server is ultimately responsible for ensuring
    the database is consistent but until TIMEOUT record management is
-   built-in to authoritative server software, external UPDATE clients
-   will likely manage the records.
-
 
 
 
@@ -449,6 +449,9 @@ Pusateri & Wattenberg   Expires January 24, 2020                [Page 8]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
+
+   built-in to authoritative server software, external UPDATE clients
+   will likely manage the records.
 
    Upon receiving any DNS UPDATE deleting resource records that might
    have been covered by a TIMEOUT RR, a primary server MUST remove all
@@ -495,9 +498,6 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
          YYYY is the year;
          MM is the month number (01-12);
          DD is the day of the month (01-31);
-         HH is the hour, in 24 hour notation (00-23);
-         mm is the minute (00-59); and
-
 
 
 
@@ -506,6 +506,8 @@ Pusateri & Wattenberg   Expires January 24, 2020                [Page 9]
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
+         HH is the hour, in 24 hour notation (00-23);
+         mm is the minute (00-59); and
          SS is the second (00-60) where 60 is only possible as a leap
          second.
 
@@ -539,8 +541,6 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
    Initially, there are two values defined in the registry.  Values from
    240 (0xF0) through 255 (0xFF) are reserved for experimental use.
-
-
 
 
 
@@ -683,6 +683,11 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
               (AXFR)", RFC 5936, DOI 10.17487/RFC5936, June 2010,
               <https://www.rfc-editor.org/info/rfc5936>.
 
+   [RFC6698]  Hoffman, P. and J. Schlyter, "The DNS-Based Authentication
+              of Named Entities (DANE) Transport Layer Security (TLS)
+              Protocol: TLSA", RFC 6698, DOI 10.17487/RFC6698, August
+              2012, <https://www.rfc-editor.org/info/rfc6698>.
+
    [RFC6763]  Cheshire, S. and M. Krochmal, "DNS-Based Service
               Discovery", RFC 6763, DOI 10.17487/RFC6763, February 2013,
               <https://www.rfc-editor.org/info/rfc6763>.
@@ -717,11 +722,6 @@ Appendix A.  Example TIMEOUT resource records
 
    Next, consider the TIMEOUT resource records that would be generated
    for the records in Table 4.
-
-
-
-
-
 
 
 
