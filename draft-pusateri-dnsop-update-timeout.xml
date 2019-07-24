@@ -17,6 +17,7 @@
 <!ENTITY RFC6698 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6698.xml">
 <!ENTITY RFC6763 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6763.xml">
 <!ENTITY RFC6891 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6891.xml">
+<!ENTITY RFC6895 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6895.xml">
 <!ENTITY RFC8174 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.8174.xml">
 <!ENTITY RFC8555 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.8555.xml">
 <!ENTITY I-D.sekar-dns-ul SYSTEM  "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.sekar-dns-ul.xml">
@@ -162,10 +163,11 @@
      <t>The fields and their values in a TIMEOUT record are defined as:</t>
      <section title="Represented Record Type">
        <t>A 16-bit field containing the resource record type to which the TIMEOUT record applies. Multiple TIMEOUT records for the same owner name, class, and represented type can exist. Any resource record type can be specified in the Represented Record Type including another TIMEOUT record. This specification does not put any restrictions on the record type but implementations in authoritative servers will likely do so for policy and security reasons.</t>
+       <t>QTYPEs and Meta-TYPEs (see Section 3.1 of <xref target="RFC6895"/>) MUST NOT be used as represented record type.</t>
      </section>
      <section title="Represented Record Count">
        <t>The Represented Record Count is a 8-bit value that specifies the number of records of the specified record type with this expiry time.</t>
-       <t>An count of zero indicates that it is not necessary to represent any records in the list. This is a shortcut notation meaning all resource records with the same owner name, class, and record type use the same Expiry Time. When the Represented Record Count is 0, the Method Identifer is set to NO METHOD (0) on transmission and ignored on reception. A primary server MUST NOT install a TIMEOUT record with No Method/No Count at the same time that a TIMEOUT record exists for the same owner name, class, and type with a non-zero record count. Either all records MUST match the No Method/No Count shorthand syntax or they MUST all be included in the Represented RDATA list of one or more TIMEOUT records.</t>
+       <t>A count of zero indicates that it is not necessary to represent any records in the list. This is a shortcut notation meaning all resource records with the same owner name, class, and record type use the same Expiry Time. When the Represented Record Count is 0, the Method Identifer is set to NO METHOD (0) on transmission and ignored on reception. A primary server MUST NOT install a TIMEOUT record with No Method/No Count at the same time that a TIMEOUT record exists for the same owner name, class, and type with a non-zero record count. Either all records MUST match the No Method/No Count shorthand syntax or they MUST all be included in the Represented RDATA list of one or more TIMEOUT records.</t>
        <t>In the unlikely event that the Represented Record Count exceeds 255 which is the largest number representable in 8 bits, multiple instances of the same Expiry Time can exist.</t>
      </section>
      <section title="Method Identifiers">
@@ -236,7 +238,7 @@
    <section title="Server Behavior">
     <t>A server may or may not understand TIMEOUT resource records. If a server does not understand them, they are treated like any other resource record that the server may not understand <xref target="RFC3597"/>.</t>
     <section title="TIMEOUT-MANAGED EDNS(0) option" anchor="timeout-managed">
-     <t>Initially, not all primary authoritative servers will manage TIMEOUT resource records internally requiring external management of the TIMEOUT records and the resource records they represent. The client may perform external management of TIMEOUT records it creates through an UPDATE or a third party with appropriate permission may manage the records. As an alternative to polling, the server SHOULD send back an acknowledgment in the response to the client if it plans to manage the included TIMEOUT records or if it creates TIMEOUT records based on an UPDATE message that did not include TIMEOUT records. The signaling takes the form of an EDNS(0) <xref target="RFC6891"/> TIMEOUT-MANAGED option in the additional records section of the response to an UPDATE message.</t>
+     <t>As it cannot be presumed that all primary authoritative servers will manage TIMEOUT resource records internally, an external management of the TIMEOUT records and the resource records they represent might be necessary. The client may perform external management of TIMEOUT records it creates through an UPDATE or a third party with appropriate permission may manage the records. In an effort to reduce polling, the server MUST send back an acknowledgment in the response to the client if it plans to manage the included TIMEOUT records or if it creates TIMEOUT records based on an UPDATE message that did not include TIMEOUT records. The signaling takes the form of an EDNS(0) <xref target="RFC6891"/> TIMEOUT-MANAGED option in the additional records section of the response to an UPDATE message.</t>
      <t>The EDNS(0) OPTION-CODE TIMEOUT-MANAGED is [TBA]. The OPTION-LENGTH MUST be zero and OPTION-DATA MUST be empty.</t>
     </section>
     <section title="Primary Server Behavior">
@@ -332,7 +334,7 @@
            <ttcol align='center'>Definition</ttcol>
            <c>TBA</c>
            <c>TIMEOUT-MANAGED</c>
-           <c>Optional</c>
+           <c>Standard</c>
            <c><xref target="timeout-managed"/></c>
        </texttable>
    </section>
@@ -358,6 +360,7 @@
      &RFC3597;
      &RFC4034;
      &RFC6891;
+     &RFC6895;
      &RFC8174;
    </references>
    <references title="Informative References">
@@ -515,6 +518,7 @@
       <t>[RFC Editor: Please remove this section before publication]</t>
       <t>From -03 to -04:
        <list style="symbols">
+        <t>Clarified that there can't be TIMEOUTs with No Method/No Count (NMNC) and Some Method/Some Count (SMSC) at the same time.</t>
         <t>Added text how to handle represented records which already have max RDATA length.</t>
         <t>Clarified why TIMEOUT has absolute expriry times and made a better case to use <xref target="I-D.sekar-dns-ul"/> when relative time is needed.</t>
         <t>Introduced TIMEOUT-MANAGED EDNS(0) option to signal whether or not an authoriative is managing TIMEOUT records for the UPDATE.</t>
