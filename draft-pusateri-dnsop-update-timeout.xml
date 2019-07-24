@@ -157,16 +157,15 @@
      </t>
    </section>
    <section title="Resource Record Composition" anchor="definition">
-	   <t>TIMEOUT resource records provide expiry times for a mixed variety of resource record types with the same owner name, type, and class. Since there could exist multiple records of the same record type with the same owner name and class, the TIMEOUT resource record must be able to identify each of these records individually with only different RDATA. As an example, PTR records for service discovery <xref target="RFC6763"/> provide a level of indirection to SRV and TXT records by instance name. The instance name is stored in the PTR RDATA and multiple PTR records with the same owner name but only differing RDATA often exist.</t>
-	   <t>In order to distinguish each individual record with potentially different expiry times, the TIMEOUT resource record contains an expiry time, the record type, a method to identify the actual records for which the expiry time applies, and a count of the number of records represented. Multiple TIMEOUT records with the same owner name and class are created for each expiry time, record type, and resource record representation. If the expiry time is the same, multiple records can be combined into a single TIMEOUT record with the same owner name, class, and record type but this is not required.</t>
+	    <t>TIMEOUT resource records provide expiry times for a mixed variety of resource record types with the same owner name, type, and class. Since there could exist multiple records of the same record type with the same owner name and class, the TIMEOUT resource record must be able to identify each of these records individually with only different RDATA. As an example, PTR records for service discovery <xref target="RFC6763"/> provide a level of indirection to SRV and TXT records by instance name. The instance name is stored in the PTR RDATA and multiple PTR records with the same owner name and only differing RDATA often exist.</t>
+	    <t>In order to distinguish each individual record with potentially different expiry times, the TIMEOUT resource record contains an expiry time, the record type, a method to identify the actual records for which the expiry time applies, and a count of the number of records represented. Multiple TIMEOUT records with the same owner name and class are created for each expiry time, record type, and resource record representation. If the expiry time is the same, multiple records can be combined into a single TIMEOUT record with the same owner name, class, and record type but this is not required.</t>
      <t>The fields and their values in a TIMEOUT record are defined as:</t>
      <section title="Represented Record Type">
        <t>A 16-bit field containing the resource record type to which the TIMEOUT record applies. Multiple TIMEOUT records for the same owner name, class, and represented type can exist. Any resource record type can be specified in the Represented Record Type including another TIMEOUT record. This specification does not put any restrictions on the record type but implementations in authoritative servers will likely do so for policy and security reasons.</t>
-       <t>If the represented record is of type ANY, the TIMEOUT instance is valid for all types under the same owner name and class. In this case, NO METHOD (see <xref target="nomethod"/>) SHALL be used as method identifier.</t>
      </section>
      <section title="Represented Record Count">
        <t>The Represented Record Count is a 8-bit value that specifies the number of records of the specified record type with this expiry time.</t>
-       <t>An RR Count of zero indicates that it is not necessary to represent any records in the list. This is a shortcut notation meaning all resource records with the same owner name, class, and record type use the same Expiry Time. When the Represented Record Count is 0, the Method Identifer is set to NO METHOD (0) on transmission and ignored on reception.</t>
+       <t>An count of zero indicates that it is not necessary to represent any records in the list. This is a shortcut notation meaning all resource records with the same owner name, class, and record type use the same Expiry Time. When the Represented Record Count is 0, the Method Identifer is set to NO METHOD (0) on transmission and ignored on reception. A primary server MUST NOT install a TIMEOUT record with No Method/No Count at the same time that a TIMEOUT record exists for the same owner name, class, and type with a non-zero record count. Either all records MUST match the No Method/No Count shorthand syntax or they MUST all be included in the Represented RDATA list of one or more TIMEOUT records.</t>
        <t>In the unlikely event that the Represented Record Count exceeds 255 which is the largest number representable in 8 bits, multiple instances of the same Expiry Time can exist.</t>
      </section>
      <section title="Method Identifiers">
@@ -237,7 +236,7 @@
    <section title="Server Behavior">
     <t>A server may or may not understand TIMEOUT resource records. If a server does not understand them, they are treated like any other resource record that the server may not understand <xref target="RFC3597"/>.</t>
     <section title="TIMEOUT-MANAGED EDNS(0) option" anchor="timeout-managed">
-     <t>Initially, not all primary authoritative servers will manage TIMEOUT resource records internally requiring external management of the TIMEOUT records and the resource records they represent. The client may perform external management of TIMEOUT records it creates through an UPDATE or a third party with appropriate permission may manage the records. As an alternative to polling, the server SHOULD send back an acknowledgment in the response to the client if it plans to manage the included TIMEOUT records or it creates it's own TIMEOUT records based on an UPDATE message that didn't include TIMEOUT records. The signaling takes the form of an EDNS(0) <xref target="RFC6891"/> TIMEOUT-MANAGED option in the additional records section of the response to an UPDATE message.</t>
+     <t>Initially, not all primary authoritative servers will manage TIMEOUT resource records internally requiring external management of the TIMEOUT records and the resource records they represent. The client may perform external management of TIMEOUT records it creates through an UPDATE or a third party with appropriate permission may manage the records. As an alternative to polling, the server SHOULD send back an acknowledgment in the response to the client if it plans to manage the included TIMEOUT records or if it creates TIMEOUT records based on an UPDATE message that did not include TIMEOUT records. The signaling takes the form of an EDNS(0) <xref target="RFC6891"/> TIMEOUT-MANAGED option in the additional records section of the response to an UPDATE message.</t>
      <t>The EDNS(0) OPTION-CODE TIMEOUT-MANAGED is [TBA]. The OPTION-LENGTH MUST be zero and OPTION-DATA MUST be empty.</t>
     </section>
     <section title="Primary Server Behavior">
@@ -516,10 +515,9 @@
       <t>[RFC Editor: Please remove this section before publication]</t>
       <t>From -03 to -04:
        <list style="symbols">
-        <t>Added text for ANY as represented record type.</t>
         <t>Added text how to handle represented records which already have max RDATA length.</t>
         <t>Clarified why TIMEOUT has absolute expriry times and made a better case to use <xref target="I-D.sekar-dns-ul"/> when relative time is needed.</t>
-        <t>Introduced TIMEOUT-MANAGED EDNS(0) option to signal whether or not an authoriative is capable of TIMEOUT.</t>
+        <t>Introduced TIMEOUT-MANAGED EDNS(0) option to signal whether or not an authoriative is managing TIMEOUT records for the UPDATE.</t>
         <t>Reworked IANA section.</t>
        </list>
       </t>
