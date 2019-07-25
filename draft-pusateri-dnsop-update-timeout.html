@@ -382,7 +382,7 @@
 <link href="#rfc.section.4.2" rel="Chapter" title="4.2 Represented Record Count">
 <link href="#rfc.section.4.3" rel="Chapter" title="4.3 Method Identifiers">
 <link href="#rfc.section.4.3.1" rel="Chapter" title="4.3.1 Method Identifier 0: NO METHOD">
-<link href="#rfc.section.4.3.2" rel="Chapter" title="4.3.2 Method Identifier 1: RDATA">
+<link href="#rfc.section.4.3.2" rel="Chapter" title="4.3.2 Method Identifier 1: MD-SHA256-128">
 <link href="#rfc.section.4.4" rel="Chapter" title="4.4 Expiry Time">
 <link href="#rfc.section.5" rel="Chapter" title="5 TIMEOUT RDATA Wire Format">
 <link href="#rfc.section.6" rel="Chapter" title="6 Server Behavior">
@@ -473,7 +473,7 @@
 </li>
 <ul><li>4.3.1.   <a href="#rfc.section.4.3.1">Method Identifier 0: NO METHOD</a>
 </li>
-<li>4.3.2.   <a href="#rfc.section.4.3.2">Method Identifier 1: RDATA</a>
+<li>4.3.2.   <a href="#rfc.section.4.3.2">Method Identifier 1: MD-SHA256-128</a>
 </li>
 </ul><li>4.4.   <a href="#rfc.section.4.4">Expiry Time</a>
 </li>
@@ -540,25 +540,24 @@
 <h1 id="rfc.section.4.1">
 <a href="#rfc.section.4.1">4.1.</a> Represented Record Type</h1>
 <p id="rfc.section.4.1.p.1">A 16-bit field containing the resource record type to which the TIMEOUT record applies. Multiple TIMEOUT records for the same owner name, class, and represented type can exist. Any resource record type can be specified in the Represented Record Type including another TIMEOUT record. This specification does not put any restrictions on the record type but implementations in authoritative servers will likely do so for policy and security reasons.</p>
-<p id="rfc.section.4.1.p.2">QTYPEs and Meta-TYPEs (see Section 3.1 of <a href="#RFC6895" class="xref">[RFC6895]</a>) MUST NOT be used as represented record type.</p>
+<p id="rfc.section.4.1.p.2">QTYPEs and Meta-TYPEs (see Section 3.1 of <a href="#RFC6895" class="xref">[RFC6895]</a>) MUST NOT be used as the represented record type.</p>
 <h1 id="rfc.section.4.2">
 <a href="#rfc.section.4.2">4.2.</a> Represented Record Count</h1>
 <p id="rfc.section.4.2.p.1">The Represented Record Count is a 8-bit value that specifies the number of records of the specified record type with this expiry time.</p>
-<p id="rfc.section.4.2.p.2">A count of zero indicates that it is not necessary to represent any records in the list. This is a shortcut notation meaning all resource records with the same owner name, class, and record type use the same Expiry Time. When the Represented Record Count is 0, the Method Identifer is set to NO METHOD (0) on transmission and ignored on reception. A primary server MUST NOT install a TIMEOUT record with No Method/No Count at the same time that a TIMEOUT record exists for the same owner name, class, and type with a non-zero record count. Either all records MUST match the No Method/No Count shorthand syntax or they MUST all be included in the Represented RDATA list of one or more TIMEOUT records.</p>
+<p id="rfc.section.4.2.p.2">A count of zero indicates that it is not necessary to represent any records in the list. This is a shortcut notation meaning all resource records with the same owner name, class, and record type use the same Expiry Time. When the Represented Record Count is 0, the Method Identifer is set to NO METHOD (0) on transmission and ignored on reception. A primary server MUST NOT install a TIMEOUT record with No Method/No Count at the same time that a TIMEOUT record exists for the same owner name, class, and type with a non-zero record count. Either all records MUST match the No Method/No Count shorthand syntax or they MUST all be included in the list of matching records.</p>
 <p id="rfc.section.4.2.p.3">In the unlikely event that the Represented Record Count exceeds 255 which is the largest number representable in 8 bits, multiple instances of the same Expiry Time can exist.</p>
 <h1 id="rfc.section.4.3">
 <a href="#rfc.section.4.3">4.3.</a> Method Identifiers</h1>
 <p id="rfc.section.4.3.p.1">The Method Identifier is a 8-bit value that specifies an identifier for the algorithm used to distinguish between resource records. The identifiers are declared in a registry maintained by IANA for the purpose of listing acceptable methods for this purpose. In addition to the method and the index, the registry MAY contain a fixed output length in bits of the method to be used or the term <samp>variable</samp> to denote a variable length output per record. It is conceivable, though not likely, that the same method could be used with different fixed output lengths. In this case, each fixed output length would require a different identifier in the registry. Additions to this registry will be approved with additional documentation under expert review. At the time that the registry is created by IANA, a group of expert reviewers will be established.</p>
-<p id="rfc.section.4.3.p.2">Additional methods of representing records such as hashes or other algorithms may be defined in the future. If such methods are defined, a primary server could create TIMEOUT record using a new method that is not understood by a secondary server that could take over as the primary in the event of an outage or administrative change. In this case, the new primary would not be able to identify the records it is supposed to TIMEOUT. This is a misconfiguration and it is the responsibility of the administrator to ensure that secondary servers in a position to become primary understand the TIMEOUT record methods of the primary server.</p>
+<p id="rfc.section.4.3.p.2">Additional methods of representing records may be defined in the future. If such methods are defined, a primary server could create TIMEOUT record using a new method that is not understood by a secondary server that could take over as the primary in the event of an outage or administrative change. In this case, the new primary would not be able to identify the records it is supposed to TIMEOUT. This is a misconfiguration and it is the responsibility of the administrator to ensure that secondary servers in a position to become primary understand the TIMEOUT record methods of the primary server.</p>
 <h1 id="rfc.section.4.3.1">
 <a href="#rfc.section.4.3.1">4.3.1.</a> <a href="#nomethod" id="nomethod">Method Identifier 0: NO METHOD</a>
 </h1>
 <p id="rfc.section.4.3.1.p.1">The method identifier of 0 is defined as <samp>NO METHOD</samp> and MUST NOT be used if the represented record count is greater than 0. The value of 0 is to be included in the IANA registry of method identifier values.</p>
 <h1 id="rfc.section.4.3.2">
-<a href="#rfc.section.4.3.2">4.3.2.</a> <a href="#rdatamethod" id="rdatamethod">Method Identifier 1: RDATA</a>
+<a href="#rfc.section.4.3.2">4.3.2.</a> <a href="#sha256method" id="sha256method">Method Identifier 1: MD-SHA256-128</a>
 </h1>
-<p id="rfc.section.4.3.2.p.1">The method identifier of 1 is defined as <samp>RDATA</samp>. It begins with the RDATA length as a 16-bit value containing the length of the RDATA in bytes followed by the number of bytes of RDATA as appears in the record being represented. The record MUST be in canonical DNSSEC form as described in Section 6 of <a href="#RFC4034" class="xref">[RFC4034]</a>. Any comparisons of RDATA in an actual record covered by the TIMEOUT against  the Represented RDATA contained in a TIMEOUT record must be compared in canonical form.</p>
-<p id="rfc.section.4.3.2.p.2">If the RDATA of the resource record represented plus the fixed values of the TIMEOUT resource record RDATA fields is greater than the maximum 16-bit length value of 65535, the record cannot be represented in a TIMEOUT record using the RDATA method identifier. If a TIMEOUT record is received in an UPDATE with truncated RDATA because the represented record is too large, the server SHOULD NOT process the UPDATE operation and instead respond with RCODE FORMERR.</p>
+<p id="rfc.section.4.3.2.p.1">The method identifier of 1 is defined as <samp>MD-SHA256-128</samp>. Following the expiry time is a list of 128-bit values. Each of these values is the first 128-bits of a message digest of the RDATA of a represented record calculated using the 256-bit SHA-256 hash algorithm <a href="#FIPS180-4" class="xref">[FIPS180-4]</a>. The input length of RDATA for the message digest is the RDLEN of the represented record.</p>
 <h1 id="rfc.section.4.4">
 <a href="#rfc.section.4.4">4.4.</a> Expiry Time</h1>
 <p id="rfc.section.4.4.p.1">The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire. An absolute time is necessary so the TIMEOUT records do not have to change during zone transfers.</p>
@@ -583,9 +582,9 @@
        </pre>
 <p class="figure">Figure 1: Method (0) RDATA Wire Format</p>
 <p><a href="#rr_art_nomethod" class="xref">Figure 1</a> represents the TIMEOUT RDATA field of all matching records of the represented type for the same owner name and class.</p>
-<p id="rfc.section.5.p.4">The RDATA section of the resource record with method identifier RDATA (1) is illustrated in <a href="#rr_art_rdata" class="xref">Figure 2</a>:</p>
+<p id="rfc.section.5.p.4">The RDATA section of the resource record with method identifier MD-SHA256-128 (1) is illustrated in <a href="#rr_art_sha256" class="xref">Figure 2</a>:</p>
 <div id="rfc.figure.2"></div>
-<div id="rr_art_rdata"></div>
+<div id="rr_art_sha256"></div>
 <pre>
         
  0                   1                   2                   3
@@ -593,27 +592,26 @@
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |      Represented RR Type      |   Count (n)   |   Method (1)  |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|                       Expiry Time (64-bit)                    |
+|                      Expiry Time (64-bit)                     |
+|                                                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+               
+|                                                               |
+|                 First 128 bits of SHA256 hash                 |
+|                 of Represented Record 1 RDATA                 |
 |                                                               |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-.    Represented RDATA LEN 1    |                               .
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               .
-.                                                               .
-.                     Represented RDATA 1                       .
 .                                                               .
 .                                                               .
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-.    Represented RDATA LEN n    |                               .
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               .
-.                                                               .
-.                     Represented RDATA n                       .
-.                                                               .
-.                                                               .
+|                                                               |
+|                 First 128 bits of SHA256 hash                 |
+|                 of Represented Record n RDATA                 |
+|                                                               |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
         
         </pre>
-<p class="figure">Figure 2: Method (1) RDATA Wire Format</p>
-<p><a href="#rr_art_rdata" class="xref">Figure 2</a> represents an arbitrary number of represented records with the same owner name, class, and represented type. For each expiry time, a list of RDATA length and RDATA pairs are attached. The overall RDATA length of the TIMEOUT record indicates when the last represented record is contained in the record.</p>
+<p class="figure">Figure 2: Method (1) MD-SHA256-128 Wire Format</p>
+<p><a href="#rr_art_sha256" class="xref">Figure 2</a> represents an arbitrary number of represented records with the same owner name, class, and represented type. For each expiry time, a list of the first 128-bits of a SHA256 hash are appended.</p>
 <h1 id="rfc.section.6">
 <a href="#rfc.section.6">6.</a> Server Behavior</h1>
 <p id="rfc.section.6.p.1">A server may or may not understand TIMEOUT resource records. If a server does not understand them, they are treated like any other resource record that the server may not understand <a href="#RFC3597" class="xref">[RFC3597]</a>.</p>
@@ -703,10 +701,10 @@
 </tr>
 <tr>
 <td class="center">1</td>
-<td class="left">RDATA</td>
-<td class="left">Actual RDATA of represented records</td>
-<td class="center">variable</td>
-<td class="left"><a href="#rdatamethod" class="xref">Section 4.3.2</a></td>
+<td class="left">MD-SHA256-128</td>
+<td class="left">List of 128-bit hashes of represented records RDATA</td>
+<td class="center">128 bits</td>
+<td class="left"><a href="#sha256method" class="xref">Section 4.3.2</a></td>
 </tr>
 <tr>
 <td class="center">240-255</td>
@@ -749,6 +747,10 @@
 <h1 id="rfc.references.1">
 <a href="#rfc.references.1">11.1.</a> Normative References</h1>
 <table><tbody>
+<tr>
+<td class="reference"><b id="FIPS180-4">[FIPS180-4]</b></td>
+<td class="top">"<a href="http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf">NIST, Secure Hash Standard (SHS) FIPS 180-4, National Institue of Standards and Technology, U.S. Department of Commerce</a>", August 2015.</td>
+</tr>
 <tr>
 <td class="reference"><b id="RFC1035">[RFC1035]</b></td>
 <td class="top">
@@ -1064,7 +1066,7 @@
 
 <ul>
 <li>Clarified that there can't be TIMEOUTs with No Method/No Count (NMNC) and Some Method/Some Count (SMSC) at the same time.</li>
-<li>Added text how to handle represented records which already have max RDATA length.</li>
+<li>Reverted to message digest of RDATA to solve problems with zone files.</li>
 <li>Clarified why TIMEOUT has absolute expriry times and made a better case to use <a href="#I-D.sekar-dns-ul" class="xref">[I-D.sekar-dns-ul]</a> when relative time is needed.</li>
 <li>Introduced TIMEOUT-MANAGED EDNS(0) option to signal whether or not an authoriative is managing TIMEOUT records for the UPDATE.</li>
 <li>Reworked IANA section.</li>
