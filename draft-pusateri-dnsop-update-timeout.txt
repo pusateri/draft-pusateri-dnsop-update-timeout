@@ -293,9 +293,10 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
    The method identifier of 1 is defined as "MD-SHA256-128".  Following
    the expiry time is a list of 128-bit values.  Each of these values is
    the first 128-bits of a message digest of the RDATA of a represented
-   record calculated using the 256-bit SHA-256 hash algorithm
-   [FIPS180-4].  The input length of RDATA for the message digest is the
-   RDLEN of the represented record.
+   record in canonical DNSSEC form calculated using the 256-bit SHA-256
+   hash algorithm [FIPS180-4].  The canonical DNSSEC form is described
+   in Section 6 of [RFC4034].  The input length of RDATA for the message
+   digest is the RDLEN of the represented record.
 
 4.4.  Expiry Time
 
@@ -322,7 +323,6 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 
    The RDATA section of the resource record with method identifier NO
    METHOD (0) is illustrated in Figure 1:
-
 
 
 

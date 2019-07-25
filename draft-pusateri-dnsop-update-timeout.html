@@ -557,7 +557,7 @@
 <h1 id="rfc.section.4.3.2">
 <a href="#rfc.section.4.3.2">4.3.2.</a> <a href="#sha256method" id="sha256method">Method Identifier 1: MD-SHA256-128</a>
 </h1>
-<p id="rfc.section.4.3.2.p.1">The method identifier of 1 is defined as <samp>MD-SHA256-128</samp>. Following the expiry time is a list of 128-bit values. Each of these values is the first 128-bits of a message digest of the RDATA of a represented record calculated using the 256-bit SHA-256 hash algorithm <a href="#FIPS180-4" class="xref">[FIPS180-4]</a>. The input length of RDATA for the message digest is the RDLEN of the represented record.</p>
+<p id="rfc.section.4.3.2.p.1">The method identifier of 1 is defined as <samp>MD-SHA256-128</samp>. Following the expiry time is a list of 128-bit values. Each of these values is the first 128-bits of a message digest of the RDATA of a represented record in canonical DNSSEC form calculated using the 256-bit SHA-256 hash algorithm <a href="#FIPS180-4" class="xref">[FIPS180-4]</a>. The canonical DNSSEC form is described in Section 6 of <a href="#RFC4034" class="xref">[RFC4034]</a>. The input length of RDATA for the message digest is the RDLEN of the represented record.</p>
 <h1 id="rfc.section.4.4">
 <a href="#rfc.section.4.4">4.4.</a> Expiry Time</h1>
 <p id="rfc.section.4.4.p.1">The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire. An absolute time is necessary so the TIMEOUT records do not have to change during zone transfers.</p>

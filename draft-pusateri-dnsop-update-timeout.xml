@@ -177,7 +177,7 @@
          <t>The method identifier of 0 is defined as <spanx style="verb">NO METHOD</spanx> and MUST NOT be used if the represented record count is greater than 0. The value of 0 is to be included in the IANA registry of method identifier values.</t>
        </section>
        <section title="Method Identifier 1: MD-SHA256-128" anchor="sha256method">
-         <t>The method identifier of 1 is defined as <spanx style="verb">MD-SHA256-128</spanx>. Following the expiry time is a list of 128-bit values. Each of these values is the first 128-bits of a message digest of the RDATA of a represented record calculated using the 256-bit SHA-256 hash algorithm <xref target="FIPS180-4"/>. The input length of RDATA for the message digest is the RDLEN of the represented record.</t>
+         <t>The method identifier of 1 is defined as <spanx style="verb">MD-SHA256-128</spanx>. Following the expiry time is a list of 128-bit values. Each of these values is the first 128-bits of a message digest of the RDATA of a represented record in canonical DNSSEC form calculated using the 256-bit SHA-256 hash algorithm <xref target="FIPS180-4"/>. The canonical DNSSEC form is described in Section 6 of <xref target="RFC4034"/>. The input length of RDATA for the message digest is the RDLEN of the represented record.</t>
        </section>
      </section>
      <section title="Expiry Time">
