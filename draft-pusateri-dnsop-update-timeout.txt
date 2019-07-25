@@ -81,7 +81,7 @@ Table of Contents
    7.  TIMEOUT RDATA Presentation Format . . . . . . . . . . . . . .   9
    8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  10
    9.  Security Considerations . . . . . . . . . . . . . . . . . . .  11
-   10. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  11
+   10. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  12
    11. References  . . . . . . . . . . . . . . . . . . . . . . . . .  12
      11.1.  Normative References . . . . . . . . . . . . . . . . . .  12
      11.2.  Informative References . . . . . . . . . . . . . . . . .  13
@@ -605,10 +605,10 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
    Authenticated UPDATE operations MUST be REQUIRED at authoritative
    name servers supporting TIMEOUT resource records.
 
-10.  Acknowledgments
 
-   This idea was motivated through conversations with Mark Andrews.
-   Thanks to Mark as well as Paul Vixie, Joe Abley, Ted Lemon, Tony
+
+
+
 
 
 
@@ -618,6 +618,10 @@ Pusateri & Wattenberg   Expires January 25, 2020               [Page 11]
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
 
+10.  Acknowledgments
+
+   This idea was motivated through conversations with Mark Andrews.
+   Thanks to Mark as well as Paul Vixie, Joe Abley, Ted Lemon, Tony
    Finch, Robert Story, Paul Wouters, Dick Franks, JINMEI, Tatuya, and
    Timothe Litt for their suggestions, review, and comments.
 
@@ -626,9 +630,9 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
 11.1.  Normative References
 
    [FIPS180-4]
-              "NIST, Secure Hash Standard (SHS) FIPS 180-4, National
-              Institue of Standards and Technology, U.S. Department of
-              Commerce", August 2015,
+              National Institute of Standards and Technology, U.S.
+              Department of Commerce, "Secure Hash Standard (SHS) FIPS
+              180-4", August 2015,
               <http://nvlpubs.nist.gov/nistpubs/FIPS/
               NIST.FIPS.180-4.pdf>.
 
@@ -663,16 +667,16 @@ Internet-Draft           TIMEOUT Resource Record               July 2019
               Considerations", BCP 42, RFC 6895, DOI 10.17487/RFC6895,
               April 2013, <https://www.rfc-editor.org/info/rfc6895>.
 
-   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
-              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
-              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
-
 
 
 Pusateri & Wattenberg   Expires January 25, 2020               [Page 12]
 
 Internet-Draft           TIMEOUT Resource Record               July 2019
 
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
 11.2.  Informative References
 
@@ -716,10 +720,6 @@ Appendix A.  Example TIMEOUT resource records
    A host sending a name registration at time Tn for "A" and "AAAA"
    records with lease lifetime Ln would have a series of UPDATEs (one
    for each zone) that contain:
-
-
-
-
 
 
 

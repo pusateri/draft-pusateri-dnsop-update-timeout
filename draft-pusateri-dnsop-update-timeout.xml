@@ -340,6 +340,7 @@
    <section anchor="Security" title="Security Considerations">
      <t>There is no secure relationship between a TIMEOUT resource record and the represented resource records it applies to. TIMEOUT records should typically only apply to resource records created through the UPDATE mechanism. Protection for permanent resource records in a zone is advisable.</t>
      <t>Authenticated UPDATE operations MUST be REQUIRED at authoritative name servers supporting TIMEOUT resource records.</t>
+<?rfc needLines="7"?>
    </section>
 
    <section anchor="Acknowledgments" title="Acknowledgments">
@@ -362,11 +363,9 @@
      &RFC8174;
      <reference anchor="FIPS180-4" target="http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf">
        <front>
-         <title abbrev="NIST">
-     NIST, Secure Hash Standard (SHS) FIPS 180-4, National Institue of Standards and Technology, U.S. Department of Commerce
-         </title>
+         <title>Secure Hash Standard (SHS) FIPS 180-4</title>
          <author>
-           <organization/>
+           <organization>National Institute of Standards and Technology, U.S. Department of Commerce</organization>
          </author>
          <date year="2015" month="August"/>
        </front>
