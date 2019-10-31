@@ -378,6 +378,8 @@
 <link href="#rfc.section.2" rel="Chapter" title="2 Requirements Language">
 <link href="#rfc.section.3" rel="Chapter" title="3 Sources of TIMEOUT Expiry Time">
 <link href="#rfc.section.4" rel="Chapter" title="4 Common Usage Patterns">
+<link href="#rfc.section.4.1" rel="Chapter" title="4.1 TIMEOUT records vs. Update Leases">
+<link href="#rfc.section.4.2" rel="Chapter" title="4.2 Testing for TIMEOUT">
 <link href="#rfc.section.5" rel="Chapter" title="5 Resource Record Composition">
 <link href="#rfc.section.5.1" rel="Chapter" title="5.1 Represented Record Type">
 <link href="#rfc.section.5.2" rel="Chapter" title="5.2 Represented Record Count">
@@ -401,12 +403,12 @@
 <link href="#rfc.authors" rel="Chapter">
 
 
-  <meta name="generator" content="xml2rfc version 2.23.1 - https://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 2.34.0 - https://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Pusateri, T. and T. Wattenberg" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-pusateri-dnsop-update-timeout-04" />
-  <meta name="dct.issued" scheme="ISO8601" content="2019-26" />
+  <meta name="dct.issued" scheme="ISO8601" content="2019-31" />
   <meta name="dct.abstract" content="This specification defines a new DNS TIMEOUT resource record (RR) that associates a lifetime with one or more zone resource records. It is intended to be used to transfer resource record lifetime state between a zone's primary and secondary servers and to store lifetime state during server software restarts." />
   <meta name="description" content="This specification defines a new DNS TIMEOUT resource record (RR) that associates a lifetime with one or more zone resource records. It is intended to be used to transfer resource record lifetime state between a zone's primary and secondary servers and to store lifetime state during server software restarts." />
 
@@ -430,8 +432,8 @@
 <td class="right">Unaffiliated</td>
 </tr>
 <tr>
-<td class="left">Expires: January 27, 2020</td>
-<td class="right">July 26, 2019</td>
+<td class="left">Expires: May 3, 2020</td>
+<td class="right">October 31, 2019</td>
 </tr>
 
     	
@@ -447,7 +449,7 @@
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on January 27, 2020.</p>
+<p>This Internet-Draft will expire on May 3, 2020.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2019 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -465,7 +467,11 @@
 </li>
 <li>4.   <a href="#rfc.section.4">Common Usage Patterns</a>
 </li>
-<li>5.   <a href="#rfc.section.5">Resource Record Composition</a>
+<ul><li>4.1.   <a href="#rfc.section.4.1">TIMEOUT records vs. Update Leases</a>
+</li>
+<li>4.2.   <a href="#rfc.section.4.2">Testing for TIMEOUT</a>
+</li>
+</ul><li>5.   <a href="#rfc.section.5">Resource Record Composition</a>
 </li>
 <ul><li>5.1.   <a href="#rfc.section.5.1">Represented Record Type</a>
 </li>
@@ -533,13 +539,23 @@
 <p> </p>
 <h1 id="rfc.section.4">
 <a href="#rfc.section.4">4.</a> Common Usage Patterns</h1>
-<p id="rfc.section.4.p.1">still needs more work here.</p>
+<p id="rfc.section.4.p.1">TIMEOUT resource records are just one tool in the toolbox for cleaning up stale resource records. They provide a failsafe in case other mechansims meant to clean up records fail. It might be useful to think of them similar to Garbage Collection (GC) or Automatic Reference Counting (ARC) used by programming languages for memory management. The model in which the TIMEOUT resource records are used depends on the support provided for them by the primary DNS server.</p>
 <p id="rfc.section.4.p.2">As it cannot be presumed that all primary authoritative servers will manage TIMEOUT resource records internally, an external management of the TIMEOUT records and the resource records they represent might be necessary. The client may perform external management of TIMEOUT records it creates through an UPDATE or a third party with appropriate permission may manage the records.</p>
+<p id="rfc.section.4.p.3">If the primary server understands TIMEOUT records and manages them based on resource record updates, it will likely know when to remove the resource records referenced by the TIMEOUT records. This is similar to ARC.</p>
+<p id="rfc.section.4.p.4">If the primary server does not understand TIMEOUT records, then an external manager (client) will need to use DNS UPDATE to add/remove TIMEOUT records and the resource records they reference. Garbage Collectors run periodically looking for memory no longer being used to reclaim. In a similar way, external TIMEOUT record managers need to periodically scan the TIMEOUT records and send DNS UPDATE messages to add/remove records when the server doesn't manage them automatically.</p>
+<p id="rfc.section.4.p.5">It should be noted that similar to many instances of Garbage Collection, the precision with which TIMEOUT records and the resource records they reference are removed is not critical. Gross timers and/or scanning mechanisms are perfectly appropriate and should not consume additional resources for the purpose of being precise. As described in <a href="#expiry" class="xref">Section 5.4</a> below, expiry times use one second resolution.</p>
 <pre>
        
        picture of primary, secondary, manager, client here
        
        </pre>
+<h1 id="rfc.section.4.1">
+<a href="#rfc.section.4.1">4.1.</a> TIMEOUT records vs. Update Leases</h1>
+<p id="rfc.section.4.1.p.1">Each application will have to determine when it is better to use TIMEOUT resource records, EDNS(0) Update Lease options, or a combination of the two. In some cases, either will serve the same purpose. A differentiating factor is that TIMEOUT resource records use absolute time so that the records may be more easily synchronized across secondary servers whereas Update Leases are specified in relative time offsets.</p>
+<p id="rfc.section.4.1.p.2">If your primary DNS server supports TIMEOUT records directly, it may be simpler to just provide an Update Lease lifetime in the DNS UPDATE message that the server will use to create the TIMEOUT records internally. If your primary DNS server does not support TIMEOUT records and your application uses sources that have real-time clocks that are synchronized with standard time sources, TIMEOUT records are an available option to the client. However, if your clients are using low-cost hardware without real-time clocks, they should send Update Leases to the primary server or an intermediate proxy with a synchronized real-time clock.</p>
+<h1 id="rfc.section.4.2">
+<a href="#rfc.section.4.2">4.2.</a> Testing for TIMEOUT</h1>
+<p id="rfc.section.4.2.p.1">There is no more reliable mechanism to determine if the primary DNS server supports the management of TIMEOUT records than explicitly trying it. Before relying on a server to expire TIMEOUT records, the application should send test records and test if they are handled as expected. If the preferred mode of operation is not supported, another mode can be attempted. For example, if sending a DNS UPDATE with a EDNS(0) Update Lease of 1 second doesn't cause the record to be expired within 6 seconds (1 + 5 fuzz), then the application can try including a TIMEOUT record in the DNS UPDATE. If that doesn't automatically expire, TIMEOUT records will need to be managed externally.</p>
 <h1 id="rfc.section.5">
 <a href="#rfc.section.5">5.</a> <a href="#definition" id="definition">Resource Record Composition</a>
 </h1>
@@ -568,9 +584,10 @@
 </h1>
 <p id="rfc.section.5.3.2.p.1">The method identifier of 1 is defined as <samp>MD-SHA256-128</samp>. Following the expiry time is a list of 128-bit values. Each of these values is the first 128-bits of a message digest of the RDATA of a represented record in canonical DNSSEC form calculated using the 256-bit SHA-256 hash algorithm defined in <a href="#FIPS180-4" class="xref">[FIPS180-4]</a>. The canonical DNSSEC form is described in Section 6 of <a href="#RFC4034" class="xref">[RFC4034]</a>. The input length of RDATA for the message digest is the RDLEN of the represented record.</p>
 <h1 id="rfc.section.5.4">
-<a href="#rfc.section.5.4">5.4.</a> Expiry Time</h1>
+<a href="#rfc.section.5.4">5.4.</a> <a href="#expiry" id="expiry">Expiry Time</a>
+</h1>
 <p id="rfc.section.5.4.p.1">The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire. An absolute time is necessary so the TIMEOUT records do not have to change during zone transfers.</p>
-<p id="rfc.section.5.4.p.2">There are circumstances when a relative expiry time would be convenient due to limited resources for clock synchronization in constrained devices. In this case, DNS UPDATE messages should not contain precomputed TIMEOUT records but convey the relative expiry time using the EDNS(0) Lease Lifetime Option defined in <a href="#I-D.sekar-dns-ul" class="xref">[I-D.sekar-dns-ul]</a>. The relative time is then converted to an absolute expiry time when received by the primary server which will create the TIMEOUT resource records.</p>
+<p id="rfc.section.5.4.p.2">There are circumstances when a relative expiry time would be convenient due to limited resources for clock synchronization in constrained devices. In this case, DNS UPDATE messages should not contain precomputed TIMEOUT records but convey the relative expiry time using the EDNS(0) Update Lease Option defined in <a href="#I-D.sekar-dns-ul" class="xref">[I-D.sekar-dns-ul]</a>. The relative time is then converted to an absolute expiry time when received by the primary server which will create the TIMEOUT resource records.</p>
 <h1 id="rfc.section.6">
 <a href="#rfc.section.6">6.</a> TIMEOUT RDATA Wire Format</h1>
 <p id="rfc.section.6.p.1">The TIMEOUT resource record follows the same pattern as other DNS resource records including owner name, type, class, TTL, RDATA length, and RDATA as defined in Section 3.2.1 of <a href="#RFC1035" class="xref">[RFC1035]</a>.</p>
@@ -727,7 +744,7 @@
 <h1 id="rfc.section.11">
 <a href="#rfc.section.11">11.</a> <a href="#Acknowledgments" id="Acknowledgments">Acknowledgments</a>
 </h1>
-<p id="rfc.section.11.p.1">This idea was motivated through conversations with Mark Andrews. Thanks to Mark as well as Paul Vixie, Joe Abley, Ted Lemon, Tony Finch, Robert Story, Paul Wouters, Dick Franks, JINMEI, Tatuya, and Timothe Litt for their suggestions, review, and comments.</p>
+<p id="rfc.section.11.p.1">This idea was motivated through conversations with Mark Andrews. Thanks to Mark as well as Paul Vixie, Joe Abley, Ted Lemon, Tony Finch, Robert Story, Paul Wouters, Dick Franks, JINMEI, Tatuya, Timothe Litt, and Stuart Cheshire for their suggestions, review, and comments.</p>
 <h1 id="rfc.references">
 <a href="#rfc.references">12.</a> References</h1>
 <h1 id="rfc.references.1">

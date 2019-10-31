@@ -157,8 +157,12 @@
      </t>
    </section>
    <section title="Common Usage Patterns">
-     <t>still needs more work here.</t>
+     <t>TIMEOUT resource records are just one tool in the toolbox for cleaning up stale resource records. They provide a failsafe in case other mechansims meant to clean up records fail. It might be useful to think of them similar to Garbage Collection (GC) or Automatic Reference Counting (ARC) used by programming languages for memory management. The model in which the TIMEOUT resource records are used depends on the support provided for them by the primary DNS server.</t>
      <t>As it cannot be presumed that all primary authoritative servers will manage TIMEOUT resource records internally, an external management of the TIMEOUT records and the resource records they represent might be necessary. The client may perform external management of TIMEOUT records it creates through an UPDATE or a third party with appropriate permission may manage the records.</t>
+     <t>If the primary server understands TIMEOUT records and manages them based on resource record updates, it will likely know when to remove the resource records referenced by the TIMEOUT records. This is similar to ARC.</t>
+     <t>If the primary server does not understand TIMEOUT records, then an external manager (client) will need to use DNS UPDATE to add/remove TIMEOUT records and the resource records they reference. Garbage Collectors run periodically looking for memory no longer being used to reclaim. In a similar way, external TIMEOUT record managers need to periodically scan the TIMEOUT records and send DNS UPDATE messages to add/remove records when the server doesn't manage them automatically.</t>
+     <t>It should be noted that similar to many instances of Garbage Collection, the precision with which TIMEOUT records and the resource records they reference are removed is not critical. Gross timers and/or scanning mechanisms are perfectly appropriate and should not consume additional resources for the purpose of being precise. As described in <xref target="expiry"/> below, expiry times use one second resolution.</t>
+     
      <figure>
        <artwork align="center">
        <![CDATA[
@@ -166,6 +170,13 @@
        ]]>
        </artwork>
      </figure>
+   <section title="TIMEOUT records vs. Update Leases">
+     <t>Each application will have to determine when it is better to use TIMEOUT resource records, EDNS(0) Update Lease options, or a combination of the two. In some cases, either will serve the same purpose. A differentiating factor is that TIMEOUT resource records use absolute time so that the records may be more easily synchronized across secondary servers whereas Update Leases are specified in relative time offsets.</t>
+     <t>If your primary DNS server supports TIMEOUT records directly, it may be simpler to just provide an Update Lease lifetime in the DNS UPDATE message that the server will use to create the TIMEOUT records internally. If your primary DNS server does not support TIMEOUT records and your application uses sources that have real-time clocks that are synchronized with standard time sources, TIMEOUT records are an available option to the client. However, if your clients are using low-cost hardware without real-time clocks, they should send Update Leases to the primary server or an intermediate proxy with a synchronized real-time clock.</t>
+   </section>
+   <section title="Testing for TIMEOUT">
+     <t>There is no more reliable mechanism to determine if the primary DNS server supports the management of TIMEOUT records than explicitly trying it. Before relying on a server to expire TIMEOUT records, the application should send test records and test if they are handled as expected. If the preferred mode of operation is not supported, another mode can be attempted. For example, if sending a DNS UPDATE with a EDNS(0) Update Lease of 1 second doesn't cause the record to be expired within 6 seconds (1 + 5 fuzz), then the application can try including a TIMEOUT record in the DNS UPDATE. If that doesn't automatically expire, TIMEOUT records will need to be managed externally.</t>
+   </section>
    </section>
    <section title="Resource Record Composition" anchor="definition">
 	    <t>TIMEOUT resource records provide expiry times for a mixed variety of resource record types with the same owner name, type, and class. Since there could exist multiple records of the same record type with the same owner name and class, the TIMEOUT resource record must be able to identify each of these records individually with only different RDATA. As an example, PTR records for service discovery <xref target="RFC6763"/> provide a level of indirection to SRV and TXT records by instance name. The instance name is stored in the PTR RDATA and multiple PTR records with the same owner name and only differing RDATA often exist.</t>
@@ -190,9 +201,9 @@
          <t>The method identifier of 1 is defined as <spanx style="verb">MD-SHA256-128</spanx>. Following the expiry time is a list of 128-bit values. Each of these values is the first 128-bits of a message digest of the RDATA of a represented record in canonical DNSSEC form calculated using the 256-bit SHA-256 hash algorithm defined in <xref target="FIPS180-4"/>. The canonical DNSSEC form is described in Section 6 of <xref target="RFC4034"/>. The input length of RDATA for the message digest is the RDLEN of the represented record.</t>
        </section>
      </section>
-     <section title="Expiry Time">
+     <section title="Expiry Time" anchor="expiry">
        <t>The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire. An absolute time is necessary so the TIMEOUT records do not have to change during zone transfers.</t>
-       <t>There are circumstances when a relative expiry time would be convenient due to limited resources for clock synchronization in constrained devices. In this case, DNS UPDATE messages should not contain precomputed TIMEOUT records but convey the relative expiry time using the EDNS(0) Lease Lifetime Option defined in <xref target="I-D.sekar-dns-ul"/>. The relative time is then converted to an absolute expiry time when received by the primary server which will create the TIMEOUT resource records.</t>
+       <t>There are circumstances when a relative expiry time would be convenient due to limited resources for clock synchronization in constrained devices. In this case, DNS UPDATE messages should not contain precomputed TIMEOUT records but convey the relative expiry time using the EDNS(0) Update Lease Option defined in <xref target="I-D.sekar-dns-ul"/>. The relative time is then converted to an absolute expiry time when received by the primary server which will create the TIMEOUT resource records.</t>
      </section>
    </section>
    <section title="TIMEOUT RDATA Wire Format">
@@ -339,7 +350,7 @@
    </section>
 
    <section anchor="Acknowledgments" title="Acknowledgments">
-     <t>This idea was motivated through conversations with Mark Andrews. Thanks to Mark as well as Paul Vixie, Joe Abley, Ted Lemon, Tony Finch, Robert Story, Paul Wouters, Dick Franks, JINMEI, Tatuya, and Timothe Litt for their suggestions, review, and comments.</t>
+     <t>This idea was motivated through conversations with Mark Andrews. Thanks to Mark as well as Paul Vixie, Joe Abley, Ted Lemon, Tony Finch, Robert Story, Paul Wouters, Dick Franks, JINMEI, Tatuya, Timothe Litt, and Stuart Cheshire for their suggestions, review, and comments.</t>
    </section>
  </middle>
 
