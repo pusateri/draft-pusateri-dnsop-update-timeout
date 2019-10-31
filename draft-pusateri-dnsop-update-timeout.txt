@@ -2,10 +2,10 @@
 
 
 
-Internet Engineering Task Force                              T. Pusateri
+Internet Engineering Task Force                            T.J. Pusateri
 Internet-Draft                                             T. Wattenberg
 Intended status: Standards Track                            Unaffiliated
-Expires: May 3, 2020                                    October 31, 2019
+Expires: 3 May 2020                                      31 October 2019
 
 
                       DNS TIMEOUT Resource Record
@@ -34,7 +34,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on May 3, 2020.
+   This Internet-Draft will expire on 3 May 2020.
 
 Copyright Notice
 
@@ -42,18 +42,18 @@ Copyright Notice
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
-   Provisions Relating to IETF Documents
-   (https://trustee.ietf.org/license-info) in effect on the date of
-   publication of this document.  Please review these documents
-   carefully, as they describe your rights and restrictions with respect
-   to this document.  Code Components extracted from this document must
-   include Simplified BSD License text as described in Section 4.e of
-   the Trust Legal Provisions and are provided without warranty as
-   described in the Simplified BSD License.
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Simplified BSD License text
+   as described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Simplified BSD License.
 
 
 
-Pusateri & Wattenberg      Expires May 3, 2020                  [Page 1]
+
+Pusateri & Wattenberg      Expires 3 May 2020                   [Page 1]
 
 Internet-Draft           TIMEOUT Resource Record            October 2019
 
@@ -72,7 +72,7 @@ Table of Contents
      5.3.  Method Identifiers  . . . . . . . . . . . . . . . . . . .   7
        5.3.1.  Method Identifier 0: NO METHOD  . . . . . . . . . . .   7
        5.3.2.  Method Identifier 1: MD-SHA256-128  . . . . . . . . .   7
-     5.4.  Expiry Time . . . . . . . . . . . . . . . . . . . . . . .   7
+     5.4.  Expiry Time . . . . . . . . . . . . . . . . . . . . . . .   8
    6.  TIMEOUT RDATA Wire Format . . . . . . . . . . . . . . . . . .   8
    7.  Server Behavior . . . . . . . . . . . . . . . . . . . . . . .   9
      7.1.  Primary Server Behavior . . . . . . . . . . . . . . . . .   9
@@ -86,7 +86,7 @@ Table of Contents
      12.2.  Informative References . . . . . . . . . . . . . . . . .  13
    Appendix A.  Example TIMEOUT resource records . . . . . . . . . .  14
    Appendix B.  Changelog  . . . . . . . . . . . . . . . . . . . . .  16
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  16
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  17
 
 1.  Introduction
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Pusateri & Wattenberg      Expires May 3, 2020                  [Page 2]
+Pusateri & Wattenberg      Expires 3 May 2020                   [Page 2]
 
 Internet-Draft           TIMEOUT Resource Record            October 2019
 
@@ -165,7 +165,7 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
 
 
 
-Pusateri & Wattenberg      Expires May 3, 2020                  [Page 3]
+Pusateri & Wattenberg      Expires 3 May 2020                   [Page 3]
 
 Internet-Draft           TIMEOUT Resource Record            October 2019
 
@@ -221,7 +221,7 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
 
 
 
-Pusateri & Wattenberg      Expires May 3, 2020                  [Page 4]
+Pusateri & Wattenberg      Expires 3 May 2020                   [Page 4]
 
 Internet-Draft           TIMEOUT Resource Record            October 2019
 
@@ -277,7 +277,7 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
 
 
 
-Pusateri & Wattenberg      Expires May 3, 2020                  [Page 5]
+Pusateri & Wattenberg      Expires 3 May 2020                   [Page 5]
 
 Internet-Draft           TIMEOUT Resource Record            October 2019
 
@@ -333,7 +333,7 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
 
 
 
-Pusateri & Wattenberg      Expires May 3, 2020                  [Page 6]
+Pusateri & Wattenberg      Expires 3 May 2020                   [Page 6]
 
 Internet-Draft           TIMEOUT Resource Record            October 2019
 
@@ -381,19 +381,24 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
    described in Section 6 of [RFC4034].  The input length of RDATA for
    the message digest is the RDLEN of the represented record.
 
+
+
+
+
+
+
+
+
+Pusateri & Wattenberg      Expires 3 May 2020                   [Page 7]
+
+Internet-Draft           TIMEOUT Resource Record            October 2019
+
+
 5.4.  Expiry Time
 
    The expiry time is a 64-bit number expressed as the number of seconds
    since the UNIX epoch (00:00:00 UTC on January 1, 1970).  This value
    is an absolute time at which the record will expire.  An absolute
-
-
-
-Pusateri & Wattenberg      Expires May 3, 2020                  [Page 7]
-
-Internet-Draft           TIMEOUT Resource Record            October 2019
-
-
    time is necessary so the TIMEOUT records do not have to change during
    zone transfers.
 
@@ -426,7 +431,7 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 
-                  Figure 1: Method (0) RDATA Wire Format
+                   Figure 1: Method (0) RDATA Wire Format
 
    Figure 1 represents the TIMEOUT RDATA field of all matching records
    of the represented type for the same owner name and class.
@@ -440,12 +445,7 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
 
 
 
-
-
-
-
-
-Pusateri & Wattenberg      Expires May 3, 2020                  [Page 8]
+Pusateri & Wattenberg      Expires 3 May 2020                   [Page 8]
 
 Internet-Draft           TIMEOUT Resource Record            October 2019
 
@@ -473,7 +473,7 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 
-              Figure 2: Method (1) MD-SHA256-128 Wire Format
+               Figure 2: Method (1) MD-SHA256-128 Wire Format
 
    Figure 2 represents an arbitrary number of represented records with
    the same owner name, class, and represented type.  For each expiry
@@ -501,7 +501,7 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
 
 
 
-Pusateri & Wattenberg      Expires May 3, 2020                  [Page 9]
+Pusateri & Wattenberg      Expires 3 May 2020                   [Page 9]
 
 Internet-Draft           TIMEOUT Resource Record            October 2019
 
@@ -553,16 +553,15 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
          unsigned decimal integer (0-255)
 
    Expiry Time:
+         The Expiry Time is displayed as a compact numeric-only
 
 
 
-
-Pusateri & Wattenberg      Expires May 3, 2020                 [Page 10]
+Pusateri & Wattenberg      Expires 3 May 2020                  [Page 10]
 
 Internet-Draft           TIMEOUT Resource Record            October 2019
 
 
-         The Expiry Time is displayed as a compact numeric-only
          representation of ISO 8601.  All punctuation is removed.  This
          form is slightly different than the recommendation in [RFC3339]
          but is common for DNS protocols.  It is defined in Section 3.2
@@ -570,10 +569,15 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
          be exactly 14 digits since no component is optional.
 
          YYYY is the year;
+
          MM is the month number (01-12);
+
          DD is the day of the month (01-31);
+
          HH is the hour, in 24 hour notation (00-23);
+
          mm is the minute (00-59); and
+
          SS is the second (00-60) where 60 is only possible as a leap
          second.
 
@@ -590,13 +594,13 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
    It is assigned out of the DNS Parameters Resource Record (RR) Type
    registry.  The value for the TIMEOUT resource record type is TBA.
 
-    +---------+-------------+----------------------------+------------+
-    |   Type  | Value       | Meaning                    | Definition |
-    +---------+-------------+----------------------------+------------+
-    | TIMEOUT | TBA         | expire represented records | Section 5  |
-    +---------+-------------+----------------------------+------------+
+       +---------+-------+----------------------------+------------+
+       |   Type  | Value | Meaning                    | Definition |
+       +=========+=======+============================+============+
+       | TIMEOUT | TBA   | expire represented records | Section 5  |
+       +---------+-------+----------------------------+------------+
 
-             Table 1: DNS Parameters Resource Record Registry
+              Table 1: DNS Parameters Resource Record Registry
 
    This document establishes a new registry of DNS TIMEOUT Resource
    Record Method Identifier values.  The registry shall include a
@@ -605,35 +609,34 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
    The identifier is to be used in the RDATA section of the TIMEOUT
    resource record.
 
-   Initially, there are two values defined in the registry.  Values from
-   240 (0xF0) through 255 (0xFF) are reserved for experimental use.
 
 
 
 
-
-
-Pusateri & Wattenberg      Expires May 3, 2020                 [Page 11]
+Pusateri & Wattenberg      Expires 3 May 2020                  [Page 11]
 
 Internet-Draft           TIMEOUT Resource Record            October 2019
 
 
-   +---------+---------------+--------------+----------+---------------+
-   |    ID   | Method Name   | Description  |  Length  | Definition    |
-   |         |               |              |  (bits)  |               |
-   +---------+---------------+--------------+----------+---------------+
-   |    0    | NO METHOD     | All records  |    0     | Section 5.3.1 |
-   |         |               | match        |          |               |
-   |    1    | MD-SHA256-128 | List of      | 128 bits | Section 5.3.2 |
-   |         |               | 128-bit      |          |               |
-   |         |               | hashes of    |          |               |
-   |         |               | represented  |          |               |
-   |         |               | records      |          |               |
-   |         |               | RDATA        |          |               |
-   | 240-255 | EXPERIMENTAL  | Reserved for | variable | Section 9     |
-   |         |               | Experimental |          |               |
-   |         |               | Use          |          |               |
-   +---------+---------------+--------------+----------+---------------+
+   Initially, there are two values defined in the registry.  Values from
+   240 (0xF0) through 255 (0xFF) are reserved for experimental use.
+
+   +---------+---------------+----------------+----------+------------+
+   |    ID   | Method Name   | Description    |  Length  | Definition |
+   |         |               |                |  (bits)  |            |
+   +=========+===============+================+==========+============+
+   |    0    | NO METHOD     | All records    |    0     | Section    |
+   |         |               | match          |          | 5.3.1      |
+   +---------+---------------+----------------+----------+------------+
+   |    1    | MD-SHA256-128 | List of        | 128 bits | Section    |
+   |         |               | 128-bit hashes |          | 5.3.2      |
+   |         |               | of represented |          |            |
+   |         |               | records RDATA  |          |            |
+   +---------+---------------+----------------+----------+------------+
+   | 240-255 | EXPERIMENTAL  | Reserved for   | variable | Section 9  |
+   |         |               | Experimental   |          |            |
+   |         |               | Use            |          |            |
+   +---------+---------------+----------------+----------+------------+
 
                Table 2: TIMEOUT RR Method Identifier values
 
@@ -663,18 +666,19 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
    [FIPS180-4]
               National Institute of Standards and Technology, U.S.
               Department of Commerce, "Secure Hash Standard (SHS) FIPS
-              180-4", August 2015,
-              <http://nvlpubs.nist.gov/nistpubs/FIPS/
-              NIST.FIPS.180-4.pdf>.
 
 
 
-Pusateri & Wattenberg      Expires May 3, 2020                 [Page 12]
+Pusateri & Wattenberg      Expires 3 May 2020                  [Page 12]
 
 Internet-Draft           TIMEOUT Resource Record            October 2019
 
 
-   [RFC1035]  Mockapetris, P., "Domain names - implementation and
+              180-4", August 2015,
+              <http://nvlpubs.nist.gov/nistpubs/FIPS/
+              NIST.FIPS.180-4.pdf>.
+
+   [RFC1035]  Mockapetris, P.V., "Domain names - implementation and
               specification", STD 13, RFC 1035, DOI 10.17487/RFC1035,
               November 1987, <https://www.rfc-editor.org/info/rfc1035>.
 
@@ -708,7 +712,9 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
 
    [I-D.sekar-dns-ul]
               Cheshire, S. and T. Lemon, "Dynamic DNS Update Leases",
-              draft-sekar-dns-ul-02 (work in progress), August 2018.
+              Work in Progress, Internet-Draft, draft-sekar-dns-ul-02, 2
+              August 2018, <http://www.ietf.org/internet-drafts/draft-
+              sekar-dns-ul-02.txt>.
 
    [RFC1995]  Ohta, M., "Incremental Zone Transfer in DNS", RFC 1995,
               DOI 10.17487/RFC1995, August 1996,
@@ -716,19 +722,20 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
 
    [RFC2136]  Vixie, P., Ed., Thomson, S., Rekhter, Y., and J. Bound,
               "Dynamic Updates in the Domain Name System (DNS UPDATE)",
+
+
+
+Pusateri & Wattenberg      Expires 3 May 2020                  [Page 13]
+
+Internet-Draft           TIMEOUT Resource Record            October 2019
+
+
               RFC 2136, DOI 10.17487/RFC2136, April 1997,
               <https://www.rfc-editor.org/info/rfc2136>.
 
    [RFC5936]  Lewis, E. and A. Hoenes, Ed., "DNS Zone Transfer Protocol
               (AXFR)", RFC 5936, DOI 10.17487/RFC5936, June 2010,
               <https://www.rfc-editor.org/info/rfc5936>.
-
-
-
-Pusateri & Wattenberg      Expires May 3, 2020                 [Page 13]
-
-Internet-Draft           TIMEOUT Resource Record            October 2019
-
 
    [RFC6698]  Hoffman, P. and J. Schlyter, "The DNS-Based Authentication
               of Named Entities (DANE) Transport Layer Security (TLS)
@@ -754,50 +761,49 @@ Appendix A.  Example TIMEOUT resource records
    records with lease lifetime Ln would have a series of UPDATEs (one
    for each zone) that contain:
 
-   +-------------------------------------------+------+----------------+
-   | Name                                      | RR   | Value          |
-   |                                           | Type |                |
-   +-------------------------------------------+------+----------------+
-   | s.example.com.                            | A    | 192.0.2.5      |
-   | s.example.com.                            | AAAA | 2001:db8::5    |
-   | 5.2.0.192.in-addr.arpa.                   | PTR  | s.example.com. |
-   | 5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.01.20.ip6.a | PTR  | s.example.com. |
-   | rpa. (bytes)                              |      |                |
-   +-------------------------------------------+------+----------------+
+   +-----------------------------------------------+----+--------------+
+   | Name                                          | RR | Value        |
+   |                                               |Type|              |
+   +===============================================+====+==============+
+   | s.example.com.                                | A  | 192.0.2.5    |
+   +-----------------------------------------------+----+--------------+
+   | s.example.com.                                |AAAA| 2001:db8::5  |
+   +-----------------------------------------------+----+--------------+
+   | 5.2.0.192.in-addr.arpa.                       |PTR |s.example.com.|
+   +-----------------------------------------------+----+--------------+
+   | 5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.01.20.ip6.arpa. |PTR |s.example.com.|
+   | (bytes)                                       |    |              |
+   +-----------------------------------------------+----+--------------+
 
                   Table 3: Example Address Records Update
 
-   Next, consider the TIMEOUT resource records that would be generated
-   for the records in Table 3.
 
 
 
 
-
-
-
-
-
-
-
-
-Pusateri & Wattenberg      Expires May 3, 2020                 [Page 14]
+Pusateri & Wattenberg      Expires 3 May 2020                  [Page 14]
 
 Internet-Draft           TIMEOUT Resource Record            October 2019
 
 
-   +------------------------------+------+-------+--------+------------+
-   | Owner Name                   | For  | Count | Method | Expiration |
-   |                              | Type |       |        |            |
-   +------------------------------+------+-------+--------+------------+
-   | s.example.com.               | A    | 0     | 0      | Tn + Ln    |
-   | s.example.com.               | AAAA | 0     | 0      | Tn + Ln    |
-   | 5.2.0.192.in-addr.arpa.      | PTR  | 0     | 0      | Tn + Ln    |
-   | 5.0.0.0.0.0.0.0.0.0.0.0.b8.0 | PTR  | 0     | 0      | Tn + Ln    |
-   | d.01.20.ip6.arpa. (bytes)    |      |       |        |            |
-   +------------------------------+------+-------+--------+------------+
+   Next, consider the TIMEOUT resource records that would be generated
+   for the records in Table 3.
 
-                     Table 4: Address TIMEOUT records
+   +---------------------------------------------+----+-----+------+----------+
+   | Owner Name                                  |For |Count|Method|Expiration|
+   |                                             |Type|     |      |          |
+   +=============================================+====+=====+======+==========+
+   | s.example.com.                              | A  | 0   | 0    | Tn + Ln  |
+   +---------------------------------------------+----+-----+------+----------+
+   | s.example.com.                              |AAAA| 0   | 0    | Tn + Ln  |
+   +---------------------------------------------+----+-----+------+----------+
+   | 5.2.0.192.in-addr.arpa.                     |PTR | 0   | 0    | Tn + Ln  |
+   +---------------------------------------------+----+-----+------+----------+
+   |5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.01.20.ip6.arpa.|PTR | 0   | 0    | Tn + Ln  |
+   | (bytes)                                     |    |     |      |          |
+   +---------------------------------------------+----+-----+------+----------+
+
+                      Table 4: Address TIMEOUT records
 
    Next, assume there are two hosts advertising the same service type
    (different service types will have different owner names).  We will
@@ -807,101 +813,113 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
    AAAA, and TXT records.  Host B sends an UPDATE at time Tb with lease
    life Lb for PTR, SRV, A, and TXT records.
 
-   +--------------------------------+------+---------------------------+
-   | Owner name                     | RR   | Value                     |
-   |                                | Type |                           |
-   +--------------------------------+------+---------------------------+
-   | _ipp._tcp.example.com.         | PTR  | p1._ipp._tcp.example.com. |
-   | p1._ipp._tcp.example.com.      | SRV  | 0 0 631 p1.example.com.   |
-   | p1._ipp._tcp.example.com.      | TXT  | paper=A4                  |
-   | p1.example.com.                | A    | 192.0.2.1                 |
-   | p1.example.com.                | AAAA | 2001:db8::1               |
-   +--------------------------------+------+---------------------------+
+    +---------------------------+---------+---------------------------+
+    | Owner name                | RR Type | Value                     |
+    +===========================+=========+===========================+
+    | _ipp._tcp.example.com.    | PTR     | p1._ipp._tcp.example.com. |
+    +---------------------------+---------+---------------------------+
+    | p1._ipp._tcp.example.com. | SRV     | 0 0 631 p1.example.com.   |
+    +---------------------------+---------+---------------------------+
+    | p1._ipp._tcp.example.com. | TXT     | paper=A4                  |
+    +---------------------------+---------+---------------------------+
+    | p1.example.com.           | A       | 192.0.2.1                 |
+    +---------------------------+---------+---------------------------+
+    | p1.example.com.           | AAAA    | 2001:db8::1               |
+    +---------------------------+---------+---------------------------+
 
                       Table 5: DNS UPDATE from Host A
 
-   +--------------------------------+------+---------------------------+
-   | Owner name                     | RR   | Value                     |
-   |                                | Type |                           |
-   +--------------------------------+------+---------------------------+
-   | _ipp._tcp.example.com.         | PTR  | p2._ipp._tcp.example.com. |
-   | p2._ipp._tcp.example.com.      | SRV  | 0 0 631 p2.example.com.   |
-   | p2._ipp._tcp.example.com.      | TXT  | paper=B4                  |
-   | p2.example.com.                | A    | 192.0.2.2                 |
-   +--------------------------------+------+---------------------------+
+
+
+
+
+
+
+
+
+Pusateri & Wattenberg      Expires 3 May 2020                  [Page 15]
+
+Internet-Draft           TIMEOUT Resource Record            October 2019
+
+
+    +---------------------------+---------+---------------------------+
+    | Owner name                | RR Type | Value                     |
+    +===========================+=========+===========================+
+    | _ipp._tcp.example.com.    | PTR     | p2._ipp._tcp.example.com. |
+    +---------------------------+---------+---------------------------+
+    | p2._ipp._tcp.example.com. | SRV     | 0 0 631 p2.example.com.   |
+    +---------------------------+---------+---------------------------+
+    | p2._ipp._tcp.example.com. | TXT     | paper=B4                  |
+    +---------------------------+---------+---------------------------+
+    | p2.example.com.           | A       | 192.0.2.2                 |
+    +---------------------------+---------+---------------------------+
 
                       Table 6: DNS UPDATE from Host B
 
    For these printer registrations, the TIMEOUT records on the server
    would look like the following:
 
+   +-------------------------+----+-----+------+-------------------------+
+   | Owner Name              |For |Count|Method| Expire / RDLEN RDATA    |
+   |                         |Type|     |      |                         |
+   +=========================+====+=====+======+=========================+
+   | _ipp.tcp.example.com.   |PTR | 1   | 1    | Ta + La 25              |
+   |                         |    |     |      |p1._ipp._tcp.example.com.|
+   +-------------------------+----+-----+------+-------------------------+
+   | _ipp.tcp.example.com.   |PTR | 1   | 1    | Tb + Lb 25              |
+   |                         |    |     |      |p2._ipp._tcp.example.com.|
+   +-------------------------+----+-----+------+-------------------------+
+   |p1._ipp._tcp.example.com.|SRV | 0   | 0    | Ta + La                 |
+   +-------------------------+----+-----+------+-------------------------+
+   |p1._ipp._tcp.example.com.|TXT | 0   | 0    | Ta + La                 |
+   +-------------------------+----+-----+------+-------------------------+
+   |p2._ipp._tcp.example.com.|SRV | 0   | 0    | Tb + Lb                 |
+   +-------------------------+----+-----+------+-------------------------+
+   |p2._ipp._tcp.example.com.|TXT | 0   | 0    | Tb + Lb                 |
+   +-------------------------+----+-----+------+-------------------------+
+   | p1.example.com.         | A  | 0   | 0    | Ta + La                 |
+   +-------------------------+----+-----+------+-------------------------+
+   | p1.example.com.         |AAAA| 0   | 0    | Ta + La                 |
+   +-------------------------+----+-----+------+-------------------------+
+   | p2.example.com.         | A  | 0   | 0    | Tb + Lb                 |
+   +-------------------------+----+-----+------+-------------------------+
 
-
-Pusateri & Wattenberg      Expires May 3, 2020                 [Page 15]
-
-Internet-Draft           TIMEOUT Resource Record            October 2019
-
-
-   +---------------------------+------+---+-----+----------------------+
-   | Owner Name                | For  | C | Met | Expire /             |
-   |                           | Type | o | hod | RDLEN RDATA          |
-   |                           |      | u |     |                      |
-   |                           |      | n |     |                      |
-   |                           |      | t |     |                      |
-   +---------------------------+------+---+-----+----------------------+
-   | _ipp.tcp.example.com.     | PTR  | 1 | 1   | Ta + La 25 p1._ipp._ |
-   |                           |      |   |     | tcp.example.com.     |
-   | _ipp.tcp.example.com.     | PTR  | 1 | 1   | Tb + Lb 25 p2._ipp._ |
-   |                           |      |   |     | tcp.example.com.     |
-   | p1._ipp._tcp.example.com. | SRV  | 0 | 0   | Ta + La              |
-   | p1._ipp._tcp.example.com. | TXT  | 0 | 0   | Ta + La              |
-   | p2._ipp._tcp.example.com. | SRV  | 0 | 0   | Tb + Lb              |
-   | p2._ipp._tcp.example.com. | TXT  | 0 | 0   | Tb + Lb              |
-   | p1.example.com.           | A    | 0 | 0   | Ta + La              |
-   | p1.example.com.           | AAAA | 0 | 0   | Ta + La              |
-   | p2.example.com.           | A    | 0 | 0   | Tb + Lb              |
-   +---------------------------+------+---+-----+----------------------+
-
-                     Table 7: Service TIMEOUT records
+                      Table 7: Service TIMEOUT records
 
 Appendix B.  Changelog
 
    [RFC Editor: Please remove this section before publication]
 
-   From -03 to -04:
-
-   o  Clarified that there can't be TIMEOUTs with No Method/No Count
-      (NMNC) and Some Method/Some Count (SMSC) at the same time.
-
-   o  Reverted to message digest of RDATA to solve problems with zone
-      files.
-
-   o  Clarified why TIMEOUT has absolute expriry times and made a better
-      case to use [I-D.sekar-dns-ul] when relative time is needed.
-
-   o  Reworked IANA section.
-
-   o  Clarify language around references as suggested by Stuart
-      Cheshire.
-
-Authors' Addresses
 
 
 
-
-
-
-
-
-Pusateri & Wattenberg      Expires May 3, 2020                 [Page 16]
+Pusateri & Wattenberg      Expires 3 May 2020                  [Page 16]
 
 Internet-Draft           TIMEOUT Resource Record            October 2019
 
 
+   From -03 to -04:
+
+   *  Clarified that there can't be TIMEOUTs with No Method/No Count
+      (NMNC) and Some Method/Some Count (SMSC) at the same time.
+
+   *  Reverted to message digest of RDATA to solve problems with zone
+      files.
+
+   *  Clarified why TIMEOUT has absolute expriry times and made a better
+      case to use [I-D.sekar-dns-ul] when relative time is needed.
+
+   *  Reworked IANA section.
+
+   *  Clarify language around references as suggested by Stuart
+      Cheshire.
+
+Authors' Addresses
+
    Tom Pusateri
    Unaffiliated
    Raleigh, NC
-   USA
+   United States of America
 
    Email: pusateri@bangj.com
 
@@ -931,22 +949,4 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Pusateri & Wattenberg      Expires May 3, 2020                 [Page 17]
+Pusateri & Wattenberg      Expires 3 May 2020                  [Page 17]

@@ -1,26 +1,7 @@
-<?xml version="1.0" encoding="US-ASCII"?>
+<?xml version='1.0' encoding='utf-8'?>
 <!-- This template is for creating an Internet Draft using xml2rfc,
     which is available here: http://xml.resource.org. -->
-<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
-<!-- One method to get references from the online citation libraries.
-    There has to be one entity for each item to be referenced. 
-    An alternate method (rfc include) is described in the references. -->
-
-<!ENTITY RFC1035 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.1035.xml">
-<!ENTITY RFC1995 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.1995.xml">
-<!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
-<!ENTITY RFC2136 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2136.xml">
-<!ENTITY RFC3339 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339.xml">
-<!ENTITY RFC3597 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3597.xml">
-<!ENTITY RFC4034 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4034.xml">
-<!ENTITY RFC5936 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5936.xml">
-<!ENTITY RFC6698 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6698.xml">
-<!ENTITY RFC6763 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6763.xml">
-<!ENTITY RFC6895 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6895.xml">
-<!ENTITY RFC8174 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.8174.xml">
-<!ENTITY RFC8555 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.8555.xml">
-<!ENTITY I-D.sekar-dns-ul SYSTEM  "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.sekar-dns-ul.xml">
-]>
+<!DOCTYPE rfc SYSTEM "rfc2629-xhtml.ent">
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 <!-- used by XSLT processors -->
 <!-- For a complete list and description of processing instructions (PIs), 
@@ -46,172 +27,164 @@
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of list of popular I-D processing instructions -->
-<rfc category="std" docName="draft-pusateri-dnsop-update-timeout-04" ipr="trust200902">
- <!-- category values: std, bcp, info, exp, and historic
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="std" docName="draft-pusateri-dnsop-update-timeout-04" ipr="trust200902" obsoletes="" updates="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" sortRefs="true" version="3">
+  <!-- xml2rfc v2v3 conversion 2.34.0 -->
+  <!-- category values: std, bcp, info, exp, and historic
     ipr values: trust200902, noModificationTrust200902, noDerivativesTrust200902,
        or pre5378Trust200902
     you can add the attributes updates="NNNN" and obsoletes="NNNN" 
     they will automatically be output with "(if approved)" -->
-
- <!-- ***** FRONT MATTER ***** -->
-
- <front>
-   <!-- The abbreviated title is used in the page header - it is only necessary if the 
+  <!-- ***** FRONT MATTER ***** -->
+  <front>
+    <!-- The abbreviated title is used in the page header - it is only necessary if the 
         full title is longer than 39 characters -->
-
-   <title abbrev="TIMEOUT Resource Record">DNS TIMEOUT Resource Record</title>
-
-   <!-- add 'role="editor"' below for the editors if appropriate -->
-
-   <!-- Another author who claims to be an editor -->
-
-   <author fullname="Tom Pusateri" initials="T.J." surname="Pusateri">
-     <organization>Unaffiliated</organization>
-
-     <address>
-       <postal>
-         <street></street>
-         <city>Raleigh</city>
-         <region>NC</region>
-         <code></code>
-         <country>USA</country>
-       </postal>
-
-       <email>pusateri@bangj.com</email>
-
-       <!-- uri and facsimile elements may also be added -->
-     </address>
-   </author>
-   <author fullname="Tim Wattenberg" initials="T." surname="Wattenberg">
-     <organization>Unaffiliated</organization>
-
-     <address>
-       <postal>
-         <street></street>
-         <city>Cologne</city>
-         <country>Germany</country>
-       </postal>
-
-       <email>mail@timwattenberg.de</email>
-
-       <!-- uri and facsimile elements may also be added -->
-     </address>
-   </author>
-
-   <date year="2019"/>
-
-   <!-- If the month and year are both specified and are the current ones, xml2rfc will fill 
+    <title abbrev="TIMEOUT Resource Record">DNS TIMEOUT Resource Record</title>
+    <seriesInfo name="Internet-Draft" value="draft-pusateri-dnsop-update-timeout-04"/>
+    <!-- add 'role="editor"' below for the editors if appropriate -->
+    <!-- Another author who claims to be an editor -->
+    <author fullname="Tom Pusateri" initials="T.J." surname="Pusateri">
+      <organization>Unaffiliated</organization>
+      <address>
+        <postal>
+          <street/>
+          <city>Raleigh</city>
+          <region>NC</region>
+          <code/>
+          <country>USA</country>
+        </postal>
+        <email>pusateri@bangj.com</email>
+        <!-- uri and facsimile elements may also be added -->
+      </address>
+    </author>
+    <author fullname="Tim Wattenberg" initials="T." surname="Wattenberg">
+      <organization>Unaffiliated</organization>
+      <address>
+        <postal>
+          <street/>
+          <city>Cologne</city>
+          <country>Germany</country>
+        </postal>
+        <email>mail@timwattenberg.de</email>
+        <!-- uri and facsimile elements may also be added -->
+      </address>
+    </author>
+    <date year="2019"/>
+    <!-- If the month and year are both specified and are the current ones, xml2rfc will fill 
         in the current day for you. If only the current year is specified, xml2rfc will fill 
 	 in the current day and month for you. If the year is not the current one, it is 
 	 necessary to specify at least a month (xml2rfc assumes day="1" if not specified for the 
 	 purpose of calculating the expiry date).  With drafts it is normally sufficient to 
 	 specify just the year. -->
-
-   <!-- Meta-data Declarations -->
-
-   <area>DNSOP</area>
-
-   <workgroup>Internet Engineering Task Force</workgroup>
-
-   <!-- WG name at the upperleft corner of the doc,
+    <!-- Meta-data Declarations -->
+    <area>DNSOP</area>
+    <workgroup>Internet Engineering Task Force</workgroup>
+    <!-- WG name at the upperleft corner of the doc,
         IETF is fine for individual submissions.  
 	 If this element is not present, the default is "Network Working Group",
         which is used by the RFC Editor as a nod to the history of the IETF. -->
-
-   <keyword>dns update timeout</keyword>
-
-   <!-- Keywords will be incorporated into HTML output
+    <keyword>dns update timeout</keyword>
+    <!-- Keywords will be incorporated into HTML output
         files in a meta tag but they have no effect on text or nroff
         output. If you submit your draft to the RFC Editor, the
         keywords will be used for the search engine. -->
-
-   <abstract>
-	   <t>This specification defines a new DNS TIMEOUT resource record (RR) that associates a lifetime with one or more zone resource records. It is intended to be used to transfer resource record lifetime state between a zone's primary and secondary servers and to store lifetime state during server software restarts.</t>
-   </abstract>
- </front>
-
- <middle>
-   <section title="Introduction">
-	   <t>DNS Update <xref target="RFC2136"/> provides a mechanism to dynamically add/remove DNS resource records to/from a zone. When a resource record is dynamically added, it remains in the zone until it is removed manually or via a subsequent DNS Update. The context of a dynamic update may provide lifetime hints for the updated records (such as the EDNS(0) Update Lease option <xref target="I-D.sekar-dns-ul"/>), however, this lifetime is not communicated to secondary servers and will not necessarily endure through server software restarts. This specification defines a new DNS TIMEOUT resource record that associates lifetimes with one or more resource records with the same owner name, type, and class that can be transferred to secondary servers through normal AXFR <xref target="RFC5936"/>, IXFR <xref target="RFC1995"/> transfer mechanisms.</t>
-     <t>An UPDATE lifetime could be stored in a proprietary database on an authoritative primary server but there is an advantage to saving it as a resource record: redundant master servers and secondary servers capable of taking over as the primary server for a zone automatically can benefit from the existing database synchronization of resource records. In addition, primary and secondary servers from multiple vendors can synchronize the lifetimes through the open format provided by a resource record.</t>
-     <t>TIMEOUT records can be installed via policy by a primary server, manually, or via an external UPDATE from a client. If TIMEOUT records are being managed by an UPDATE client, the client should be aware of server software policy with respect to TIMEOUT records to prevent the TIMEOUT records from being rejected. The primary server has ultimate responsibility for the records in the database and the client must work within the restrictions of the policy of the primary server.</t>
-     <t>TIMEOUT records can be thought of as a universal method for removing stale dynamic DNS records. Clients such as DHCP servers who best know the lease lifetimes can include individual TIMEOUT records in the dynamic UPDATE messages specific for each lease lifetime. These TIMEOUT records can be refreshed when the lease is refreshed and will timeout the A, AAAA, and PTR records if they are not refreshed by the DHCP server. Additional use cases include service discovery resource records installed in unicast DNS servers via UPDATE described in <xref target="RFC6763"/>, Active Directory Controllers publishing SRV records, DNS TXT resource records supporting ACME certificate management challenges as described in Section 8.4 of <xref target="RFC8555"/>, and the limited lifetime certificate representations produced by ACME that are stored in DANE TLSA resource records <xref target="RFC6698"/>.</t>
-   </section>
-   <section title="Requirements Language">
-     <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+    <abstract>
+      <t>This specification defines a new DNS TIMEOUT resource record (RR) that associates a lifetime with one or more zone resource records. It is intended to be used to transfer resource record lifetime state between a zone's primary and secondary servers and to store lifetime state during server software restarts.</t>
+    </abstract>
+  </front>
+  <middle>
+    <section numbered="true" toc="default">
+      <name>Introduction</name>
+      <t>DNS Update <xref target="RFC2136" format="default"/> provides a mechanism to dynamically add/remove DNS resource records to/from a zone. When a resource record is dynamically added, it remains in the zone until it is removed manually or via a subsequent DNS Update. The context of a dynamic update may provide lifetime hints for the updated records (such as the EDNS(0) Update Lease option <xref target="I-D.sekar-dns-ul" format="default"/>), however, this lifetime is not communicated to secondary servers and will not necessarily endure through server software restarts. This specification defines a new DNS TIMEOUT resource record that associates lifetimes with one or more resource records with the same owner name, type, and class that can be transferred to secondary servers through normal AXFR <xref target="RFC5936" format="default"/>, IXFR <xref target="RFC1995" format="default"/> transfer mechanisms.</t>
+      <t>An UPDATE lifetime could be stored in a proprietary database on an authoritative primary server but there is an advantage to saving it as a resource record: redundant master servers and secondary servers capable of taking over as the primary server for a zone automatically can benefit from the existing database synchronization of resource records. In addition, primary and secondary servers from multiple vendors can synchronize the lifetimes through the open format provided by a resource record.</t>
+      <t>TIMEOUT records can be installed via policy by a primary server, manually, or via an external UPDATE from a client. If TIMEOUT records are being managed by an UPDATE client, the client should be aware of server software policy with respect to TIMEOUT records to prevent the TIMEOUT records from being rejected. The primary server has ultimate responsibility for the records in the database and the client must work within the restrictions of the policy of the primary server.</t>
+      <t>TIMEOUT records can be thought of as a universal method for removing stale dynamic DNS records. Clients such as DHCP servers who best know the lease lifetimes can include individual TIMEOUT records in the dynamic UPDATE messages specific for each lease lifetime. These TIMEOUT records can be refreshed when the lease is refreshed and will timeout the A, AAAA, and PTR records if they are not refreshed by the DHCP server. Additional use cases include service discovery resource records installed in unicast DNS servers via UPDATE described in <xref target="RFC6763" format="default"/>, Active Directory Controllers publishing SRV records, DNS TXT resource records supporting ACME certificate management challenges as described in Section 8.4 of <xref target="RFC8555" format="default"/>, and the limited lifetime certificate representations produced by ACME that are stored in DANE TLSA resource records <xref target="RFC6698" format="default"/>.</t>
+    </section>
+    <section numbered="true" toc="default">
+      <name>Requirements Language</name>
+      <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
    "OPTIONAL" in this document are to be interpreted as described in
-   BCP 14 <xref target="RFC2119"/> <xref target="RFC8174"/> when,
+   BCP 14 <xref target="RFC2119" format="default"/> <xref target="RFC8174" format="default"/> when,
    and only when, they appear in all
    capitals, as shown here.  These words may also appear in this
    document in lower case as plain English words, absent their normative
    meanings.</t>
-   </section>
-   <section title="Sources of TIMEOUT Expiry Time">
-     <t>The expire time may come from many different sources. A few are listed here however, this list is not considered complete. TIMEOUT records may be included along side the records they represent in the UPDATE message or they be synthesized by the primary server receiving the UPDATE.
-       <list style="numbers">
-         <t>Via DHCP Lease Lifetimes.</t>
-         <t>Via EDNS(0) Update Lease option <xref target="I-D.sekar-dns-ul"/> communicated in DNS Update.</t>
-         <t>Via an administrative default value such as one day (86400 seconds).</t>
-       </list>
-     </t>
-   </section>
-   <section title="Common Usage Patterns">
-     <t>TIMEOUT resource records are just one tool in the toolbox for cleaning up stale resource records. They provide a failsafe in case other mechansims meant to clean up records fail. It might be useful to think of them similar to Garbage Collection (GC) or Automatic Reference Counting (ARC) used by programming languages for memory management. The model in which the TIMEOUT resource records are used depends on the support provided for them by the primary DNS server.</t>
-     <t>As it cannot be presumed that all primary authoritative servers will manage TIMEOUT resource records internally, an external management of the TIMEOUT records and the resource records they represent might be necessary. The client may perform external management of TIMEOUT records it creates through an UPDATE or a third party with appropriate permission may manage the records.</t>
-     <t>If the primary server understands TIMEOUT records and manages them based on resource record updates, it will likely know when to remove the resource records referenced by the TIMEOUT records. This is similar to ARC.</t>
-     <t>If the primary server does not understand TIMEOUT records, then an external manager (client) will need to use DNS UPDATE to add/remove TIMEOUT records and the resource records they reference. Garbage Collectors run periodically looking for memory no longer being used to reclaim. In a similar way, external TIMEOUT record managers need to periodically scan the TIMEOUT records and send DNS UPDATE messages to add/remove records when the server doesn't manage them automatically.</t>
-     <t>It should be noted that similar to many instances of Garbage Collection, the precision with which TIMEOUT records and the resource records they reference are removed is not critical. Gross timers and/or scanning mechanisms are perfectly appropriate and should not consume additional resources for the purpose of being precise. As described in <xref target="expiry"/> below, expiry times use one second resolution.</t>
-     
-     <figure>
-       <artwork align="center">
-       <![CDATA[
+    </section>
+    <section numbered="true" toc="default">
+      <name>Sources of TIMEOUT Expiry Time</name>
+      <t>The expire time may come from many different sources. A few are listed here however, this list is not considered complete. TIMEOUT records may be included along side the records they represent in the UPDATE message or they be synthesized by the primary server receiving the UPDATE.
+      </t>
+      <ol spacing="normal" type="1">
+        <li>Via DHCP Lease Lifetimes.</li>
+        <li>Via EDNS(0) Update Lease option <xref target="I-D.sekar-dns-ul" format="default"/> communicated in DNS Update.</li>
+        <li>Via an administrative default value such as one day (86400 seconds).</li>
+      </ol>
+    </section>
+    <section numbered="true" toc="default">
+      <name>Common Usage Patterns</name>
+      <t>TIMEOUT resource records are just one tool in the toolbox for cleaning up stale resource records. They provide a failsafe in case other mechansims meant to clean up records fail. It might be useful to think of them similar to Garbage Collection (GC) or Automatic Reference Counting (ARC) used by programming languages for memory management. The model in which the TIMEOUT resource records are used depends on the support provided for them by the primary DNS server.</t>
+      <t>As it cannot be presumed that all primary authoritative servers will manage TIMEOUT resource records internally, an external management of the TIMEOUT records and the resource records they represent might be necessary. The client may perform external management of TIMEOUT records it creates through an UPDATE or a third party with appropriate permission may manage the records.</t>
+      <t>If the primary server understands TIMEOUT records and manages them based on resource record updates, it will likely know when to remove the resource records referenced by the TIMEOUT records. This is similar to ARC.</t>
+      <t>If the primary server does not understand TIMEOUT records, then an external manager (client) will need to use DNS UPDATE to add/remove TIMEOUT records and the resource records they reference. Garbage Collectors run periodically looking for memory no longer being used to reclaim. In a similar way, external TIMEOUT record managers need to periodically scan the TIMEOUT records and send DNS UPDATE messages to add/remove records when the server doesn't manage them automatically.</t>
+      <t>It should be noted that similar to many instances of Garbage Collection, the precision with which TIMEOUT records and the resource records they reference are removed is not critical. Gross timers and/or scanning mechanisms are perfectly appropriate and should not consume additional resources for the purpose of being precise. As described in <xref target="expiry" format="default"/> below, expiry times use one second resolution.</t>
+      <artwork align="center" name="" type="" alt=""><![CDATA[
+       
        picture of primary, secondary, manager, client here
-       ]]>
-       </artwork>
-     </figure>
-   <section title="TIMEOUT records vs. Update Leases">
-     <t>Each application will have to determine when it is better to use TIMEOUT resource records, EDNS(0) Update Lease options, or a combination of the two. In some cases, either will serve the same purpose. A differentiating factor is that TIMEOUT resource records use absolute time so that the records may be more easily synchronized across secondary servers whereas Update Leases are specified in relative time offsets.</t>
-     <t>If your primary DNS server supports TIMEOUT records directly, it may be simpler to just provide an Update Lease lifetime in the DNS UPDATE message that the server will use to create the TIMEOUT records internally. If your primary DNS server does not support TIMEOUT records and your application uses sources that have real-time clocks that are synchronized with standard time sources, TIMEOUT records are an available option to the client. However, if your clients are using low-cost hardware without real-time clocks, they should send Update Leases to the primary server or an intermediate proxy with a synchronized real-time clock.</t>
-   </section>
-   <section title="Testing for TIMEOUT">
-     <t>There is no more reliable mechanism to determine if the primary DNS server supports the management of TIMEOUT records than explicitly trying it. Before relying on a server to expire TIMEOUT records, the application should send test records and test if they are handled as expected. If the preferred mode of operation is not supported, another mode can be attempted. For example, if sending a DNS UPDATE with a EDNS(0) Update Lease of 1 second doesn't cause the record to be expired within 6 seconds (1 + 5 fuzz), then the application can try including a TIMEOUT record in the DNS UPDATE. If that doesn't automatically expire, TIMEOUT records will need to be managed externally.</t>
-   </section>
-   </section>
-   <section title="Resource Record Composition" anchor="definition">
-	    <t>TIMEOUT resource records provide expiry times for a mixed variety of resource record types with the same owner name, type, and class. Since there could exist multiple records of the same record type with the same owner name and class, the TIMEOUT resource record must be able to identify each of these records individually with only different RDATA. As an example, PTR records for service discovery <xref target="RFC6763"/> provide a level of indirection to SRV and TXT records by instance name. The instance name is stored in the PTR RDATA and multiple PTR records with the same owner name and only differing RDATA often exist.</t>
-	    <t>In order to distinguish each individual record with potentially different expiry times, the TIMEOUT resource record contains an expiry time, the record type, a method to identify the actual records for which the expiry time applies, and a count of the number of records represented. Multiple TIMEOUT records with the same owner name and class are created for each expiry time, record type, and resource record representation. If the expiry time is the same, multiple records can be combined into a single TIMEOUT record with the same owner name, class, and record type but this is not required.</t>
-     <t>The fields and their values in a TIMEOUT record are defined as:</t>
-     <section title="Represented Record Type">
-       <t>A 16-bit field containing the resource record type to which the TIMEOUT record applies. Multiple TIMEOUT records for the same owner name, class, and represented type can exist. Any resource record type can be specified in the Represented Record Type including another TIMEOUT record. This specification does not put any restrictions on the record type but implementations in authoritative servers will likely do so for policy and security reasons.</t>
-       <t>QTYPEs and Meta-TYPEs MUST NOT be used as the represented record type. For more information, refer to Section 3.1 of <xref target="RFC6895"/>.</t>
-     </section>
-     <section title="Represented Record Count">
-       <t>The Represented Record Count is a 8-bit value that specifies the number of records of the specified record type with this expiry time.</t>
-       <t>A count of zero indicates that it is not necessary to represent any records in the list. This is a shortcut notation meaning all resource records with the same owner name, class, and record type use the same Expiry Time. When the Represented Record Count is 0, the Method Identifer is set to NO METHOD (0) on transmission and ignored on reception. A primary server MUST NOT install a TIMEOUT record with No Method/No Count at the same time that a TIMEOUT record exists for the same owner name, class, and type with a non-zero record count. Either all records MUST match the No Method/No Count shorthand syntax or they MUST all be included in the list of matching records.</t>
-       <t>In the unlikely event that the Represented Record Count exceeds 255 which is the largest number representable in 8 bits, multiple instances of the same Expiry Time can exist.</t>
-     </section>
-     <section title="Method Identifiers">
-       <t>The Method Identifier is a 8-bit value that specifies an identifier for the algorithm used to distinguish between resource records. The identifiers are declared in a registry maintained by IANA for the purpose of listing acceptable methods for this purpose. In addition to the method and the index, the registry MAY contain a fixed output length in bits of the method to be used or the term <spanx style="verb">variable</spanx> to denote a variable length output per record. It is conceivable, though not likely, that the same method could be used with different fixed output lengths. In this case, each fixed output length would require a different identifier in the registry. Additions to this registry will be approved with additional documentation under expert review. At the time that the registry is created by IANA, a group of expert reviewers will be established.</t>
-       <t>Additional methods of representing records may be defined in the future. If such methods are defined, a primary server could create TIMEOUT record using a new method that is not understood by a secondary server that could take over as the primary in the event of an outage or administrative change. In this case, the new primary would not be able to identify the records it is supposed to TIMEOUT. This is a misconfiguration and it is the responsibility of the administrator to ensure that secondary servers in a position to become primary understand the TIMEOUT record methods of the primary server.</t>
-       <section title="Method Identifier 0: NO METHOD" anchor="nomethod">
-         <t>The method identifier of 0 is defined as <spanx style="verb">NO METHOD</spanx> and MUST NOT be used if the represented record count is greater than 0. The value of 0 is to be included in the IANA registry of method identifier values.</t>
-       </section>
-       <section title="Method Identifier 1: MD-SHA256-128" anchor="sha256method">
-         <t>The method identifier of 1 is defined as <spanx style="verb">MD-SHA256-128</spanx>. Following the expiry time is a list of 128-bit values. Each of these values is the first 128-bits of a message digest of the RDATA of a represented record in canonical DNSSEC form calculated using the 256-bit SHA-256 hash algorithm defined in <xref target="FIPS180-4"/>. The canonical DNSSEC form is described in Section 6 of <xref target="RFC4034"/>. The input length of RDATA for the message digest is the RDLEN of the represented record.</t>
-       </section>
-     </section>
-     <section title="Expiry Time" anchor="expiry">
-       <t>The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire. An absolute time is necessary so the TIMEOUT records do not have to change during zone transfers.</t>
-       <t>There are circumstances when a relative expiry time would be convenient due to limited resources for clock synchronization in constrained devices. In this case, DNS UPDATE messages should not contain precomputed TIMEOUT records but convey the relative expiry time using the EDNS(0) Update Lease Option defined in <xref target="I-D.sekar-dns-ul"/>. The relative time is then converted to an absolute expiry time when received by the primary server which will create the TIMEOUT resource records.</t>
-     </section>
-   </section>
-   <section title="TIMEOUT RDATA Wire Format">
-     <t>The TIMEOUT resource record follows the same pattern as other DNS resource records including owner name, type, class, TTL, RDATA length, and RDATA as defined in Section 3.2.1 of <xref target="RFC1035"/>.</t>
-     <t>The RDATA section of the resource record with method identifier NO METHOD (0) is illustrated in <xref target="rr_art_nomethod"/>:</t>
-     <figure align="center" anchor="rr_art_nomethod" title="Method (0) RDATA Wire Format">
-       <artwork align="center">
-       <![CDATA[
+       
+       ]]></artwork>
+      <section numbered="true" toc="default">
+        <name>TIMEOUT records vs. Update Leases</name>
+        <t>Each application will have to determine when it is better to use TIMEOUT resource records, EDNS(0) Update Lease options, or a combination of the two. In some cases, either will serve the same purpose. A differentiating factor is that TIMEOUT resource records use absolute time so that the records may be more easily synchronized across secondary servers whereas Update Leases are specified in relative time offsets.</t>
+        <t>If your primary DNS server supports TIMEOUT records directly, it may be simpler to just provide an Update Lease lifetime in the DNS UPDATE message that the server will use to create the TIMEOUT records internally. If your primary DNS server does not support TIMEOUT records and your application uses sources that have real-time clocks that are synchronized with standard time sources, TIMEOUT records are an available option to the client. However, if your clients are using low-cost hardware without real-time clocks, they should send Update Leases to the primary server or an intermediate proxy with a synchronized real-time clock.</t>
+      </section>
+      <section numbered="true" toc="default">
+        <name>Testing for TIMEOUT</name>
+        <t>There is no more reliable mechanism to determine if the primary DNS server supports the management of TIMEOUT records than explicitly trying it. Before relying on a server to expire TIMEOUT records, the application should send test records and test if they are handled as expected. If the preferred mode of operation is not supported, another mode can be attempted. For example, if sending a DNS UPDATE with a EDNS(0) Update Lease of 1 second doesn't cause the record to be expired within 6 seconds (1 + 5 fuzz), then the application can try including a TIMEOUT record in the DNS UPDATE. If that doesn't automatically expire, TIMEOUT records will need to be managed externally.</t>
+      </section>
+    </section>
+    <section anchor="definition" numbered="true" toc="default">
+      <name>Resource Record Composition</name>
+      <t>TIMEOUT resource records provide expiry times for a mixed variety of resource record types with the same owner name, type, and class. Since there could exist multiple records of the same record type with the same owner name and class, the TIMEOUT resource record must be able to identify each of these records individually with only different RDATA. As an example, PTR records for service discovery <xref target="RFC6763" format="default"/> provide a level of indirection to SRV and TXT records by instance name. The instance name is stored in the PTR RDATA and multiple PTR records with the same owner name and only differing RDATA often exist.</t>
+      <t>In order to distinguish each individual record with potentially different expiry times, the TIMEOUT resource record contains an expiry time, the record type, a method to identify the actual records for which the expiry time applies, and a count of the number of records represented. Multiple TIMEOUT records with the same owner name and class are created for each expiry time, record type, and resource record representation. If the expiry time is the same, multiple records can be combined into a single TIMEOUT record with the same owner name, class, and record type but this is not required.</t>
+      <t>The fields and their values in a TIMEOUT record are defined as:</t>
+      <section numbered="true" toc="default">
+        <name>Represented Record Type</name>
+        <t>A 16-bit field containing the resource record type to which the TIMEOUT record applies. Multiple TIMEOUT records for the same owner name, class, and represented type can exist. Any resource record type can be specified in the Represented Record Type including another TIMEOUT record. This specification does not put any restrictions on the record type but implementations in authoritative servers will likely do so for policy and security reasons.</t>
+        <t>QTYPEs and Meta-TYPEs MUST NOT be used as the represented record type. For more information, refer to Section 3.1 of <xref target="RFC6895" format="default"/>.</t>
+      </section>
+      <section numbered="true" toc="default">
+        <name>Represented Record Count</name>
+        <t>The Represented Record Count is a 8-bit value that specifies the number of records of the specified record type with this expiry time.</t>
+        <t>A count of zero indicates that it is not necessary to represent any records in the list. This is a shortcut notation meaning all resource records with the same owner name, class, and record type use the same Expiry Time. When the Represented Record Count is 0, the Method Identifer is set to NO METHOD (0) on transmission and ignored on reception. A primary server MUST NOT install a TIMEOUT record with No Method/No Count at the same time that a TIMEOUT record exists for the same owner name, class, and type with a non-zero record count. Either all records MUST match the No Method/No Count shorthand syntax or they MUST all be included in the list of matching records.</t>
+        <t>In the unlikely event that the Represented Record Count exceeds 255 which is the largest number representable in 8 bits, multiple instances of the same Expiry Time can exist.</t>
+      </section>
+      <section numbered="true" toc="default">
+        <name>Method Identifiers</name>
+        <t>The Method Identifier is a 8-bit value that specifies an identifier for the algorithm used to distinguish between resource records. The identifiers are declared in a registry maintained by IANA for the purpose of listing acceptable methods for this purpose. In addition to the method and the index, the registry MAY contain a fixed output length in bits of the method to be used or the term <tt>variable</tt> to denote a variable length output per record. It is conceivable, though not likely, that the same method could be used with different fixed output lengths. In this case, each fixed output length would require a different identifier in the registry. Additions to this registry will be approved with additional documentation under expert review. At the time that the registry is created by IANA, a group of expert reviewers will be established.</t>
+        <t>Additional methods of representing records may be defined in the future. If such methods are defined, a primary server could create TIMEOUT record using a new method that is not understood by a secondary server that could take over as the primary in the event of an outage or administrative change. In this case, the new primary would not be able to identify the records it is supposed to TIMEOUT. This is a misconfiguration and it is the responsibility of the administrator to ensure that secondary servers in a position to become primary understand the TIMEOUT record methods of the primary server.</t>
+        <section anchor="nomethod" numbered="true" toc="default">
+          <name>Method Identifier 0: NO METHOD</name>
+          <t>The method identifier of 0 is defined as <tt>NO METHOD</tt> and MUST NOT be used if the represented record count is greater than 0. The value of 0 is to be included in the IANA registry of method identifier values.</t>
+        </section>
+        <section anchor="sha256method" numbered="true" toc="default">
+          <name>Method Identifier 1: MD-SHA256-128</name>
+          <t>The method identifier of 1 is defined as <tt>MD-SHA256-128</tt>. Following the expiry time is a list of 128-bit values. Each of these values is the first 128-bits of a message digest of the RDATA of a represented record in canonical DNSSEC form calculated using the 256-bit SHA-256 hash algorithm defined in <xref target="FIPS180-4" format="default"/>. The canonical DNSSEC form is described in Section 6 of <xref target="RFC4034" format="default"/>. The input length of RDATA for the message digest is the RDLEN of the represented record.</t>
+        </section>
+      </section>
+      <section anchor="expiry" numbered="true" toc="default">
+        <name>Expiry Time</name>
+        <t>The expiry time is a 64-bit number expressed as the number of seconds since the UNIX epoch (00:00:00 UTC on January 1, 1970). This value is an absolute time at which the record will expire. An absolute time is necessary so the TIMEOUT records do not have to change during zone transfers.</t>
+        <t>There are circumstances when a relative expiry time would be convenient due to limited resources for clock synchronization in constrained devices. In this case, DNS UPDATE messages should not contain precomputed TIMEOUT records but convey the relative expiry time using the EDNS(0) Update Lease Option defined in <xref target="I-D.sekar-dns-ul" format="default"/>. The relative time is then converted to an absolute expiry time when received by the primary server which will create the TIMEOUT resource records.</t>
+      </section>
+    </section>
+    <section numbered="true" toc="default">
+      <name>TIMEOUT RDATA Wire Format</name>
+      <t>The TIMEOUT resource record follows the same pattern as other DNS resource records including owner name, type, class, TTL, RDATA length, and RDATA as defined in Section 3.2.1 of <xref target="RFC1035" format="default"/>.</t>
+      <t>The RDATA section of the resource record with method identifier NO METHOD (0) is illustrated in <xref target="rr_art_nomethod" format="default"/>:</t>
+      <figure anchor="rr_art_nomethod">
+        <name>Method (0) RDATA Wire Format</name>
+        <artwork align="center" name="" type="" alt=""><![CDATA[
+       
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -220,14 +193,15 @@
 |                       Expiry Time (64-bit)                    |
 |                                                               |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-       ]]>
-       </artwork>
-     </figure>
-     <t><xref target="rr_art_nomethod"/> represents the TIMEOUT RDATA field of all matching records of the represented type for the same owner name and class.</t>
-     <t>The RDATA section of the resource record with method identifier MD-SHA256-128 (1) is illustrated in <xref target="rr_art_sha256"/>:</t>
-     <figure align="center" anchor="rr_art_sha256" title="Method (1) MD-SHA256-128 Wire Format">
-        <artwork align="center">
-        <![CDATA[
+       
+       ]]></artwork>
+      </figure>
+      <t><xref target="rr_art_nomethod" format="default"/> represents the TIMEOUT RDATA field of all matching records of the represented type for the same owner name and class.</t>
+      <t>The RDATA section of the resource record with method identifier MD-SHA256-128 (1) is illustrated in <xref target="rr_art_sha256" format="default"/>:</t>
+      <figure anchor="rr_art_sha256">
+        <name>Method (1) MD-SHA256-128 Wire Format</name>
+        <artwork align="center" name="" type="" alt=""><![CDATA[
+        
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -249,295 +223,654 @@
 |                 of Represented Record n RDATA                 |
 |                                                               |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-        ]]>
-        </artwork>
+        
+        ]]></artwork>
       </figure>
-      <t><xref target="rr_art_sha256"/> represents an arbitrary number of represented records with the same owner name, class, and represented type. For each expiry time, a list of the first 128-bits of a SHA256 hash are appended.</t>
-   </section>
-   <section title="Server Behavior">
-    <t>A server may or may not understand TIMEOUT resource records. If a server does not understand them, they are treated like any other resource record that the server may not understand. See <xref target="RFC3597"/> for more information.</t>
-    <section title="Primary Server Behavior">
-     <t>If the primary server signaled the client with a TIMEOUT-MANAGED EDNS(0) option, the TIMEOUT record is fully managed by the primary server and it has the responsibility of updating/removing records as described in this section. If the primary server has not claimed mananagement of the records, then either the client or a third party is responsible for updating/removing the records as described here.</t>
-     <t>A TIMEOUT resource record MUST be removed when the last resource record it covers has been removed. This may be due to the record expiring (reaching the expiry time) or due to a subsequent DNS Update or administrative action.</t>
-     <t>The primary server is the ultimate source of the database and policy established by the server may overrule the actions of external clients. The primary server is ultimately responsible for ensuring the database is consistent but until TIMEOUT record management is built-in to authoritative server software, external UPDATE clients will likely manage the records.</t>
-     <t>Upon receiving any DNS UPDATE deleting resource records that might have been covered by a TIMEOUT RR, a primary server MUST remove all represented records in all of the TIMEOUT records with the same owner name, class, and represented type.</t>
-     <t>The TIMEOUT record TTL should use the default TTL for the zone like any other record. The TTL values of the records covered by a TIMEOUT are not affected by the TIMEOUT expiry time and may be longer than the expiry time. The TIMEOUT RR is mostly for the benefit of the authoritative server to know when to remove the records. The fact that some records might live longer in the cache of a resolver is no different than other records that might get removed while still in a remote resolver cache.</t>
+      <t><xref target="rr_art_sha256" format="default"/> represents an arbitrary number of represented records with the same owner name, class, and represented type. For each expiry time, a list of the first 128-bits of a SHA256 hash are appended.</t>
     </section>
-    <section title="Secondary Server Behavior">
-     <t>A secondary server MUST NOT expire the records in a zone it maintains covered by the TIMEOUT resource record and it MUST NOT expire the TIMEOUT resource record itself when the last record it covers has expired. The secondary server MUST always wait for the records to be removed or updated by the primary server.</t>
+    <section numbered="true" toc="default">
+      <name>Server Behavior</name>
+      <t>A server may or may not understand TIMEOUT resource records. If a server does not understand them, they are treated like any other resource record that the server may not understand. See <xref target="RFC3597" format="default"/> for more information.</t>
+      <section numbered="true" toc="default">
+        <name>Primary Server Behavior</name>
+        <t>If the primary server signaled the client with a TIMEOUT-MANAGED EDNS(0) option, the TIMEOUT record is fully managed by the primary server and it has the responsibility of updating/removing records as described in this section. If the primary server has not claimed mananagement of the records, then either the client or a third party is responsible for updating/removing the records as described here.</t>
+        <t>A TIMEOUT resource record MUST be removed when the last resource record it covers has been removed. This may be due to the record expiring (reaching the expiry time) or due to a subsequent DNS Update or administrative action.</t>
+        <t>The primary server is the ultimate source of the database and policy established by the server may overrule the actions of external clients. The primary server is ultimately responsible for ensuring the database is consistent but until TIMEOUT record management is built-in to authoritative server software, external UPDATE clients will likely manage the records.</t>
+        <t>Upon receiving any DNS UPDATE deleting resource records that might have been covered by a TIMEOUT RR, a primary server MUST remove all represented records in all of the TIMEOUT records with the same owner name, class, and represented type.</t>
+        <t>The TIMEOUT record TTL should use the default TTL for the zone like any other record. The TTL values of the records covered by a TIMEOUT are not affected by the TIMEOUT expiry time and may be longer than the expiry time. The TIMEOUT RR is mostly for the benefit of the authoritative server to know when to remove the records. The fact that some records might live longer in the cache of a resolver is no different than other records that might get removed while still in a remote resolver cache.</t>
+      </section>
+      <section numbered="true" toc="default">
+        <name>Secondary Server Behavior</name>
+        <t>A secondary server MUST NOT expire the records in a zone it maintains covered by the TIMEOUT resource record and it MUST NOT expire the TIMEOUT resource record itself when the last record it covers has expired. The secondary server MUST always wait for the records to be removed or updated by the primary server.</t>
+      </section>
     </section>
-   </section>
-   <section title="TIMEOUT RDATA Presentation Format">
-     <t>
-       <list style="hanging" hangIndent="6">
-         <t hangText="Record Type:">
-           <vspace />
-           resource record type mnemonics.  When the mnemonic is unknown, the TYPE is represented by the word "TYPE" immediately followed by the decimal RR type number, with no intervening whitespace as described in Section 5 of <xref target="RFC3597"/></t>
-         <t hangText="Represented Record Count:">
-           <vspace />
-           unsigned decimal integer (0-255)</t>
-         <t hangText="Method Identifier:">
-           <vspace />
-           unsigned decimal integer (0-255)</t>
-         <t hangText="Expiry Time:">
-           <vspace />
-	   The Expiry Time is displayed as a compact numeric-only representation of ISO 8601. All punctuation is removed. This form is slightly different than the recommendation in <xref target="RFC3339"/> but is common for DNS protocols. It is defined in Section 3.2 of <xref target="RFC4034"/> as YYYYMMDDHHmmSS in UTC. This form will always be exactly 14 digits since no component is optional.
-           <vspace />
-           <vspace />
+    <section numbered="true" toc="default">
+      <name>TIMEOUT RDATA Presentation Format</name>
+      <dl newline="true" spacing="normal" indent="6">
+        <dt>Record Type:</dt>
+        <dd>
+           resource record type mnemonics.  When the mnemonic is unknown, the TYPE is represented by the word "TYPE" immediately followed by the decimal RR type number, with no intervening whitespace as described in Section 5 of <xref target="RFC3597" format="default"/></dd>
+        <dt>Represented Record Count:</dt>
+        <dd>
+           unsigned decimal integer (0-255)</dd>
+        <dt>Method Identifier:</dt>
+        <dd>
+           unsigned decimal integer (0-255)</dd>
+        <dt>Expiry Time:</dt>
+        <dd>
+          <t>
+	   The Expiry Time is displayed as a compact numeric-only representation of ISO 8601. All punctuation is removed. This form is slightly different than the recommendation in <xref target="RFC3339" format="default"/> but is common for DNS protocols. It is defined in Section 3.2 of <xref target="RFC4034" format="default"/> as YYYYMMDDHHmmSS in UTC. This form will always be exactly 14 digits since no component is optional.
+          </t>
+          <t>
       YYYY is the year;
-           <vspace />
+          </t>
+          <t>
       MM is the month number (01-12);
-           <vspace />
+          </t>
+          <t>
       DD is the day of the month (01-31);
-           <vspace />
+          </t>
+          <t>
       HH is the hour, in 24 hour notation (00-23);
-           <vspace />
+          </t>
+          <t>
       mm is the minute (00-59); and
-           <vspace />
+          </t>
+          <t>
       SS is the second (00-60) where 60 is only possible as a leap second.
-	       </t>
-         <t hangText="RDATA Length:">
-           <vspace />
-           unsigned decimal integer</t>
-         <t hangText="RDATA:">
-           <vspace />
-           record type specific</t>
-       </list>
-     </t>
-   </section>
-   <section anchor="IANA" title="IANA Considerations">
-       <t>This document defines a new DNS Resource Record Type named TIMEOUT to be exchanged between authoritative primary and secondary DNS servers. It is assigned out of the DNS Parameters Resource Record (RR) Type registry. The value for the TIMEOUT resource record type is TBA.</t>
-       <texttable anchor="table_new_rr" title="DNS Parameters Resource Record Registry">
-           <ttcol align='center' width='8%'>Type</ttcol>
-           <ttcol align='left' width='18%'>Value</ttcol>
-           <ttcol align='left' width='20%'>Meaning</ttcol>
-           <ttcol align='left'>Definition</ttcol>
-           <c>TIMEOUT</c>
-           <c>TBA</c>
-           <c>expire represented records</c>
-           <c><xref target="definition"/></c>
-       </texttable>
-       <t>This document establishes a new registry of DNS TIMEOUT Resource Record Method Identifier values. The registry shall include a numeric identifier, a method name, a description of the method, and the length of the output function in bits or the keyword <spanx style="verb">variable</spanx>. The identifier is to be used in the RDATA section of the TIMEOUT resource record.</t>
-       <t>Initially, there are two values defined in the registry. Values from 240 (0xF0) through 255 (0xFF) are reserved for experimental use.</t>
-       <texttable anchor="table_algs" title="TIMEOUT RR Method Identifier values">
-           <ttcol align='center' width='8%'>ID</ttcol>
-           <ttcol align='left' width='18%'>Method Name</ttcol>
-           <ttcol align='left' width='20%'>Description</ttcol>
-           <ttcol align='center' width='15%'>Length (bits)</ttcol>
-           <ttcol align='left'>Definition</ttcol>
-           <c>0</c>
-           <c>NO METHOD</c>
-           <c>All records match</c>
-           <c>0</c>
-           <c><xref target="nomethod"/></c>
-           <c>1</c>
-           <c>MD-SHA256-128</c>
-           <c>List of 128-bit hashes of represented records RDATA</c>
-           <c>128 bits</c>
-           <c><xref target="sha256method"/></c>
-           <c>240-255</c>
-           <c>EXPERIMENTAL</c>
-           <c>Reserved for Experimental Use</c>
-           <c>variable</c>
-           <c><xref target="IANA"/></c>
-       </texttable>
-   </section>
-
-   <section anchor="Security" title="Security Considerations">
-     <t>There is no secure relationship between a TIMEOUT resource record and the represented resource records it applies to. TIMEOUT records should typically only apply to resource records created through the UPDATE mechanism. Protection for permanent resource records in a zone is advisable.</t>
-     <t>Authenticated UPDATE operations MUST be REQUIRED at authoritative name servers supporting TIMEOUT resource records.</t>
-<?rfc needLines="7"?>
-   </section>
-
-   <section anchor="Acknowledgments" title="Acknowledgments">
-     <t>This idea was motivated through conversations with Mark Andrews. Thanks to Mark as well as Paul Vixie, Joe Abley, Ted Lemon, Tony Finch, Robert Story, Paul Wouters, Dick Franks, JINMEI, Tatuya, Timothe Litt, and Stuart Cheshire for their suggestions, review, and comments.</t>
-   </section>
- </middle>
-
- <!--  *****BACK MATTER ***** -->
-
- <back>
-   <references title="Normative References">
-     <!--?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
-     &RFC1035;
-     &RFC2119;
-     &RFC3339;
-     &RFC3597;
-     &RFC4034;
-     &RFC6895;
-     &RFC8174;
-     <reference anchor="FIPS180-4" target="http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf">
-       <front>
-         <title>Secure Hash Standard (SHS) FIPS 180-4</title>
-         <author>
-           <organization>National Institute of Standards and Technology, U.S. Department of Commerce</organization>
-         </author>
-         <date year="2015" month="August"/>
-       </front>
-     </reference>
-   </references>
-   <references title="Informative References">
-     <!-- Here we use entities that we defined at the beginning. -->
-     &RFC1995;
-     &RFC2136;
-     &RFC5936;
-     &RFC6698;
-     &RFC6763;
-     &RFC8555;
-     &I-D.sekar-dns-ul;
-   </references>
-   <section title="Example TIMEOUT resource records">
-     <t>The following example shows sample TIMEOUT resource records based on DNS UPDATEs containing A and AAAA address records plus the corresponding PTR records.</t>
-     <t>A host sending a name registration at time Tn for <spanx style="verb">A</spanx> and <spanx style="verb">AAAA</spanx> records with lease lifetime Ln would have a series of UPDATEs (one for each zone) that contain:</t>
-     <texttable anchor="address_update" title="Example Address Records Update">
-         <ttcol align='left' width='50%'>Name</ttcol>
-         <ttcol align='left'>RR Type</ttcol>
-         <ttcol align='left'>Value</ttcol>
-         <c>s.example.com.</c>
-         <c>A</c>
-         <c>192.0.2.5</c>
-         <c>s.example.com.</c>
-         <c>AAAA</c>
-         <c>2001:db8::5</c>
-         <c>5.2.0.192.in-addr.arpa.</c>
-         <c>PTR</c>
-         <c>s.example.com.</c>
-         <c>5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.01.20.ip6.arpa. (bytes)</c>
-         <c>PTR</c>
-         <c>s.example.com.</c>
-     </texttable>
-     <t>Next, consider the TIMEOUT resource records that would be generated for the records in <xref target="address_update"/>.</t>
-     <texttable anchor="address_timeout" title="Address TIMEOUT records">
-         <ttcol align='left' width='40%'>Owner Name</ttcol>
-         <ttcol align='left'>For Type</ttcol>
-         <ttcol align='left'>Count</ttcol>
-         <ttcol align='left'>Method</ttcol>
-         <ttcol align='left'>Expiration</ttcol>
-         <c>s.example.com.</c>
-         <c>A</c>
-         <c>0</c>
-         <c>0</c>
-         <c>Tn + Ln</c>
-         <c>s.example.com.</c>
-         <c>AAAA</c>
-         <c>0</c>
-         <c>0</c>
-         <c>Tn + Ln</c>
-         <c>5.2.0.192.in-addr.arpa.</c>
-         <c>PTR</c>
-         <c>0</c>
-         <c>0</c>
-         <c>Tn + Ln</c>
-         <c>5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.01.20.ip6.arpa. (bytes)</c>
-         <c>PTR</c>
-         <c>0</c>
-         <c>0</c>
-         <c>Tn + Ln</c>
-     </texttable>
-     <t>Next, assume there are two hosts advertising the same service type (different service types will have different owner names). We will use _ipp._tcp.example.com as an example.</t>
-     <t>Host A sends an UPDATE at time Ta with lease life La for PTR, SRV, A, AAAA, and TXT records. Host B sends an UPDATE at time Tb with lease life Lb for PTR, SRV, A, and TXT records.</t>
-      <texttable anchor="ipp_host_a" title="DNS UPDATE from Host A">
-          <ttcol align='left' width='50%'>Owner name</ttcol>
-          <ttcol align='left'>RR Type</ttcol>
-          <ttcol align='left'>Value</ttcol>
-          <c>_ipp._tcp.example.com.</c>
-          <c>PTR</c>
-          <c>p1._ipp._tcp.example.com.</c>
-          <c>p1._ipp._tcp.example.com.</c>
-          <c>SRV</c>
-          <c>0 0 631 p1.example.com.</c>
-          <c>p1._ipp._tcp.example.com.</c>
-          <c>TXT</c>
-          <c>paper=A4</c>
-          <c>p1.example.com.</c>
-          <c>A</c>
-          <c>192.0.2.1</c>
-          <c>p1.example.com.</c>
-          <c>AAAA</c>
-          <c>2001:db8::1</c>
-      </texttable>
-      <texttable anchor="ipp_host_b" title="DNS UPDATE from Host B">
-          <ttcol align='left' width='50%'>Owner name</ttcol>
-          <ttcol align='left'>RR Type</ttcol>
-          <ttcol align='left'>Value</ttcol>
-          <c>_ipp._tcp.example.com.</c>
-          <c>PTR</c>
-          <c>p2._ipp._tcp.example.com.</c>
-          <c>p2._ipp._tcp.example.com.</c>
-          <c>SRV</c>
-          <c>0 0 631 p2.example.com.</c>
-          <c>p2._ipp._tcp.example.com.</c>
-          <c>TXT</c>
-          <c>paper=B4</c>
-          <c>p2.example.com.</c>
-          <c>A</c>
-          <c>192.0.2.2</c>
-      </texttable>
+          </t>
+        </dd>
+        <dt>RDATA Length:</dt>
+        <dd>
+           unsigned decimal integer</dd>
+        <dt>RDATA:</dt>
+        <dd>
+           record type specific</dd>
+      </dl>
+    </section>
+    <section anchor="IANA" numbered="true" toc="default">
+      <name>IANA Considerations</name>
+      <t>This document defines a new DNS Resource Record Type named TIMEOUT to be exchanged between authoritative primary and secondary DNS servers. It is assigned out of the DNS Parameters Resource Record (RR) Type registry. The value for the TIMEOUT resource record type is TBA.</t>
+      <table anchor="table_new_rr" align="center">
+        <name>DNS Parameters Resource Record Registry</name>
+        <thead>
+          <tr>
+            <th align="center">Type</th>
+            <th align="left">Value</th>
+            <th align="left">Meaning</th>
+            <th align="left">Definition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td align="center">TIMEOUT</td>
+            <td align="left">TBA</td>
+            <td align="left">expire represented records</td>
+            <td align="left">
+              <xref target="definition" format="default"/></td>
+          </tr>
+        </tbody>
+      </table>
+      <t>This document establishes a new registry of DNS TIMEOUT Resource Record Method Identifier values. The registry shall include a numeric identifier, a method name, a description of the method, and the length of the output function in bits or the keyword <tt>variable</tt>. The identifier is to be used in the RDATA section of the TIMEOUT resource record.</t>
+      <t>Initially, there are two values defined in the registry. Values from 240 (0xF0) through 255 (0xFF) are reserved for experimental use.</t>
+      <table anchor="table_algs" align="center">
+        <name>TIMEOUT RR Method Identifier values</name>
+        <thead>
+          <tr>
+            <th align="center">ID</th>
+            <th align="left">Method Name</th>
+            <th align="left">Description</th>
+            <th align="center">Length (bits)</th>
+            <th align="left">Definition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td align="center">0</td>
+            <td align="left">NO METHOD</td>
+            <td align="left">All records match</td>
+            <td align="center">0</td>
+            <td align="left">
+              <xref target="nomethod" format="default"/></td>
+          </tr>
+          <tr>
+            <td align="center">1</td>
+            <td align="left">MD-SHA256-128</td>
+            <td align="left">List of 128-bit hashes of represented records RDATA</td>
+            <td align="center">128 bits</td>
+            <td align="left">
+              <xref target="sha256method" format="default"/></td>
+          </tr>
+          <tr>
+            <td align="center">240-255</td>
+            <td align="left">EXPERIMENTAL</td>
+            <td align="left">Reserved for Experimental Use</td>
+            <td align="center">variable</td>
+            <td align="left">
+              <xref target="IANA" format="default"/></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section anchor="Security" numbered="true" toc="default">
+      <name>Security Considerations</name>
+      <t>There is no secure relationship between a TIMEOUT resource record and the represented resource records it applies to. TIMEOUT records should typically only apply to resource records created through the UPDATE mechanism. Protection for permanent resource records in a zone is advisable.</t>
+      <t>Authenticated UPDATE operations MUST be REQUIRED at authoritative name servers supporting TIMEOUT resource records.</t>
+    </section>
+    <section anchor="Acknowledgments" numbered="true" toc="default">
+      <name>Acknowledgments</name>
+      <t>This idea was motivated through conversations with Mark Andrews. Thanks to Mark as well as Paul Vixie, Joe Abley, Ted Lemon, Tony Finch, Robert Story, Paul Wouters, Dick Franks, JINMEI, Tatuya, Timothe Litt, and Stuart Cheshire for their suggestions, review, and comments.</t>
+    </section>
+  </middle>
+  <!--  *****BACK MATTER ***** -->
+  <back>
+    <references>
+      <name>References</name>
+      <references>
+        <name>Normative References</name>
+        <!--?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
+        <reference anchor="RFC1035" target="https://www.rfc-editor.org/info/rfc1035" xml:base="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.1035.xml">
+          <front>
+            <title>Domain names - implementation and specification</title>
+            <seriesInfo name="DOI" value="10.17487/RFC1035"/>
+            <seriesInfo name="RFC" value="1035"/>
+            <seriesInfo name="STD" value="13"/>
+            <author initials="P.V." surname="Mockapetris" fullname="P.V. Mockapetris">
+              <organization/>
+            </author>
+            <date year="1987" month="November"/>
+            <abstract>
+              <t>This RFC is the revised specification of the protocol and format used in the implementation of the Domain Name System.  It obsoletes RFC-883. This memo documents the details of the domain name client - server communication.</t>
+            </abstract>
+          </front>
+        </reference>
+        <reference anchor="RFC2119" target="https://www.rfc-editor.org/info/rfc2119" xml:base="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+          <front>
+            <title>Key words for use in RFCs to Indicate Requirement Levels</title>
+            <seriesInfo name="DOI" value="10.17487/RFC2119"/>
+            <seriesInfo name="RFC" value="2119"/>
+            <seriesInfo name="BCP" value="14"/>
+            <author initials="S." surname="Bradner" fullname="S. Bradner">
+              <organization/>
+            </author>
+            <date year="1997" month="March"/>
+            <abstract>
+              <t>In many standards track documents several words are used to signify the requirements in the specification.  These words are often capitalized. This document defines these words as they should be interpreted in IETF documents.  This document specifies an Internet Best Current Practices for the Internet Community, and requests discussion and suggestions for improvements.</t>
+            </abstract>
+          </front>
+        </reference>
+        <reference anchor="RFC3339" target="https://www.rfc-editor.org/info/rfc3339" xml:base="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3339.xml">
+          <front>
+            <title>Date and Time on the Internet: Timestamps</title>
+            <seriesInfo name="DOI" value="10.17487/RFC3339"/>
+            <seriesInfo name="RFC" value="3339"/>
+            <author initials="G." surname="Klyne" fullname="G. Klyne">
+              <organization/>
+            </author>
+            <author initials="C." surname="Newman" fullname="C. Newman">
+              <organization/>
+            </author>
+            <date year="2002" month="July"/>
+            <abstract>
+              <t>This document defines a date and time format for use in Internet protocols that is a profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.</t>
+            </abstract>
+          </front>
+        </reference>
+        <reference anchor="RFC3597" target="https://www.rfc-editor.org/info/rfc3597" xml:base="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3597.xml">
+          <front>
+            <title>Handling of Unknown DNS Resource Record (RR) Types</title>
+            <seriesInfo name="DOI" value="10.17487/RFC3597"/>
+            <seriesInfo name="RFC" value="3597"/>
+            <author initials="A." surname="Gustafsson" fullname="A. Gustafsson">
+              <organization/>
+            </author>
+            <date year="2003" month="September"/>
+            <abstract>
+              <t>Extending the Domain Name System (DNS) with new Resource Record (RR) types currently requires changes to name server software.  This document specifies the changes necessary to allow future DNS implementations to handle new RR types transparently.  [STANDARDS-TRACK]</t>
+            </abstract>
+          </front>
+        </reference>
+        <reference anchor="RFC4034" target="https://www.rfc-editor.org/info/rfc4034" xml:base="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4034.xml">
+          <front>
+            <title>Resource Records for the DNS Security Extensions</title>
+            <seriesInfo name="DOI" value="10.17487/RFC4034"/>
+            <seriesInfo name="RFC" value="4034"/>
+            <author initials="R." surname="Arends" fullname="R. Arends">
+              <organization/>
+            </author>
+            <author initials="R." surname="Austein" fullname="R. Austein">
+              <organization/>
+            </author>
+            <author initials="M." surname="Larson" fullname="M. Larson">
+              <organization/>
+            </author>
+            <author initials="D." surname="Massey" fullname="D. Massey">
+              <organization/>
+            </author>
+            <author initials="S." surname="Rose" fullname="S. Rose">
+              <organization/>
+            </author>
+            <date year="2005" month="March"/>
+            <abstract>
+              <t>This document is part of a family of documents that describe the DNS Security Extensions (DNSSEC).  The DNS Security Extensions are a collection of resource records and protocol modifications that provide source authentication for the DNS.  This document defines the public key (DNSKEY), delegation signer (DS), resource record digital signature (RRSIG), and authenticated denial of existence (NSEC) resource records.  The purpose and format of each resource record is described in detail, and an example of each resource record is given. </t>
+              <t> This document obsoletes RFC 2535 and incorporates changes from all updates to RFC 2535.  [STANDARDS-TRACK]</t>
+            </abstract>
+          </front>
+        </reference>
+        <reference anchor="RFC6895" target="https://www.rfc-editor.org/info/rfc6895" xml:base="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6895.xml">
+          <front>
+            <title>Domain Name System (DNS) IANA Considerations</title>
+            <seriesInfo name="DOI" value="10.17487/RFC6895"/>
+            <seriesInfo name="RFC" value="6895"/>
+            <seriesInfo name="BCP" value="42"/>
+            <author initials="D." surname="Eastlake 3rd" fullname="D. Eastlake 3rd">
+              <organization/>
+            </author>
+            <date year="2013" month="April"/>
+            <abstract>
+              <t>This document specifies Internet Assigned Numbers Authority (IANA) parameter assignment considerations for the allocation of Domain Name System (DNS) resource record types, CLASSes, operation codes, error codes, DNS protocol message header bits, and AFSDB resource record subtypes.  It obsoletes RFC 6195 and updates RFCs 1183, 2845, 2930, and 3597.</t>
+            </abstract>
+          </front>
+        </reference>
+        <reference anchor="RFC8174" target="https://www.rfc-editor.org/info/rfc8174" xml:base="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml">
+          <front>
+            <title>Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</title>
+            <seriesInfo name="DOI" value="10.17487/RFC8174"/>
+            <seriesInfo name="RFC" value="8174"/>
+            <seriesInfo name="BCP" value="14"/>
+            <author initials="B." surname="Leiba" fullname="B. Leiba">
+              <organization/>
+            </author>
+            <date year="2017" month="May"/>
+            <abstract>
+              <t>RFC 2119 specifies common key words that may be used in protocol  specifications.  This document aims to reduce the ambiguity by clarifying that only UPPERCASE usage of the key words have the  defined special meanings.</t>
+            </abstract>
+          </front>
+        </reference>
+        <reference anchor="FIPS180-4" target="http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf">
+          <front>
+            <title>Secure Hash Standard (SHS) FIPS 180-4</title>
+            <author>
+              <organization>National Institute of Standards and Technology, U.S. Department of Commerce</organization>
+            </author>
+            <date year="2015" month="August"/>
+          </front>
+        </reference>
+      </references>
+      <references>
+        <name>Informative References</name>
+        <!-- Here we use entities that we defined at the beginning. -->
+        <reference anchor="RFC1995" target="https://www.rfc-editor.org/info/rfc1995" xml:base="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.1995.xml">
+          <front>
+            <title>Incremental Zone Transfer in DNS</title>
+            <seriesInfo name="DOI" value="10.17487/RFC1995"/>
+            <seriesInfo name="RFC" value="1995"/>
+            <author initials="M." surname="Ohta" fullname="M. Ohta">
+              <organization/>
+            </author>
+            <date year="1996" month="August"/>
+            <abstract>
+              <t>This document proposes extensions to the DNS protocols to provide an incremental zone transfer (IXFR) mechanism.  [STANDARDS-TRACK]</t>
+            </abstract>
+          </front>
+        </reference>
+        <reference anchor="RFC2136" target="https://www.rfc-editor.org/info/rfc2136" xml:base="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2136.xml">
+          <front>
+            <title>Dynamic Updates in the Domain Name System (DNS UPDATE)</title>
+            <seriesInfo name="DOI" value="10.17487/RFC2136"/>
+            <seriesInfo name="RFC" value="2136"/>
+            <author initials="P." surname="Vixie" fullname="P. Vixie" role="editor">
+              <organization/>
+            </author>
+            <author initials="S." surname="Thomson" fullname="S. Thomson">
+              <organization/>
+            </author>
+            <author initials="Y." surname="Rekhter" fullname="Y. Rekhter">
+              <organization/>
+            </author>
+            <author initials="J." surname="Bound" fullname="J. Bound">
+              <organization/>
+            </author>
+            <date year="1997" month="April"/>
+            <abstract>
+              <t>Using this specification of the UPDATE opcode, it is possible to add or delete RRs or RRsets from a specified zone.  Prerequisites are specified separately from update operations, and can specify a dependency upon either the previous existence or nonexistence of an RRset, or the existence of a single RR.  [STANDARDS-TRACK]</t>
+            </abstract>
+          </front>
+        </reference>
+        <reference anchor="RFC5936" target="https://www.rfc-editor.org/info/rfc5936" xml:base="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5936.xml">
+          <front>
+            <title>DNS Zone Transfer Protocol (AXFR)</title>
+            <seriesInfo name="DOI" value="10.17487/RFC5936"/>
+            <seriesInfo name="RFC" value="5936"/>
+            <author initials="E." surname="Lewis" fullname="E. Lewis">
+              <organization/>
+            </author>
+            <author initials="A." surname="Hoenes" fullname="A. Hoenes" role="editor">
+              <organization/>
+            </author>
+            <date year="2010" month="June"/>
+            <abstract>
+              <t>The standard means within the Domain Name System protocol for maintaining coherence among a zone's authoritative name servers consists of three mechanisms.  Authoritative Transfer (AXFR) is one of the mechanisms and is defined in RFC 1034 and RFC 1035.</t>
+              <t>The definition of AXFR has proven insufficient in detail, thereby forcing implementations intended to be compliant to make assumptions, impeding interoperability.  Yet today we have a satisfactory set of implementations that do interoperate.  This document is a new definition of AXFR -- new in the sense that it records an accurate definition of an interoperable AXFR mechanism.  [STANDARDS-TRACK]</t>
+            </abstract>
+          </front>
+        </reference>
+        <reference anchor="RFC6698" target="https://www.rfc-editor.org/info/rfc6698" xml:base="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6698.xml">
+          <front>
+            <title>The DNS-Based Authentication of Named Entities (DANE) Transport Layer Security (TLS) Protocol: TLSA</title>
+            <seriesInfo name="DOI" value="10.17487/RFC6698"/>
+            <seriesInfo name="RFC" value="6698"/>
+            <author initials="P." surname="Hoffman" fullname="P. Hoffman">
+              <organization/>
+            </author>
+            <author initials="J." surname="Schlyter" fullname="J. Schlyter">
+              <organization/>
+            </author>
+            <date year="2012" month="August"/>
+            <abstract>
+              <t>Encrypted communication on the Internet often uses Transport Layer Security (TLS), which depends on third parties to certify the keys used.  This document improves on that situation by enabling the administrators of domain names to specify the keys used in that domain's TLS servers.  This requires matching improvements in TLS client software, but no change in TLS server software.  [STANDARDS-TRACK]</t>
+            </abstract>
+          </front>
+        </reference>
+        <reference anchor="RFC6763" target="https://www.rfc-editor.org/info/rfc6763" xml:base="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6763.xml">
+          <front>
+            <title>DNS-Based Service Discovery</title>
+            <seriesInfo name="DOI" value="10.17487/RFC6763"/>
+            <seriesInfo name="RFC" value="6763"/>
+            <author initials="S." surname="Cheshire" fullname="S. Cheshire">
+              <organization/>
+            </author>
+            <author initials="M." surname="Krochmal" fullname="M. Krochmal">
+              <organization/>
+            </author>
+            <date year="2013" month="February"/>
+            <abstract>
+              <t>This document specifies how DNS resource records are named and structured to facilitate service discovery.  Given a type of service that a client is looking for, and a domain in which the client is looking for that service, this mechanism allows clients to discover a list of named instances of that desired service, using standard DNS queries. This mechanism is referred to as DNS-based Service Discovery, or DNS-SD.</t>
+            </abstract>
+          </front>
+        </reference>
+        <reference anchor="RFC8555" target="https://www.rfc-editor.org/info/rfc8555" xml:base="https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8555.xml">
+          <front>
+            <title>Automatic Certificate Management Environment (ACME)</title>
+            <seriesInfo name="DOI" value="10.17487/RFC8555"/>
+            <seriesInfo name="RFC" value="8555"/>
+            <author initials="R." surname="Barnes" fullname="R. Barnes">
+              <organization/>
+            </author>
+            <author initials="J." surname="Hoffman-Andrews" fullname="J. Hoffman-Andrews">
+              <organization/>
+            </author>
+            <author initials="D." surname="McCarney" fullname="D. McCarney">
+              <organization/>
+            </author>
+            <author initials="J." surname="Kasten" fullname="J. Kasten">
+              <organization/>
+            </author>
+            <date year="2019" month="March"/>
+            <abstract>
+              <t>Public Key Infrastructure using X.509 (PKIX) certificates are used for a number of purposes, the most significant of which is the authentication of domain names.  Thus, certification authorities (CAs) in the Web PKI are trusted to verify that an applicant for a certificate legitimately represents the domain name(s) in the certificate.  As of this writing, this verification is done through a collection of ad hoc mechanisms.  This document describes a protocol that a CA and an applicant can use to automate the process of verification and certificate issuance.  The protocol also provides facilities for other certificate management functions, such as certificate revocation.</t>
+            </abstract>
+          </front>
+        </reference>
+        <reference anchor="I-D.sekar-dns-ul" xml:base="https://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.sekar-dns-ul.xml" target="http://www.ietf.org/internet-drafts/draft-sekar-dns-ul-02.txt">
+          <front>
+            <title>Dynamic DNS Update Leases</title>
+            <seriesInfo name="Internet-Draft" value="draft-sekar-dns-ul-02"/>
+            <author initials="S" surname="Cheshire" fullname="Stuart Cheshire">
+              <organization/>
+            </author>
+            <author initials="T" surname="Lemon" fullname="Ted Lemon">
+              <organization/>
+            </author>
+            <date month="August" day="2" year="2018"/>
+            <abstract>
+              <t>This document proposes a method of extending Dynamic DNS Update to contain an update lease lifetime, allowing a server to garbage collect stale resource records.</t>
+            </abstract>
+          </front>
+        </reference>
+      </references>
+    </references>
+    <section numbered="true" toc="default">
+      <name>Example TIMEOUT resource records</name>
+      <t>The following example shows sample TIMEOUT resource records based on DNS UPDATEs containing A and AAAA address records plus the corresponding PTR records.</t>
+      <t>A host sending a name registration at time Tn for <tt>A</tt> and <tt>AAAA</tt> records with lease lifetime Ln would have a series of UPDATEs (one for each zone) that contain:</t>
+      <table anchor="address_update" align="center">
+        <name>Example Address Records Update</name>
+        <thead>
+          <tr>
+            <th align="left">Name</th>
+            <th align="left">RR Type</th>
+            <th align="left">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td align="left">s.example.com.</td>
+            <td align="left">A</td>
+            <td align="left">192.0.2.5</td>
+          </tr>
+          <tr>
+            <td align="left">s.example.com.</td>
+            <td align="left">AAAA</td>
+            <td align="left">2001:db8::5</td>
+          </tr>
+          <tr>
+            <td align="left">5.2.0.192.in-addr.arpa.</td>
+            <td align="left">PTR</td>
+            <td align="left">s.example.com.</td>
+          </tr>
+          <tr>
+            <td align="left">5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.01.20.ip6.arpa. (bytes)</td>
+            <td align="left">PTR</td>
+            <td align="left">s.example.com.</td>
+          </tr>
+        </tbody>
+      </table>
+      <t>Next, consider the TIMEOUT resource records that would be generated for the records in <xref target="address_update" format="default"/>.</t>
+      <table anchor="address_timeout" align="center">
+        <name>Address TIMEOUT records</name>
+        <thead>
+          <tr>
+            <th align="left">Owner Name</th>
+            <th align="left">For Type</th>
+            <th align="left">Count</th>
+            <th align="left">Method</th>
+            <th align="left">Expiration</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td align="left">s.example.com.</td>
+            <td align="left">A</td>
+            <td align="left">0</td>
+            <td align="left">0</td>
+            <td align="left">Tn + Ln</td>
+          </tr>
+          <tr>
+            <td align="left">s.example.com.</td>
+            <td align="left">AAAA</td>
+            <td align="left">0</td>
+            <td align="left">0</td>
+            <td align="left">Tn + Ln</td>
+          </tr>
+          <tr>
+            <td align="left">5.2.0.192.in-addr.arpa.</td>
+            <td align="left">PTR</td>
+            <td align="left">0</td>
+            <td align="left">0</td>
+            <td align="left">Tn + Ln</td>
+          </tr>
+          <tr>
+            <td align="left">5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.01.20.ip6.arpa. (bytes)</td>
+            <td align="left">PTR</td>
+            <td align="left">0</td>
+            <td align="left">0</td>
+            <td align="left">Tn + Ln</td>
+          </tr>
+        </tbody>
+      </table>
+      <t>Next, assume there are two hosts advertising the same service type (different service types will have different owner names). We will use _ipp._tcp.example.com as an example.</t>
+      <t>Host A sends an UPDATE at time Ta with lease life La for PTR, SRV, A, AAAA, and TXT records. Host B sends an UPDATE at time Tb with lease life Lb for PTR, SRV, A, and TXT records.</t>
+      <table anchor="ipp_host_a" align="center">
+        <name>DNS UPDATE from Host A</name>
+        <thead>
+          <tr>
+            <th align="left">Owner name</th>
+            <th align="left">RR Type</th>
+            <th align="left">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td align="left">_ipp._tcp.example.com.</td>
+            <td align="left">PTR</td>
+            <td align="left">p1._ipp._tcp.example.com.</td>
+          </tr>
+          <tr>
+            <td align="left">p1._ipp._tcp.example.com.</td>
+            <td align="left">SRV</td>
+            <td align="left">0 0 631 p1.example.com.</td>
+          </tr>
+          <tr>
+            <td align="left">p1._ipp._tcp.example.com.</td>
+            <td align="left">TXT</td>
+            <td align="left">paper=A4</td>
+          </tr>
+          <tr>
+            <td align="left">p1.example.com.</td>
+            <td align="left">A</td>
+            <td align="left">192.0.2.1</td>
+          </tr>
+          <tr>
+            <td align="left">p1.example.com.</td>
+            <td align="left">AAAA</td>
+            <td align="left">2001:db8::1</td>
+          </tr>
+        </tbody>
+      </table>
+      <table anchor="ipp_host_b" align="center">
+        <name>DNS UPDATE from Host B</name>
+        <thead>
+          <tr>
+            <th align="left">Owner name</th>
+            <th align="left">RR Type</th>
+            <th align="left">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td align="left">_ipp._tcp.example.com.</td>
+            <td align="left">PTR</td>
+            <td align="left">p2._ipp._tcp.example.com.</td>
+          </tr>
+          <tr>
+            <td align="left">p2._ipp._tcp.example.com.</td>
+            <td align="left">SRV</td>
+            <td align="left">0 0 631 p2.example.com.</td>
+          </tr>
+          <tr>
+            <td align="left">p2._ipp._tcp.example.com.</td>
+            <td align="left">TXT</td>
+            <td align="left">paper=B4</td>
+          </tr>
+          <tr>
+            <td align="left">p2.example.com.</td>
+            <td align="left">A</td>
+            <td align="left">192.0.2.2</td>
+          </tr>
+        </tbody>
+      </table>
       <t>For these printer registrations, the TIMEOUT records on the server would look like the following:</t>
-      <texttable anchor="printer_timeout" title="Service TIMEOUT records">
-          <ttcol align='left' width='46%'>Owner Name</ttcol>
-          <ttcol align='left' width='6%'>For Type</ttcol>
-          <ttcol align='left'>Count</ttcol>
-          <ttcol align='left' width='5%'>Method</ttcol>
-          <ttcol align='left' width='36%'>Expire /          RDLEN RDATA</ttcol>
-          <c>_ipp.tcp.example.com.</c>
-          <c>PTR</c>
-          <c>1</c>
-          <c>1</c>
-          <c>Ta + La 25 p1._ipp._tcp.example.com.</c>
-          <c>_ipp.tcp.example.com.</c>
-          <c>PTR</c>
-          <c>1</c>
-          <c>1</c>
-          <c>Tb + Lb 25 p2._ipp._tcp.example.com.</c>
-          <c>p1._ipp._tcp.example.com.</c>
-          <c>SRV</c>
-          <c>0</c>
-          <c>0</c>
-          <c>Ta + La</c>
-          <c>p1._ipp._tcp.example.com.</c>
-          <c>TXT</c>
-          <c>0</c>
-          <c>0</c>
-          <c>Ta + La</c>
-          <c>p2._ipp._tcp.example.com.</c>
-          <c>SRV</c>
-          <c>0</c>
-          <c>0</c>
-          <c>Tb + Lb</c>
-          <c>p2._ipp._tcp.example.com.</c>
-          <c>TXT</c>
-          <c>0</c>
-          <c>0</c>
-          <c>Tb + Lb</c>
-          <c>p1.example.com.</c>
-          <c>A</c>
-          <c>0</c>
-          <c>0</c>
-          <c>Ta + La</c>
-          <c>p1.example.com.</c>
-          <c>AAAA</c>
-          <c>0</c>
-          <c>0</c>
-          <c>Ta + La</c>
-          <c>p2.example.com.</c>
-          <c>A</c>
-          <c>0</c>
-          <c>0</c>
-          <c>Tb + Lb</c>
-      </texttable>
-   </section>
-   <section title="Changelog">
+      <table anchor="printer_timeout" align="center">
+        <name>Service TIMEOUT records</name>
+        <thead>
+          <tr>
+            <th align="left">Owner Name</th>
+            <th align="left">For Type</th>
+            <th align="left">Count</th>
+            <th align="left">Method</th>
+            <th align="left">Expire /          RDLEN RDATA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td align="left">_ipp.tcp.example.com.</td>
+            <td align="left">PTR</td>
+            <td align="left">1</td>
+            <td align="left">1</td>
+            <td align="left">Ta + La 25 p1._ipp._tcp.example.com.</td>
+          </tr>
+          <tr>
+            <td align="left">_ipp.tcp.example.com.</td>
+            <td align="left">PTR</td>
+            <td align="left">1</td>
+            <td align="left">1</td>
+            <td align="left">Tb + Lb 25 p2._ipp._tcp.example.com.</td>
+          </tr>
+          <tr>
+            <td align="left">p1._ipp._tcp.example.com.</td>
+            <td align="left">SRV</td>
+            <td align="left">0</td>
+            <td align="left">0</td>
+            <td align="left">Ta + La</td>
+          </tr>
+          <tr>
+            <td align="left">p1._ipp._tcp.example.com.</td>
+            <td align="left">TXT</td>
+            <td align="left">0</td>
+            <td align="left">0</td>
+            <td align="left">Ta + La</td>
+          </tr>
+          <tr>
+            <td align="left">p2._ipp._tcp.example.com.</td>
+            <td align="left">SRV</td>
+            <td align="left">0</td>
+            <td align="left">0</td>
+            <td align="left">Tb + Lb</td>
+          </tr>
+          <tr>
+            <td align="left">p2._ipp._tcp.example.com.</td>
+            <td align="left">TXT</td>
+            <td align="left">0</td>
+            <td align="left">0</td>
+            <td align="left">Tb + Lb</td>
+          </tr>
+          <tr>
+            <td align="left">p1.example.com.</td>
+            <td align="left">A</td>
+            <td align="left">0</td>
+            <td align="left">0</td>
+            <td align="left">Ta + La</td>
+          </tr>
+          <tr>
+            <td align="left">p1.example.com.</td>
+            <td align="left">AAAA</td>
+            <td align="left">0</td>
+            <td align="left">0</td>
+            <td align="left">Ta + La</td>
+          </tr>
+          <tr>
+            <td align="left">p2.example.com.</td>
+            <td align="left">A</td>
+            <td align="left">0</td>
+            <td align="left">0</td>
+            <td align="left">Tb + Lb</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section numbered="true" toc="default">
+      <name>Changelog</name>
       <t>[RFC Editor: Please remove this section before publication]</t>
       <t>From -03 to -04:
-       <list style="symbols">
-        <t>Clarified that there can't be TIMEOUTs with No Method/No Count (NMNC) and Some Method/Some Count (SMSC) at the same time.</t>
-        <t>Reverted to message digest of RDATA to solve problems with zone files.</t>
-        <t>Clarified why TIMEOUT has absolute expriry times and made a better case to use <xref target="I-D.sekar-dns-ul"/> when relative time is needed.</t>
-        <t>Reworked IANA section.</t>
-        <t>Clarify language around references as suggested by Stuart Cheshire.</t>
-       </list>
       </t>
+      <ul spacing="normal">
+        <li>Clarified that there can't be TIMEOUTs with No Method/No Count (NMNC) and Some Method/Some Count (SMSC) at the same time.</li>
+        <li>Reverted to message digest of RDATA to solve problems with zone files.</li>
+        <li>Clarified why TIMEOUT has absolute expriry times and made a better case to use <xref target="I-D.sekar-dns-ul" format="default"/> when relative time is needed.</li>
+        <li>Reworked IANA section.</li>
+        <li>Clarify language around references as suggested by Stuart Cheshire.</li>
+      </ul>
     </section>
- </back>
+  </back>
 </rfc>
