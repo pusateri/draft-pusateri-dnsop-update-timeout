@@ -678,7 +678,7 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
               <http://nvlpubs.nist.gov/nistpubs/FIPS/
               NIST.FIPS.180-4.pdf>.
 
-   [RFC1035]  Mockapetris, P.V., "Domain names - implementation and
+   [RFC1035]  Mockapetris, P., "Domain names - implementation and
               specification", STD 13, RFC 1035, DOI 10.17487/RFC1035,
               November 1987, <https://www.rfc-editor.org/info/rfc1035>.
 
@@ -713,8 +713,8 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
    [I-D.sekar-dns-ul]
               Cheshire, S. and T. Lemon, "Dynamic DNS Update Leases",
               Work in Progress, Internet-Draft, draft-sekar-dns-ul-02, 2
-              August 2018, <http://www.ietf.org/internet-drafts/draft-
-              sekar-dns-ul-02.txt>.
+              August 2018,
+              <https://tools.ietf.org/html/draft-sekar-dns-ul-02>.
 
    [RFC1995]  Ohta, M., "Incremental Zone Transfer in DNS", RFC 1995,
               DOI 10.17487/RFC1995, August 1996,
