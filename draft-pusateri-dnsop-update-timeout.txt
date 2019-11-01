@@ -140,7 +140,7 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
    records installed in unicast DNS servers via UPDATE described in
    [RFC6763], Active Directory Controllers publishing SRV records, DNS
    TXT resource records supporting ACME certificate management
-   challenges as described in Section 8.4 of [RFC8555], and the limited
+   challenges as described in [RFC8555], Section 8.4, and the limited
    lifetime certificate representations produced by ACME that are stored
    in DANE TLSA resource records [RFC6698].
 
@@ -308,7 +308,7 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
    servers will likely do so for policy and security reasons.
 
    QTYPEs and Meta-TYPEs MUST NOT be used as the represented record
-   type.  For more information, refer to Section 3.1 of [RFC6895].
+   type.  For more information, refer to [RFC6895], Section 3.1.
 
 5.2.  Represented Record Count
 
@@ -378,8 +378,8 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
    the first 128-bits of a message digest of the RDATA of a represented
    record in canonical DNSSEC form calculated using the 256-bit SHA-256
    hash algorithm defined in [FIPS180-4].  The canonical DNSSEC form is
-   described in Section 6 of [RFC4034].  The input length of RDATA for
-   the message digest is the RDLEN of the represented record.
+   described in [RFC4034], Section 6.  The input length of RDATA for the
+   message digest is the RDLEN of the represented record.
 
 
 
@@ -415,7 +415,7 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
 
    The TIMEOUT resource record follows the same pattern as other DNS
    resource records including owner name, type, class, TTL, RDATA
-   length, and RDATA as defined in Section 3.2.1 of [RFC1035].
+   length, and RDATA as defined in [RFC1035], Section 3.2.1.
 
    The RDATA section of the resource record with method identifier NO
    METHOD (0) is illustrated in Figure 1:
@@ -544,7 +544,7 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
          resource record type mnemonics.  When the mnemonic is unknown,
          the TYPE is represented by the word "TYPE" immediately followed
          by the decimal RR type number, with no intervening whitespace
-         as described in Section 5 of [RFC3597]
+         as described in [RFC3597], Section 5
 
    Represented Record Count:
          unsigned decimal integer (0-255)
@@ -564,9 +564,9 @@ Internet-Draft           TIMEOUT Resource Record            October 2019
 
          representation of ISO 8601.  All punctuation is removed.  This
          form is slightly different than the recommendation in [RFC3339]
-         but is common for DNS protocols.  It is defined in Section 3.2
-         of [RFC4034] as YYYYMMDDHHmmSS in UTC.  This form will always
-         be exactly 14 digits since no component is optional.
+         but is common for DNS protocols.  It is defined in [RFC4034],
+         Section 3.2 as YYYYMMDDHHmmSS in UTC.  This form will always be
+         exactly 14 digits since no component is optional.
 
          YYYY is the year;
 

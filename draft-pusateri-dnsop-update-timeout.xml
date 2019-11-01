@@ -97,7 +97,7 @@
       <t>DNS Update <xref target="RFC2136" format="default"/> provides a mechanism to dynamically add/remove DNS resource records to/from a zone. When a resource record is dynamically added, it remains in the zone until it is removed manually or via a subsequent DNS Update. The context of a dynamic update may provide lifetime hints for the updated records (such as the EDNS(0) Update Lease option <xref target="I-D.sekar-dns-ul" format="default"/>), however, this lifetime is not communicated to secondary servers and will not necessarily endure through server software restarts. This specification defines a new DNS TIMEOUT resource record that associates lifetimes with one or more resource records with the same owner name, type, and class that can be transferred to secondary servers through normal AXFR <xref target="RFC5936" format="default"/>, IXFR <xref target="RFC1995" format="default"/> transfer mechanisms.</t>
       <t>An UPDATE lifetime could be stored in a proprietary database on an authoritative primary server but there is an advantage to saving it as a resource record: redundant master servers and secondary servers capable of taking over as the primary server for a zone automatically can benefit from the existing database synchronization of resource records. In addition, primary and secondary servers from multiple vendors can synchronize the lifetimes through the open format provided by a resource record.</t>
       <t>TIMEOUT records can be installed via policy by a primary server, manually, or via an external UPDATE from a client. If TIMEOUT records are being managed by an UPDATE client, the client should be aware of server software policy with respect to TIMEOUT records to prevent the TIMEOUT records from being rejected. The primary server has ultimate responsibility for the records in the database and the client must work within the restrictions of the policy of the primary server.</t>
-      <t>TIMEOUT records can be thought of as a universal method for removing stale dynamic DNS records. Clients such as DHCP servers who best know the lease lifetimes can include individual TIMEOUT records in the dynamic UPDATE messages specific for each lease lifetime. These TIMEOUT records can be refreshed when the lease is refreshed and will timeout the A, AAAA, and PTR records if they are not refreshed by the DHCP server. Additional use cases include service discovery resource records installed in unicast DNS servers via UPDATE described in <xref target="RFC6763" format="default"/>, Active Directory Controllers publishing SRV records, DNS TXT resource records supporting ACME certificate management challenges as described in Section 8.4 of <xref target="RFC8555" format="default"/>, and the limited lifetime certificate representations produced by ACME that are stored in DANE TLSA resource records <xref target="RFC6698" format="default"/>.</t>
+      <t>TIMEOUT records can be thought of as a universal method for removing stale dynamic DNS records. Clients such as DHCP servers who best know the lease lifetimes can include individual TIMEOUT records in the dynamic UPDATE messages specific for each lease lifetime. These TIMEOUT records can be refreshed when the lease is refreshed and will timeout the A, AAAA, and PTR records if they are not refreshed by the DHCP server. Additional use cases include service discovery resource records installed in unicast DNS servers via UPDATE described in <xref target="RFC6763" format="default"/>, Active Directory Controllers publishing SRV records, DNS TXT resource records supporting ACME certificate management challenges as described in <xref target="RFC8555" sectionFormat="comma" section="8.4" format="default" derivedLink="https://rfc-editor.org/rfc/rfc8555#section-8.4" derivedContent="RFC8555"/>, and the limited lifetime certificate representations produced by ACME that are stored in DANE TLSA resource records <xref target="RFC6698" format="default"/>.</t>
     </section>
     <section numbered="true" toc="default">
       <name>Requirements Language</name>
@@ -150,7 +150,7 @@
       <section numbered="true" toc="default">
         <name>Represented Record Type</name>
         <t>A 16-bit field containing the resource record type to which the TIMEOUT record applies. Multiple TIMEOUT records for the same owner name, class, and represented type can exist. Any resource record type can be specified in the Represented Record Type including another TIMEOUT record. This specification does not put any restrictions on the record type but implementations in authoritative servers will likely do so for policy and security reasons.</t>
-        <t>QTYPEs and Meta-TYPEs MUST NOT be used as the represented record type. For more information, refer to Section 3.1 of <xref target="RFC6895" format="default"/>.</t>
+        <t>QTYPEs and Meta-TYPEs MUST NOT be used as the represented record type. For more information, refer to <xref target="RFC6895" sectionFormat="comma" section="3.1" format="default" derivedLink="https://rfc-editor.org/rfc/rfc6895#section-3.1" derivedContent="RFC6895"/>.</t>
       </section>
       <section numbered="true" toc="default">
         <name>Represented Record Count</name>
@@ -168,7 +168,7 @@
         </section>
         <section anchor="sha256method" numbered="true" toc="default">
           <name>Method Identifier 1: MD-SHA256-128</name>
-          <t>The method identifier of 1 is defined as <tt>MD-SHA256-128</tt>. Following the expiry time is a list of 128-bit values. Each of these values is the first 128-bits of a message digest of the RDATA of a represented record in canonical DNSSEC form calculated using the 256-bit SHA-256 hash algorithm defined in <xref target="FIPS180-4" format="default"/>. The canonical DNSSEC form is described in Section 6 of <xref target="RFC4034" format="default"/>. The input length of RDATA for the message digest is the RDLEN of the represented record.</t>
+          <t>The method identifier of 1 is defined as <tt>MD-SHA256-128</tt>. Following the expiry time is a list of 128-bit values. Each of these values is the first 128-bits of a message digest of the RDATA of a represented record in canonical DNSSEC form calculated using the 256-bit SHA-256 hash algorithm defined in <xref target="FIPS180-4" format="default"/>. The canonical DNSSEC form is described in <xref target="RFC4034" sectionFormat="comma" section="6" format="default" derivedLink="https://rfc-editor.org/rfc/rfc4034#section-6" derivedContent="RFC4034"/>. The input length of RDATA for the message digest is the RDLEN of the represented record.</t>
         </section>
       </section>
       <section anchor="expiry" numbered="true" toc="default">
@@ -179,7 +179,7 @@
     </section>
     <section numbered="true" toc="default">
       <name>TIMEOUT RDATA Wire Format</name>
-      <t>The TIMEOUT resource record follows the same pattern as other DNS resource records including owner name, type, class, TTL, RDATA length, and RDATA as defined in Section 3.2.1 of <xref target="RFC1035" format="default"/>.</t>
+      <t>The TIMEOUT resource record follows the same pattern as other DNS resource records including owner name, type, class, TTL, RDATA length, and RDATA as defined in <xref target="RFC1035" sectionFormat="comma" section="3.2.1" format="default" derivedLink="https://rfc-editor.org/rfc/rfc1035#section-3.2.1" derivedContent="RFC1035"/>.</t>
       <t>The RDATA section of the resource record with method identifier NO METHOD (0) is illustrated in <xref target="rr_art_nomethod" format="default"/>:</t>
       <figure anchor="rr_art_nomethod">
         <name>Method (0) RDATA Wire Format</name>
@@ -249,7 +249,7 @@
       <dl newline="true" spacing="normal" indent="6">
         <dt>Record Type:</dt>
         <dd>
-           resource record type mnemonics.  When the mnemonic is unknown, the TYPE is represented by the word "TYPE" immediately followed by the decimal RR type number, with no intervening whitespace as described in Section 5 of <xref target="RFC3597" format="default"/></dd>
+           resource record type mnemonics.  When the mnemonic is unknown, the TYPE is represented by the word "TYPE" immediately followed by the decimal RR type number, with no intervening whitespace as described in <xref target="RFC3597" sectionFormat="comma" section="5" format="default" derivedLink="https://rfc-editor.org/rfc/rfc3597#section-5" derivedContent="RFC3597"/></dd>
         <dt>Represented Record Count:</dt>
         <dd>
            unsigned decimal integer (0-255)</dd>
@@ -259,7 +259,7 @@
         <dt>Expiry Time:</dt>
         <dd>
           <t>
-	   The Expiry Time is displayed as a compact numeric-only representation of ISO 8601. All punctuation is removed. This form is slightly different than the recommendation in <xref target="RFC3339" format="default"/> but is common for DNS protocols. It is defined in Section 3.2 of <xref target="RFC4034" format="default"/> as YYYYMMDDHHmmSS in UTC. This form will always be exactly 14 digits since no component is optional.
+	   The Expiry Time is displayed as a compact numeric-only representation of ISO 8601. All punctuation is removed. This form is slightly different than the recommendation in <xref target="RFC3339" format="default"/> but is common for DNS protocols. It is defined in <xref target="RFC4034" sectionFormat="comma" section="3.2" format="default" derivedLink="https://rfc-editor.org/rfc/rfc4034#section-3.2" derivedContent="RFC4034"/> as YYYYMMDDHHmmSS in UTC. This form will always be exactly 14 digits since no component is optional.
           </t>
           <t>
       YYYY is the year;
