@@ -3,31 +3,7 @@
     which is available here: http://xml.resource.org. -->
 <!DOCTYPE rfc SYSTEM "rfc2629-xhtml.ent">
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
-<!-- used by XSLT processors -->
-<!-- For a complete list and description of processing instructions (PIs), 
-    please see http://xml.resource.org/authoring/README.html. -->
-<!-- Below are generally applicable Processing Instructions (PIs) that most I-Ds might want to use.
-    (Here they are set differently than their defaults in xml2rfc v1.32) -->
-<?rfc strict="yes" ?>
-<!-- give errors regarding ID-nits and DTD validation -->
-<!-- control the table of contents (ToC) -->
-<?rfc toc="yes"?>
-<!-- generate a ToC -->
-<?rfc tocdepth="4"?>
-<!-- the number of levels of subsections in ToC. default: 3 -->
-<!-- control references -->
-<?rfc symrefs="yes"?>
-<!-- use symbolic references tags, i.e, [RFC2119] instead of [1] -->
-<?rfc sortrefs="yes" ?>
-<!-- sort the reference entries alphabetically -->
-<!-- control vertical white space 
-    (using these PIs as follows is recommended by the RFC Editor) -->
-<?rfc compact="yes" ?>
-<!-- do not start each main section on a new page -->
-<?rfc subcompact="no" ?>
-<!-- keep one blank line between list items -->
-<!-- end of list of popular I-D processing instructions -->
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="std" docName="draft-pusateri-dnsop-update-timeout-04" ipr="trust200902" obsoletes="" updates="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" sortRefs="true" version="3">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="std" docName="draft-pusateri-dnsop-update-timeout-04" ipr="trust200902" obsoletes="" updates="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" sortRefs="true" version="3" consensus="true">
   <!-- xml2rfc v2v3 conversion 2.34.0 -->
   <!-- category values: std, bcp, info, exp, and historic
     ipr values: trust200902, noModificationTrust200902, noDerivativesTrust200902,
@@ -36,8 +12,6 @@
     they will automatically be output with "(if approved)" -->
   <!-- ***** FRONT MATTER ***** -->
   <front>
-    <!-- The abbreviated title is used in the page header - it is only necessary if the 
-        full title is longer than 39 characters -->
     <title abbrev="TIMEOUT Resource Record">DNS TIMEOUT Resource Record</title>
     <seriesInfo name="Internet-Draft" value="draft-pusateri-dnsop-update-timeout-04"/>
     <!-- add 'role="editor"' below for the editors if appropriate -->
@@ -428,7 +402,7 @@
             <td align="left">s.example.com.</td>
           </tr>
           <tr>
-            <td align="left">5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.01.20.ip6.arpa. (bytes)</td>
+            <td align="left">5.0.0.0.0.0.0.0.0.0.0.0.b8.d.1.20.ip6.arpa.</td>
             <td align="left">PTR</td>
             <td align="left">s.example.com.</td>
           </tr>
@@ -440,10 +414,10 @@
         <thead>
           <tr>
             <th align="left">Owner Name</th>
-            <th align="left">For Type</th>
-            <th align="left">Count</th>
-            <th align="left">Method</th>
-            <th align="left">Expiration</th>
+            <th align="left">Type</th>
+            <th align="left">Cnt</th>
+            <th align="left">Mth</th>
+            <th align="left">Expire</th>
           </tr>
         </thead>
         <tbody>
@@ -452,28 +426,28 @@
             <td align="left">A</td>
             <td align="left">0</td>
             <td align="left">0</td>
-            <td align="left">Tn + Ln</td>
+            <td align="left">Tn+Ln</td>
           </tr>
           <tr>
             <td align="left">s.example.com.</td>
             <td align="left">AAAA</td>
             <td align="left">0</td>
             <td align="left">0</td>
-            <td align="left">Tn + Ln</td>
+            <td align="left">Tn+Ln</td>
           </tr>
           <tr>
             <td align="left">5.2.0.192.in-addr.arpa.</td>
             <td align="left">PTR</td>
             <td align="left">0</td>
             <td align="left">0</td>
-            <td align="left">Tn + Ln</td>
+            <td align="left">Tn+Ln</td>
           </tr>
           <tr>
-            <td align="left">5.0.0.0.0.0.0.0.0.0.0.0.b8.0d.01.20.ip6.arpa. (bytes)</td>
+            <td align="left">5.0.0.0.0.0.0.0.0.0.0.0.b8.d.1.20.ip6.arpa.</td>
             <td align="left">PTR</td>
             <td align="left">0</td>
             <td align="left">0</td>
-            <td align="left">Tn + Ln</td>
+            <td align="left">Tn+Ln</td>
           </tr>
         </tbody>
       </table>
@@ -555,8 +529,8 @@
           <tr>
             <th align="left">Owner Name</th>
             <th align="left">For Type</th>
-            <th align="left">Count</th>
-            <th align="left">Method</th>
+            <th align="left">Cnt</th>
+            <th align="left">Mth</th>
             <th align="left">Expire /          RDLEN RDATA</th>
           </tr>
         </thead>
