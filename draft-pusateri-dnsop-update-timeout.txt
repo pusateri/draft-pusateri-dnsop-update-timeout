@@ -581,11 +581,15 @@ Internet-Draft           TIMEOUT Resource Record           November 2019
          SS is the second (00-60) where 60 is only possible as a leap
          second.
 
-   RDATA Length:
-         unsigned decimal integer
+   List of 0 or more hashes depending on Method Identifier:
+         ( hash-1 hash2 ... )
 
-   RDATA:
-         record type specific
+         hash values shown as upper case hexadecimal string;
+
+         some type of white space MUST exist between hash values but
+         MUST NOT exist within hash value;
+
+         MUST only display parentheses for one or more hash values;
 
 9.  IANA Considerations
 
@@ -606,10 +610,6 @@ Internet-Draft           TIMEOUT Resource Record           November 2019
    Record Method Identifier values.  The registry shall include a
    numeric identifier, a method name, a description of the method, and
    the length of the output function in bits or the keyword "variable".
-   The identifier is to be used in the RDATA section of the TIMEOUT
-   resource record.
-
-
 
 
 
@@ -617,6 +617,9 @@ Pusateri & Wattenberg      Expires 4 May 2020                  [Page 11]
 
 Internet-Draft           TIMEOUT Resource Record           November 2019
 
+
+   The identifier is to be used in the RDATA section of the TIMEOUT
+   resource record.
 
    Initially, there are two values defined in the registry.  Values from
    240 (0xF0) through 255 (0xFF) are reserved for experimental use.
@@ -663,9 +666,6 @@ Internet-Draft           TIMEOUT Resource Record           November 2019
 
 12.1.  Normative References
 
-   [FIPS180-4]
-              National Institute of Standards and Technology, U.S.
-              Department of Commerce, "Secure Hash Standard (SHS) FIPS
 
 
 
@@ -674,6 +674,9 @@ Pusateri & Wattenberg      Expires 4 May 2020                  [Page 12]
 Internet-Draft           TIMEOUT Resource Record           November 2019
 
 
+   [FIPS180-4]
+              National Institute of Standards and Technology, U.S.
+              Department of Commerce, "Secure Hash Standard (SHS) FIPS
               180-4", August 2015,
               <http://nvlpubs.nist.gov/nistpubs/FIPS/
               NIST.FIPS.180-4.pdf>.
@@ -720,9 +723,6 @@ Internet-Draft           TIMEOUT Resource Record           November 2019
               DOI 10.17487/RFC1995, August 1996,
               <https://www.rfc-editor.org/info/rfc1995>.
 
-   [RFC2136]  Vixie, P., Ed., Thomson, S., Rekhter, Y., and J. Bound,
-              "Dynamic Updates in the Domain Name System (DNS UPDATE)",
-
 
 
 Pusateri & Wattenberg      Expires 4 May 2020                  [Page 13]
@@ -730,6 +730,8 @@ Pusateri & Wattenberg      Expires 4 May 2020                  [Page 13]
 Internet-Draft           TIMEOUT Resource Record           November 2019
 
 
+   [RFC2136]  Vixie, P., Ed., Thomson, S., Rekhter, Y., and J. Bound,
+              "Dynamic Updates in the Domain Name System (DNS UPDATE)",
               RFC 2136, DOI 10.17487/RFC2136, April 1997,
               <https://www.rfc-editor.org/info/rfc2136>.
 
@@ -776,8 +778,6 @@ Appendix A.  Example TIMEOUT resource records
 
                   Table 3: Example Address Records Update
 
-   Next, consider the TIMEOUT resource records that would be generated
-   for the records in Table 3.
 
 
 
@@ -785,6 +785,9 @@ Pusateri & Wattenberg      Expires 4 May 2020                  [Page 14]
 
 Internet-Draft           TIMEOUT Resource Record           November 2019
 
+
+   Next, consider the TIMEOUT resource records that would be generated
+   for the records in Table 3.
 
    +---------------------------------------------+----+---+---+--------+
    | Owner Name                                  |Type|Cnt|Mth| Expire |
@@ -834,9 +837,6 @@ Internet-Draft           TIMEOUT Resource Record           November 2019
 
 
 
-
-
-
 Pusateri & Wattenberg      Expires 4 May 2020                  [Page 15]
 
 Internet-Draft           TIMEOUT Resource Record           November 2019
@@ -859,30 +859,29 @@ Internet-Draft           TIMEOUT Resource Record           November 2019
    For these printer registrations, the TIMEOUT records on the server
    would look like the following:
 
-   +--------------------------+----+---+---+---------------------------+
-   | Owner Name               |For |Cnt|Mth| Expire / RDLEN RDATA      |
-   |                          |Type|   |   |                           |
-   +==========================+====+===+===+===========================+
-   | _ipp.tcp.example.com.    |PTR | 1 | 1 | Ta + La 25                |
-   |                          |    |   |   | p1._ipp._tcp.example.com. |
-   +--------------------------+----+---+---+---------------------------+
-   | _ipp.tcp.example.com.    |PTR | 1 | 1 | Tb + Lb 25                |
-   |                          |    |   |   | p2._ipp._tcp.example.com. |
-   +--------------------------+----+---+---+---------------------------+
-   |p1._ipp._tcp.example.com. |SRV | 0 | 0 | Ta + La                   |
-   +--------------------------+----+---+---+---------------------------+
-   |p1._ipp._tcp.example.com. |TXT | 0 | 0 | Ta + La                   |
-   +--------------------------+----+---+---+---------------------------+
-   |p2._ipp._tcp.example.com. |SRV | 0 | 0 | Tb + Lb                   |
-   +--------------------------+----+---+---+---------------------------+
-   |p2._ipp._tcp.example.com. |TXT | 0 | 0 | Tb + Lb                   |
-   +--------------------------+----+---+---+---------------------------+
-   | p1.example.com.          | A  | 0 | 0 | Ta + La                   |
-   +--------------------------+----+---+---+---------------------------+
-   | p1.example.com.          |AAAA| 0 | 0 | Ta + La                   |
-   +--------------------------+----+---+---+---------------------------+
-   | p2.example.com.          | A  | 0 | 0 | Tb + Lb                   |
-   +--------------------------+----+---+---+---------------------------+
+   +-------------------------+----+-+-+--------------------------------+
+   | Owner Name              |Type|C|M| Expire / Hash                  |
+   +=========================+====+=+=+================================+
+   | _ipp.tcp.example.com.   |PTR |1|1| Ta+La                          |
+   |                         |    | | |69D67BCB98E8809702B9DFCA6B865558|
+   +-------------------------+----+-+-+--------------------------------+
+   | _ipp.tcp.example.com.   |PTR |1|1| Tb+Lb                          |
+   |                         |    | | |7EBE34BC8B3E7306F8FCF1D6805331E1|
+   +-------------------------+----+-+-+--------------------------------+
+   |p1._ipp._tcp.example.com.|SRV |0|0| Ta + La                        |
+   +-------------------------+----+-+-+--------------------------------+
+   |p1._ipp._tcp.example.com.|TXT |0|0| Ta + La                        |
+   +-------------------------+----+-+-+--------------------------------+
+   |p2._ipp._tcp.example.com.|SRV |0|0| Tb + Lb                        |
+   +-------------------------+----+-+-+--------------------------------+
+   |p2._ipp._tcp.example.com.|TXT |0|0| Tb + Lb                        |
+   +-------------------------+----+-+-+--------------------------------+
+   | p1.example.com.         | A  |0|0| Ta + La                        |
+   +-------------------------+----+-+-+--------------------------------+
+   | p1.example.com.         |AAAA|0|0| Ta + La                        |
+   +-------------------------+----+-+-+--------------------------------+
+   | p2.example.com.         | A  |0|0| Tb + Lb                        |
+   +-------------------------+----+-+-+--------------------------------+
 
                       Table 7: Service TIMEOUT records
 
@@ -890,6 +889,7 @@ Appendix B.  Changelog
 
    [RFC Editor: Please remove this section before publication]
 
+   From -03 to -04:
 
 
 
@@ -897,8 +897,6 @@ Pusateri & Wattenberg      Expires 4 May 2020                  [Page 16]
 
 Internet-Draft           TIMEOUT Resource Record           November 2019
 
-
-   From -03 to -04:
 
    *  Clarified that there can't be TIMEOUTs with No Method/No Count
       (NMNC) and Some Method/Some Count (SMSC) at the same time.
@@ -930,6 +928,8 @@ Authors' Addresses
    Germany
 
    Email: mail@timwattenberg.de
+
+
 
 
 

@@ -235,31 +235,21 @@
           <t>
 	   The Expiry Time is displayed as a compact numeric-only representation of ISO 8601. All punctuation is removed. This form is slightly different than the recommendation in <xref target="RFC3339" format="default"/> but is common for DNS protocols. It is defined in <xref target="RFC4034" sectionFormat="comma" section="3.2" format="default" derivedLink="https://rfc-editor.org/rfc/rfc4034#section-3.2" derivedContent="RFC4034"/> as YYYYMMDDHHmmSS in UTC. This form will always be exactly 14 digits since no component is optional.
           </t>
-          <t>
-      YYYY is the year;
-          </t>
-          <t>
-      MM is the month number (01-12);
-          </t>
-          <t>
-      DD is the day of the month (01-31);
-          </t>
-          <t>
-      HH is the hour, in 24 hour notation (00-23);
-          </t>
-          <t>
-      mm is the minute (00-59); and
-          </t>
-          <t>
-      SS is the second (00-60) where 60 is only possible as a leap second.
-          </t>
+          <t>YYYY is the year;</t>
+          <t>MM is the month number (01-12);</t>
+          <t>DD is the day of the month (01-31);</t>
+          <t>HH is the hour, in 24 hour notation (00-23);</t>
+          <t>mm is the minute (00-59); and</t>
+          <t>SS is the second (00-60) where 60 is only possible as a leap second.</t>
         </dd>
-        <dt>RDATA Length:</dt>
+        <dt>List of 0 or more hashes depending on Method Identifier:</dt>
         <dd>
-           unsigned decimal integer</dd>
-        <dt>RDATA:</dt>
-        <dd>
-           record type specific</dd>
+          <t>( hash-1 hash2 ... )</t>
+          <t>hash values shown as upper case hexadecimal string;</t>
+          <t>some type of white space MUST exist between hash values but MUST NOT exist within hash value;</t>
+          <t>MUST only display parentheses for one or more hash values;</t>
+        </dd>
+        
       </dl>
     </section>
     <section anchor="IANA" numbered="true" toc="default">
@@ -528,10 +518,10 @@
         <thead>
           <tr>
             <th align="left">Owner Name</th>
-            <th align="left">For Type</th>
-            <th align="left">Cnt</th>
-            <th align="left">Mth</th>
-            <th align="left">Expire /          RDLEN RDATA</th>
+            <th align="left">Type</th>
+            <th align="left">C</th>
+            <th align="left">M</th>
+            <th align="left">Expire / Hash</th>
           </tr>
         </thead>
         <tbody>
@@ -540,14 +530,14 @@
             <td align="left">PTR</td>
             <td align="left">1</td>
             <td align="left">1</td>
-            <td align="left">Ta + La 25 p1._ipp._tcp.example.com.</td>
+            <td align="left">Ta+La 69D67BCB98E8809702B9DFCA6B865558</td>
           </tr>
           <tr>
             <td align="left">_ipp.tcp.example.com.</td>
             <td align="left">PTR</td>
             <td align="left">1</td>
             <td align="left">1</td>
-            <td align="left">Tb + Lb 25 p2._ipp._tcp.example.com.</td>
+            <td align="left">Tb+Lb 7EBE34BC8B3E7306F8FCF1D6805331E1</td>
           </tr>
           <tr>
             <td align="left">p1._ipp._tcp.example.com.</td>

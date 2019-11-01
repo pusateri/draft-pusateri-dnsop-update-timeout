@@ -1443,26 +1443,19 @@ aside > p {
         <dd style="margin-left: 3.0em" id="section-8-1.8">
           <p id="section-8-1.8.1">
     The Expiry Time is displayed as a compact numeric-only representation of ISO 8601. All punctuation is removed. This form is slightly different than the recommendation in <span>[<a href="#RFC3339" class="xref">RFC3339</a>]</span> but is common for DNS protocols. It is defined in <span>[<a href="#RFC4034" class="xref">RFC4034</a>], <a href="https://rfc-editor.org/rfc/rfc4034#section-3.2" class="relref">Section 3.2</a></span> as YYYYMMDDHHmmSS in UTC. This form will always be exactly 14 digits since no component is optional.<a href="#section-8-1.8.1" class="pilcrow">¶</a></p>
-<p id="section-8-1.8.2">
-      YYYY is the year;<a href="#section-8-1.8.2" class="pilcrow">¶</a></p>
-<p id="section-8-1.8.3">
-      MM is the month number (01-12);<a href="#section-8-1.8.3" class="pilcrow">¶</a></p>
-<p id="section-8-1.8.4">
-      DD is the day of the month (01-31);<a href="#section-8-1.8.4" class="pilcrow">¶</a></p>
-<p id="section-8-1.8.5">
-      HH is the hour, in 24 hour notation (00-23);<a href="#section-8-1.8.5" class="pilcrow">¶</a></p>
-<p id="section-8-1.8.6">
-      mm is the minute (00-59); and<a href="#section-8-1.8.6" class="pilcrow">¶</a></p>
-<p id="section-8-1.8.7">
-      SS is the second (00-60) where 60 is only possible as a leap second.<a href="#section-8-1.8.7" class="pilcrow">¶</a></p>
+<p id="section-8-1.8.2">YYYY is the year;<a href="#section-8-1.8.2" class="pilcrow">¶</a></p>
+<p id="section-8-1.8.3">MM is the month number (01-12);<a href="#section-8-1.8.3" class="pilcrow">¶</a></p>
+<p id="section-8-1.8.4">DD is the day of the month (01-31);<a href="#section-8-1.8.4" class="pilcrow">¶</a></p>
+<p id="section-8-1.8.5">HH is the hour, in 24 hour notation (00-23);<a href="#section-8-1.8.5" class="pilcrow">¶</a></p>
+<p id="section-8-1.8.6">mm is the minute (00-59); and<a href="#section-8-1.8.6" class="pilcrow">¶</a></p>
+<p id="section-8-1.8.7">SS is the second (00-60) where 60 is only possible as a leap second.<a href="#section-8-1.8.7" class="pilcrow">¶</a></p>
 </dd>
-<dt id="section-8-1.9">RDATA Length:</dt>
+<dt id="section-8-1.9">List of 0 or more hashes depending on Method Identifier:</dt>
         <dd style="margin-left: 3.0em" id="section-8-1.10">
-           unsigned decimal integer<a href="#section-8-1.10" class="pilcrow">¶</a>
-</dd>
-<dt id="section-8-1.11">RDATA:</dt>
-        <dd style="margin-left: 3.0em" id="section-8-1.12">
-           record type specific<a href="#section-8-1.12" class="pilcrow">¶</a>
+          <p id="section-8-1.10.1">( hash-1 hash2 ... )<a href="#section-8-1.10.1" class="pilcrow">¶</a></p>
+<p id="section-8-1.10.2">hash values shown as upper case hexadecimal string;<a href="#section-8-1.10.2" class="pilcrow">¶</a></p>
+<p id="section-8-1.10.3">some type of white space MUST exist between hash values but MUST NOT exist within hash value;<a href="#section-8-1.10.3" class="pilcrow">¶</a></p>
+<p id="section-8-1.10.4">MUST only display parentheses for one or more hash values;<a href="#section-8-1.10.4" class="pilcrow">¶</a></p>
 </dd>
 </dl>
 </section>
@@ -1811,10 +1804,10 @@ aside > p {
 <thead>
           <tr>
             <th class="text-left" rowspan="1" colspan="1">Owner Name</th>
-            <th class="text-left" rowspan="1" colspan="1">For Type</th>
-            <th class="text-left" rowspan="1" colspan="1">Cnt</th>
-            <th class="text-left" rowspan="1" colspan="1">Mth</th>
-            <th class="text-left" rowspan="1" colspan="1">Expire /          RDLEN RDATA</th>
+            <th class="text-left" rowspan="1" colspan="1">Type</th>
+            <th class="text-left" rowspan="1" colspan="1">C</th>
+            <th class="text-left" rowspan="1" colspan="1">M</th>
+            <th class="text-left" rowspan="1" colspan="1">Expire / Hash</th>
           </tr>
         </thead>
         <tbody>
@@ -1823,14 +1816,14 @@ aside > p {
             <td class="text-left" rowspan="1" colspan="1">PTR</td>
             <td class="text-left" rowspan="1" colspan="1">1</td>
             <td class="text-left" rowspan="1" colspan="1">1</td>
-            <td class="text-left" rowspan="1" colspan="1">Ta + La 25 p1._ipp._tcp.example.com.</td>
+            <td class="text-left" rowspan="1" colspan="1">Ta+La 69D67BCB98E8809702B9DFCA6B865558</td>
           </tr>
           <tr>
             <td class="text-left" rowspan="1" colspan="1">_ipp.tcp.example.com.</td>
             <td class="text-left" rowspan="1" colspan="1">PTR</td>
             <td class="text-left" rowspan="1" colspan="1">1</td>
             <td class="text-left" rowspan="1" colspan="1">1</td>
-            <td class="text-left" rowspan="1" colspan="1">Tb + Lb 25 p2._ipp._tcp.example.com.</td>
+            <td class="text-left" rowspan="1" colspan="1">Tb+Lb 7EBE34BC8B3E7306F8FCF1D6805331E1</td>
           </tr>
           <tr>
             <td class="text-left" rowspan="1" colspan="1">p1._ipp._tcp.example.com.</td>
