@@ -1034,7 +1034,7 @@ aside > p {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Pusateri &amp; Wattenberg</td>
-<td class="center">Expires 4 May 2020</td>
+<td class="center">Expires 6 May 2020</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1047,12 +1047,12 @@ aside > p {
 <dd class="internet-draft">draft-pusateri-dnsop-update-timeout-04</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2019-11-01" class="published">1 November 2019</time>
+<time datetime="2019-11-03" class="published">3 November 2019</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2020-05-04">4 May 2020</time></dd>
+<dd class="expires"><time datetime="2020-05-06">6 May 2020</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1090,7 +1090,7 @@ aside > p {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 4 May 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 6 May 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1205,10 +1205,7 @@ aside > p {
             <p id="section-boilerplate.3-1.13.1"><a href="#section-appendix.a" class="xref">Appendix A</a>.  <a href="#name-example-timeout-resource-re" class="xref">Example TIMEOUT resource records</a><a href="#section-boilerplate.3-1.13.1" class="pilcrow">¶</a></p>
 </li>
           <li class="toc ulEmpty" id="section-boilerplate.3-1.14">
-            <p id="section-boilerplate.3-1.14.1"><a href="#section-appendix.b" class="xref">Appendix B</a>.  <a href="#name-changelog" class="xref">Changelog</a><a href="#section-boilerplate.3-1.14.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="toc ulEmpty" id="section-boilerplate.3-1.15">
-            <p id="section-boilerplate.3-1.15.1"><a href="#section-appendix.c" class="xref"></a><a href="#name-authors-addresses" class="xref">Authors' Addresses</a><a href="#section-boilerplate.3-1.15.1" class="pilcrow">¶</a></p>
+            <p id="section-boilerplate.3-1.14.1"><a href="#section-appendix.b" class="xref"></a><a href="#name-authors-addresses" class="xref">Authors' Addresses</a><a href="#section-boilerplate.3-1.14.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </nav>
@@ -1241,14 +1238,14 @@ aside > p {
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-sources-of-timeout-expiry-t" class="section-name selfRef">Sources of TIMEOUT Expiry Time</a>
       </h2>
 <p id="section-3-1">The expire time may come from many different sources. A few are listed here however, this list is not considered complete. TIMEOUT records may be included along side the records they represent in the UPDATE message or they be synthesized by the primary server receiving the UPDATE.<a href="#section-3-1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal" id="section-3-2">
-        <li id="section-3-2.1">Via DHCP Lease Lifetimes.<a href="#section-3-2.1" class="pilcrow">¶</a>
+<ul>
+<li id="section-3-2.1">Via DHCP Lease Lifetimes.<a href="#section-3-2.1" class="pilcrow">¶</a>
 </li>
         <li id="section-3-2.2">Via EDNS(0) Update Lease option <span>[<a href="#I-D.sekar-dns-ul" class="xref">I-D.sekar-dns-ul</a>]</span> communicated in DNS Update.<a href="#section-3-2.2" class="pilcrow">¶</a>
 </li>
         <li id="section-3-2.3">Via an administrative default value such as one day (86400 seconds).<a href="#section-3-2.3" class="pilcrow">¶</a>
 </li>
-      </ol>
+      </ul>
 </section>
 <section id="section-4">
       <h2 id="name-common-usage-patterns">
@@ -1257,15 +1254,41 @@ aside > p {
 <p id="section-4-1">TIMEOUT resource records are just one tool in the toolbox for cleaning up stale resource records. They provide a failsafe in case other mechansims meant to clean up records fail. It might be useful to think of them similar to Garbage Collection (GC) or Automatic Reference Counting (ARC) used by programming languages for memory management. The model in which the TIMEOUT resource records are used depends on the support provided for them by the primary DNS server.<a href="#section-4-1" class="pilcrow">¶</a></p>
 <p id="section-4-2">As it cannot be presumed that all primary authoritative servers will manage TIMEOUT resource records internally, an external management of the TIMEOUT records and the resource records they represent might be necessary. The client may perform external management of TIMEOUT records it creates through an UPDATE or a third party with appropriate permission may manage the records.<a href="#section-4-2" class="pilcrow">¶</a></p>
 <p id="section-4-3">If the primary server understands TIMEOUT records and manages them based on resource record updates, it will likely know when to remove the resource records referenced by the TIMEOUT records. This is similar to ARC.<a href="#section-4-3" class="pilcrow">¶</a></p>
-<p id="section-4-4">If the primary server does not understand TIMEOUT records, then an external manager (client) will need to use DNS UPDATE to add/remove TIMEOUT records and the resource records they reference. Garbage Collectors run periodically looking for memory no longer being used to reclaim. In a similar way, external TIMEOUT record managers need to periodically scan the TIMEOUT records and send DNS UPDATE messages to add/remove records when the server doesn't manage them automatically.<a href="#section-4-4" class="pilcrow">¶</a></p>
-<p id="section-4-5">It should be noted that similar to many instances of Garbage Collection, the precision with which TIMEOUT records and the resource records they reference are removed is not critical. Gross timers and/or scanning mechanisms are perfectly appropriate and should not consume additional resources for the purpose of being precise. As described in <a href="#expiry" class="xref">Section 5.4</a> below, expiry times use one second resolution.<a href="#section-4-5" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignCenter" id="section-4-6">
+<div class="artwork art-text alignCenter" id="section-4-4">
 <pre>
        
-       picture of primary, secondary, manager, client here
+   ┌─────────────┐
+   │Client UPDATE│
+   │ with EDNS0  │───┐
+   └─────────────┘   │   ┌───────────────┐
+                     │   │    Primary    │     Zone     ┌─────────┐
+┌────────────────┐   ├──▶│(Authoritative)│───Transfer──▶│Secondary│
+│  UPDATE with   │   │   └───────────────┘              └─────────┘
+│TIMEOUT included│───┘
+└────────────────┘
        
-       </pre><a href="#section-4-6" class="pilcrow">¶</a>
+      </pre><a href="#section-4-4" class="pilcrow">¶</a>
 </div>
+<p id="section-4-5">If the primary server does not understand TIMEOUT records, then an external manager (client) will need to use DNS UPDATE to manage TIMEOUT records and the resource records they reference. Garbage Collectors run periodically looking for memory no longer being used to reclaim. In a similar way, external TIMEOUT record managers need to periodically scan the TIMEOUT records and send DNS UPDATE messages to add/remove records when the server doesn't manage them automatically.<a href="#section-4-5" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignCenter" id="section-4-6">
+<pre>
+      
+┌────────────────┐        ┌───────────────┐
+│  UPDATE with   │        │    Primary    │     Zone     ┌─────────┐
+│TIMEOUT included│───────▶│(Authoritative)│───Transfer──▶│Secondary│
+└────────────────┘        └───────────────┘              └─────────┘
+                          │               ▲
+                        Zone              │
+                      Transfer         UPDATE
+                          │               │
+   ┌─────────────┐        ▼               │
+   │Client UPDATE│        ┌───────────────┐
+   │ with EDNS0  │───────▶│   timeoutd    │
+   └─────────────┘        └────────────────┘
+      
+      </pre><a href="#section-4-6" class="pilcrow">¶</a>
+</div>
+<p id="section-4-7">It should be noted that similar to many instances of Garbage Collection, the precision with which TIMEOUT records and the resource records they reference are removed is not critical. Gross timers and/or scanning mechanisms are perfectly appropriate and should not consume additional resources for the purpose of being precise. As described in <a href="#expiry" class="xref">Section 5.4</a> below, expiry times use one second resolution.<a href="#section-4-7" class="pilcrow">¶</a></p>
 <section id="section-4.1">
         <h3 id="name-timeout-records-vs-update-l">
 <a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-timeout-records-vs-update-l" class="section-name selfRef">TIMEOUT records vs. Update Leases</a>
@@ -1409,11 +1432,10 @@ aside > p {
         <h3 id="name-primary-server-behavior">
 <a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-primary-server-behavior" class="section-name selfRef">Primary Server Behavior</a>
         </h3>
-<p id="section-7.1-1">If the primary server signaled the client with a TIMEOUT-MANAGED EDNS(0) option, the TIMEOUT record is fully managed by the primary server and it has the responsibility of updating/removing records as described in this section. If the primary server has not claimed mananagement of the records, then either the client or a third party is responsible for updating/removing the records as described here.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
-<p id="section-7.1-2">A TIMEOUT resource record MUST be removed when the last resource record it covers has been removed. This may be due to the record expiring (reaching the expiry time) or due to a subsequent DNS Update or administrative action.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
-<p id="section-7.1-3">The primary server is the ultimate source of the database and policy established by the server may overrule the actions of external clients. The primary server is ultimately responsible for ensuring the database is consistent but until TIMEOUT record management is built-in to authoritative server software, external UPDATE clients will likely manage the records.<a href="#section-7.1-3" class="pilcrow">¶</a></p>
-<p id="section-7.1-4">Upon receiving any DNS UPDATE deleting resource records that might have been covered by a TIMEOUT RR, a primary server MUST remove all represented records in all of the TIMEOUT records with the same owner name, class, and represented type.<a href="#section-7.1-4" class="pilcrow">¶</a></p>
-<p id="section-7.1-5">The TIMEOUT record TTL should use the default TTL for the zone like any other record. The TTL values of the records covered by a TIMEOUT are not affected by the TIMEOUT expiry time and may be longer than the expiry time. The TIMEOUT RR is mostly for the benefit of the authoritative server to know when to remove the records. The fact that some records might live longer in the cache of a resolver is no different than other records that might get removed while still in a remote resolver cache.<a href="#section-7.1-5" class="pilcrow">¶</a></p>
+<p id="section-7.1-1">The primary server is the ultimate source of the database and policies established by the server may overrule the actions of external clients. The primary server is ultimately responsible for ensuring the database is consistent but until TIMEOUT record management is built-in to authoritative server software, external UPDATE clients will likely manage the records.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.1-2">Upon receiving any DNS UPDATE deleting resource records that might have been covered by a TIMEOUT RR, a primary server MUST remove all represented records in all of the TIMEOUT records with the same owner name, class, and represented type.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
+<p id="section-7.1-3">A TIMEOUT resource record MUST be removed when the last resource record it covers has been removed. This may be due to the record expiring (reaching the expiry time) or due to a subsequent DNS Update or administrative action.<a href="#section-7.1-3" class="pilcrow">¶</a></p>
+<p id="section-7.1-4">The TIMEOUT record TTL should use the default TTL for the zone like any other record. The TTL values of the records covered by a TIMEOUT are not affected by the TIMEOUT expiry time and may be longer than the expiry time. The TIMEOUT RR is mostly for the benefit of the authoritative server to know when to remove the records. The fact that some records might live longer in the cache of a resolver is no different than other records that might get removed while still in a remote resolver cache.<a href="#section-7.1-4" class="pilcrow">¶</a></p>
 </section>
 <section id="section-7.2">
         <h3 id="name-secondary-server-behavior">
@@ -1878,27 +1900,8 @@ aside > p {
       </table>
 </div>
 </section>
-<section id="section-appendix.b">
-      <h2 id="name-changelog">
-<a href="#section-appendix.b" class="section-number selfRef">Appendix B. </a><a href="#name-changelog" class="section-name selfRef">Changelog</a>
-      </h2>
-<p id="section-appendix.b-1">[RFC Editor: Please remove this section before publication]<a href="#section-appendix.b-1" class="pilcrow">¶</a></p>
-<p id="section-appendix.b-2">From -03 to -04:<a href="#section-appendix.b-2" class="pilcrow">¶</a></p>
-<ul>
-<li id="section-appendix.b-3.1">Clarified that there can't be TIMEOUTs with No Method/No Count (NMNC) and Some Method/Some Count (SMSC) at the same time.<a href="#section-appendix.b-3.1" class="pilcrow">¶</a>
-</li>
-        <li id="section-appendix.b-3.2">Reverted to message digest of RDATA to solve problems with zone files.<a href="#section-appendix.b-3.2" class="pilcrow">¶</a>
-</li>
-        <li id="section-appendix.b-3.3">Clarified why TIMEOUT has absolute expriry times and made a better case to use <span>[<a href="#I-D.sekar-dns-ul" class="xref">I-D.sekar-dns-ul</a>]</span> when relative time is needed.<a href="#section-appendix.b-3.3" class="pilcrow">¶</a>
-</li>
-        <li id="section-appendix.b-3.4">Reworked IANA section.<a href="#section-appendix.b-3.4" class="pilcrow">¶</a>
-</li>
-        <li id="section-appendix.b-3.5">Clarify language around references as suggested by Stuart Cheshire.<a href="#section-appendix.b-3.5" class="pilcrow">¶</a>
-</li>
-      </ul>
-</section>
 <div id="authors-addresses">
-<section id="section-appendix.c">
+<section id="section-appendix.b">
       <h2 id="name-authors-addresses">
 <a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
