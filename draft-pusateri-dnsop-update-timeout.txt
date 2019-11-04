@@ -237,7 +237,7 @@ Internet-Draft           TIMEOUT Resource Record           November 2019
       ┌─────────────┐        ▼               │
       │Client UPDATE│        ┌───────────────┐
       │ with EDNS0  │───────▶│   timeoutd    │
-      └─────────────┘        └────────────────┘
+      └─────────────┘        └───────────────┘
 
 
    It should be noted that similar to many instances of Garbage

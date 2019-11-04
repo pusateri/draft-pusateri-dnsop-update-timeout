@@ -126,7 +126,7 @@
    ┌─────────────┐        ▼               │
    │Client UPDATE│        ┌───────────────┐
    │ with EDNS0  │───────▶│   timeoutd    │
-   └─────────────┘        └────────────────┘
+   └─────────────┘        └───────────────┘
       
       ]]></artwork>
       <t>It should be noted that similar to many instances of Garbage Collection, the precision with which TIMEOUT records and the resource records they reference are removed is not critical. Gross timers and/or scanning mechanisms are perfectly appropriate and should not consume additional resources for the purpose of being precise. As described in <xref target="expiry" format="default"/> below, expiry times use one second resolution.</t>
