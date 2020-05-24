@@ -3,7 +3,7 @@
     which is available here: http://xml.resource.org. -->
 <!DOCTYPE rfc SYSTEM "rfc2629-xhtml.ent">
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="std" docName="draft-dnsop-update-timeout-00" ipr="trust200902" obsoletes="" updates="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" sortRefs="true" version="3" consensus="true">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="std" docName="draft-ietf-dnsop-update-timeout-00" ipr="trust200902" obsoletes="" updates="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" sortRefs="true" version="3" consensus="true">
   <!-- xml2rfc v2v3 conversion 2.34.0 -->
   <!-- category values: std, bcp, info, exp, and historic
     ipr values: trust200902, noModificationTrust200902, noDerivativesTrust200902,
@@ -13,7 +13,7 @@
   <!-- ***** FRONT MATTER ***** -->
   <front>
     <title abbrev="TIMEOUT Resource Record">DNS TIMEOUT Resource Record</title>
-    <seriesInfo name="Internet-Draft" value="draft-dnsop-update-timeout-00"/>
+    <seriesInfo name="Internet-Draft" value="draft-ietf-dnsop-update-timeout-00"/>
     <!-- add 'role="editor"' below for the editors if appropriate -->
     <!-- Another author who claims to be an editor -->
     <author fullname="Tom Pusateri" initials="T.J." surname="Pusateri">
@@ -50,8 +50,8 @@
 	 purpose of calculating the expiry date).  With drafts it is normally sufficient to 
 	 specify just the year. -->
     <!-- Meta-data Declarations -->
-    <area>DNSOP</area>
-    <workgroup>Internet Engineering Task Force</workgroup>
+    <area>Operations and Management</area>
+    <workgroup>DNSOP Working Group</workgroup>
     <!-- WG name at the upperleft corner of the doc,
         IETF is fine for individual submissions.  
 	 If this element is not present, the default is "Network Working Group",
