@@ -9,7 +9,7 @@ Expires: 25 November 2020                                    24 May 2020
 
 
                       DNS TIMEOUT Resource Record
-                     draft-dnsop-update-timeout-05
+                     draft-dnsop-update-timeout-00
 
 Abstract
 
